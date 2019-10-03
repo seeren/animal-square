@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.animalsquare.app" version="0.0.1" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>animalsquare</name>
+    <content src="index.html" />
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="StatusBarOverlaysWebView" value="false" />
+    <preference name="StatusBarBackgroundColor" value="#000052" />
+    <preference name="StatusBarStyle" value="lightcontent" />
+    <preference name="orientation" value="portrait" />
+    <platform name="android">
+        <access origin="*" />
+        <allow-intent href="http://*/*" />
+        <allow-intent href="https://*/*" />
+    </platform>
+</widget>
