@@ -1,11 +1,11 @@
 {
-	"animals": {
-		"1": "monkey",
-		"2": "hipopotam",
-		"3": "giraffe",
-		"4": "elephant",
-		"5": "zebra",
-		"6": "hyena",
-		"7": "rhinoceros",
-	}
+	"animals": [
+		"monkey",
+		"hipopotam",
+		"giraffe",
+		"elephant",
+		"zebra",
+		"hyena",
+		"rhinoceros"
+	]
 }
