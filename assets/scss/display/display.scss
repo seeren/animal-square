@@ -1,0 +1,19 @@
+@import './$displays.scss';
+@import './../gride/$breakpoints.scss';
+
+@mixin display($breakpoint) {
+    @each $display in $displays {
+        .#{$display}#{$breakpoint} {
+            display: $display;
+        }
+    }
+}
+
+@include display('');
+
+@each $breakpoint,
+$min-width in $breakpoints {
+    @media all and (min-width: #{$min-width}px) {
+        @include display(-#{$breakpoint});
+    }
+}
