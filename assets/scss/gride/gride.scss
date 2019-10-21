@@ -1,0 +1,32 @@
+@import './$breakpoints.scss';
+
+$nCol: 12;
+
+@mixin gride($breakpoint) {
+    @for $n from 0 through $nCol {
+        .w#{$breakpoint}-#{$n} {
+            width: percentage(floor(100 / $nCol * $n * 100) / 100 / 100);
+        }
+
+        .vw#{$breakpoint}-#{$n} {
+            width: #{(floor(100 / $nCol * $n * 100) / 100)}vw;
+        }
+
+        .h#{$breakpoint}-#{$n} {
+            height: percentage(floor(100 / $nCol * $n * 100) / 100 / 100);
+        }
+
+        .vh#{$breakpoint}-#{$n} {
+            height: #{(floor(100 / $nCol * $n * 100) / 100)}vh;
+        }
+    }
+}
+
+@include gride('');
+
+@each $breakpoint,
+$min-width in $breakpoints {
+    @media all and (min-width: #{$min-width}px) {
+        @include gride(-#{$breakpoint});
+    }
+}
