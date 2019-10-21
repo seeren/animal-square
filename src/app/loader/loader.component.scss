@@ -1,3 +1,5 @@
 loader {
-
+    @extend .block;
+    @extend .vh-12;
+    @extend .center;
 }
