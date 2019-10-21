@@ -1,0 +1,37 @@
+@import './../gride/$breakpoints.scss';
+@import './@animal-square.scss';
+
+@include animal-square;
+
+@mixin size ($breakpoint) {
+    @for $n from 1 through 12 {
+        .font#{$breakpoint}-#{$n} {
+            font-size: #{$n}em;
+        }
+    }
+}
+
+@mixin weight {
+
+    @each $weight in (thin,
+        lighter,
+        light,
+        normal,
+        bold,
+        bolder,
+        black) {
+        .font-#{$weight} {
+            font-weight: $weight;
+        }
+    }
+}
+
+@include weight();
+@include size('');
+
+@each $breakpoint,
+$min-width in $breakpoints {
+    @media all and (min-width: #{$min-width}px) {
+        @include size(-#{$breakpoint});
+    }
+}
