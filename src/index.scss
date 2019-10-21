@@ -1,7 +1,8 @@
+@import './../assets/scss/align/align.scss';
+@import './../assets/scss/color/color.scss';
+@import './../assets/scss/display/display.scss';
+@import './../assets/scss/font/font.scss';
+@import './../assets/scss/gride/gride.scss';
+@import './../assets/scss/reset/reset.scss';
+
 @import "./app/app.component.scss";
-body {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    hyphens: auto;
-}
