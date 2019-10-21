@@ -4,5 +4,5 @@
 /node_modules/
 /platforms/
 /plugins/
-/www/dist/index.*
+/www/dist/*
 package-lock.json
