@@ -1,0 +1,26 @@
+@import './$colors.scss';
+
+@mixin color($name, $hexa) {
+    .#{$name} {
+        color: $hexa;
+    }
+
+    .bg-#{$name} {
+        background-color: $hexa;
+    }
+}
+
+@each $color-name,
+$color in $colors {
+    @if type-of($color)=='map' {
+
+        @each $key,
+        $hexa in $color {
+            @include color(#{$color-name}-#{$key}, $hexa);
+        }
+    }
+
+    @else {
+        @include color($color-name, $color);
+    }
+}
