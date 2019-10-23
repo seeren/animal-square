@@ -1,0 +1,23 @@
+@import './$positions.scss';
+@import './$overflows.scss';
+
+@mixin overflow() {
+    @each $overflow in $overflows {
+        @each $type in ('', -x, -y) {
+            .overflow#{$type}-#{$overflow} {
+                overflow#{$type}: $overflow;
+            }
+        }
+    }
+}
+
+@mixin position() {
+    @each $position in $positions {
+        .#{$position} {
+            position: $position;
+        }
+    }
+}
+
+@include position();
+@include overflow();
