@@ -4,9 +4,13 @@
 @include animal-square;
 
 @mixin size ($breakpoint) {
-    @for $n from 1 through 12 {
+    @for $n from 0 through 6 {
         .font#{$breakpoint}-#{$n} {
             font-size: #{$n}em;
+        }
+
+        .font#{$breakpoint}-#{$n}-5 {
+            font-size: #{$n + .5}em;
         }
     }
 }
@@ -26,8 +30,29 @@
     }
 }
 
-@include weight();
+@mixin cesure {
+
+    .hyphens {
+        hyphens: auto;
+    }
+
+    .word-break {
+        word-break: break-all;
+    }
+}
+
+@mixin decoration {
+
+    .pointer {
+        cursor: pointer;
+    }
+
+}
+
 @include size('');
+@include weight();
+@include cesure();
+@include decoration();
 
 @each $breakpoint,
 $min-width in $breakpoints {
