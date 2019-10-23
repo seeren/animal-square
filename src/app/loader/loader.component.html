@@ -1,5 +1,10 @@
 <div class="inline-block v-middle vh-12 w-0"></div>
 <div class="inline-block v-middle w-6">
-    <img class="w-10 w-sm-6" src="assets/images/animal-square.png" alt="Animal Square" />
-    <h2 class="font-normal font-1">${done ? Math.round(done) + "%" : "Loading"}</h2>
+    <img class="w-10 w-sm-6 w-md-4 w-lg-3" src="assets/images/animal-square.png" alt="Animal Square" />
+    <h1 class="font-normal font-2 green">
+        ${100 !== Math.round(this.done)
+        ? `${ done ? Math.round(done) + "%" : "Loading"}`
+        : `<a class="pointer" onclick="play()">Play</a>`
+        }
+    </h1>
 </div>
