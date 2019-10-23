@@ -4,9 +4,8 @@
     <content src="index.html" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="StatusBarOverlaysWebView" value="false" />
-    <preference name="StatusBarBackgroundColor" value="#000052" />
+    <preference name="StatusBarBackgroundColor" value="#000000" />
     <preference name="StatusBarStyle" value="lightcontent" />
-    <preference name="orientation" value="portrait" />
     <platform name="android">
         <access origin="*" />
         <allow-intent href="http://*/*" />
