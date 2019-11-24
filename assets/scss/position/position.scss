@@ -1,5 +1,9 @@
 @import './$positions.scss';
 @import './$overflows.scss';
+@import './$sides.scss';
+@import './../gride/$breakpoints.scss';
+
+$nCol: 12;
 
 @mixin overflow() {
     @each $overflow in $overflows {
@@ -11,13 +15,32 @@
     }
 }
 
-@mixin position() {
+@mixin position($breakpoint) {
     @each $position in $positions {
-        .#{$position} {
+        .#{$position}#{$breakpoint} {
             position: $position;
         }
     }
 }
 
-@include position();
+@mixin sides($breakpoint) {
+    @each $side in $sides {
+        @for $n from 0 through $nCol {
+            .#{$side}#{$breakpoint}-#{$n} {
+                #{$side}: percentage(floor(100 / $nCol * $n * 100) / 100 / 100);
+            }
+        }
+    }
+}
+
+@include position('');
 @include overflow();
+@include sides('');
+
+@each $breakpoint,
+$min-width in $breakpoints {
+    @media all and (min-width: #{$min-width}px) {
+        @include position(-#{$breakpoint});
+        @include sides(-#{$breakpoint});
+    }
+}
