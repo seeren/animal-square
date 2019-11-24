@@ -1,0 +1,25 @@
+square-navigation {
+
+    @mixin nav-item() {
+        opacity: 1;
+        width: 3em;
+        height: 2em;
+
+        &[disabled] {
+            opacity: .3;
+            @extend .initial;
+        }
+    }
+
+    .prev {
+        @include nav-item();
+        background-image: url(./../www/assets/images/items/navigations/navigation-previous.png);
+    }
+
+    .next {
+
+        @include nav-item();
+        background-image: url(./../www/assets/images/items/navigations/navigation-next.png);
+    }
+
+}
