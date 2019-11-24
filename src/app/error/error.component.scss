@@ -1,7 +1,7 @@
 error {
-    @extend .block;
-    @extend .vh-min-12;
-    @extend .center;
-    @extend .overflow-hidden;
-    @extend .word-break;
+    @extend .block,
+    .vh-min-12,
+    .center,
+    .overflow-hidden,
+    .word-break;
 }

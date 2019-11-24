@@ -9,11 +9,7 @@ export class ErrorComponent extends Component {
             selector: "error",
             template: template
         });
-        this.error = null;
-    }
-
-    onInit() {
         this.error = ErrorService.get();
     }
-    
+
 }
