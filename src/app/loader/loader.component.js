@@ -4,10 +4,6 @@ import { SquareListService } from "../../shared/services/square-list.service";
 import { LoaderError } from "../../shared/errors/loader.error";
 import { ErrorService } from "../../shared/services/error.service";
 
-const done = Math.trunc(100 / (
-    SquareListService.get().length * (16 + 1)
-) * 100) / 100;
-
 export class LoaderComponent extends Component {
 
     constructor() {
@@ -16,11 +12,24 @@ export class LoaderComponent extends Component {
             template: template
         });
         this.done = 0;
+        this.increment = Math.trunc(
+            100 / (SquareListService.get().length * (16 + 1)) * 100
+        ) / 100;
+    }
+
+    getImage() {
+        let image = new Image;
+        image.onload = () => this.onLoad();
+        image.onerror = () => this.onError(image);
+        return image;
     }
 
     onInit() {
-        window.setTimeout(() => this.load(), 1000);
+        if (!this.done) {
+            window.setTimeout(() => this.load(), 1000)
+        }
     }
+
 
     load() {
         SquareListService.get().forEach(square => {
@@ -33,16 +42,9 @@ export class LoaderComponent extends Component {
         });
     }
 
-    getImage() {
-        let image = new Image;
-        image.onload = () => this.onLoad();
-        image.onerror = () => this.onError(image);
-        return image;
-    }
-
     onLoad() {
         if (!ErrorService.get()) {
-            this.done = Math.trunc((this.done + done) * 100) / 100;
+            this.done = Math.trunc((this.done + this.increment) * 100) / 100;
             this.update();
         }
     }
@@ -52,6 +54,8 @@ export class LoaderComponent extends Component {
         RouterComponent.navigate("error");
     }
 
-    play() { }
+    play() {
+        RouterComponent.navigate("square-list");
+    }
 
 }
