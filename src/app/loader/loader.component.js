@@ -1,8 +1,8 @@
 import { Component, RouterComponent } from "babel-skeleton";
 import { template } from "./loader.component.html";
-import { SquareListService } from "../../shared/services/square-list.service";
-import { LoaderError } from "../../shared/errors/loader.error";
-import { ErrorService } from "../../shared/services/error.service";
+import { LoaderError } from "./loader.error";
+import { ErrorService } from "../shared/services/error.service";
+import { SquareListService } from "../shared/services/square-list.service";
 
 export class LoaderComponent extends Component {
 

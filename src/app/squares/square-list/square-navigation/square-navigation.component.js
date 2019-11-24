@@ -1,7 +1,7 @@
 import { Component } from "babel-skeleton";
 import { template } from "./square-navigation.component.html";
-import { SquareService } from "../../../../shared/services/square.service";
-import { SquareListService } from "../../../../shared/services/square-list.service";
+import { SquareService } from "../../../shared/services/square.service";
+import { SquareListService } from "../../../shared/services/square-list.service";
 
 export class SquareNavigationComponent extends Component {
 
