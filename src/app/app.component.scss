@@ -1,4 +1,9 @@
 @import "./loader/loader.component.scss";
 @import "./error/error.component.scss";
+@import "./squares/square-list/square-list.component.scss";
 
-app {}
+app {
+    @extend .vh-min-12,
+    .vw-12,
+    .block;
+}
