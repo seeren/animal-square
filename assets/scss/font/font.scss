@@ -31,7 +31,6 @@
 }
 
 @mixin cesure {
-
     .hyphens {
         hyphens: auto;
     }
@@ -42,11 +41,23 @@
 }
 
 @mixin decoration {
-
     .pointer {
         cursor: pointer;
     }
 
+    .initial {
+        cursor: initial;
+    }
+
+    .shadow {
+        text-shadow: .05em .05em #000;
+    }
+
+    .cover {
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+    }
 }
 
 @include size('');
