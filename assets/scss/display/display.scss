@@ -5,6 +5,11 @@
     @each $display in $displays {
         .#{$display}#{$breakpoint} {
             display: $display;
+            @if $display = 'inline-block' {
+                &.fix#{$breakpoint} {
+                    margin-right: -.25em;
+                }
+            }
         }
     }
 }
