@@ -24,6 +24,14 @@ $nCol: 12;
             min-height: #{(floor(100 / $nCol * $n * 100) / 100)}vh;
         }
     }
+
+    .w#{$breakpoint}-auto {
+        width: auto;
+    }
+
+    .h#{$breakpoint}-auto {
+        height: auto;
+    }
 }
 
 @include gride('');
