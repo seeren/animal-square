@@ -3,11 +3,11 @@
 
     <article class="inline-block fix v-top absolute bottom-0 h-3 w-12 static-sm h-sm-12 w-sm-3">
         <div class="inline-block fix v-middle h-12 w-0"></div>
-        <div class="relative h-12 h-sm-auto yellow inline-block fix v-middle center w-12 pointer font-normal">
-            <h1 class="level font-2 font-normal none block-sm">Level <span class="red">${square.level.number}</h1>
+        <div class="relative h-12 h-sm-auto yellow inline-block fix v-middle center w-12 font-normal">
+            <h1 class="level font-2 font-normal none block-sm shadow">Level <span class="red">${square.level.number}</h1>
             <div class="absolute static-sm w-6 w-sm-auto bottom-2 left-3 medail">
                 <img src="assets/images/items/medails/medail-black.png" alt="" />
-                <p>${square.score.hit}</p>
+                <p class="shadow">${square.score.hit}</p>
             </div>
         </div>
     </article>
@@ -15,7 +15,9 @@
     <article class="play inline-block fix h-10 w-12 h-sm-12 w-sm-6"
         style="background-image: url(assets/images/animals/${square.animal.name}/${square.animal.name}-${square.score.hit ? `color` : `black`}.png)">
         <div class="inline-block fix v-middle h-12 w-0"></div>
-        <h2 class="font-6 yellow shadow inline-block fix v-middle center w-12 pointer font-normal">Play</h2>
+        <h2 class="font-6 yellow shadow inline-block fix v-middle center w-12 font-normal">
+            <span class="pointer">Play</span>
+        </h2>
     </article>
 
 </section>
