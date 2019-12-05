@@ -14,9 +14,9 @@ export class SquareNavigationComponent extends Component {
         this.squaresLength = SquareListService.get().length;
     }
 
-    slide(offset) {       
+    slide(offset) {
         return SquareService.set(this.square = SquareListService.get().find(
-            (square) => square.level.number === this.square.level.number + offset
+            square => square.level.number === this.square.level.number + offset
         ));
     }
 
