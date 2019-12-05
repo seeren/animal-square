@@ -3,7 +3,7 @@
     <nav class="inline-block fix v-middle h-12 w-10">
         <div class="relative h-sm-6 center top-3 top-sm-0">
             <a class="absolute inline-block pointer right-1 left-sm-5 top-sm-5 cover next" ${
-                squaresLength !== square.level.number ? `onclick="slide(1)" `: `disabled`
+                square.score.hit && squaresLength !== square.level.number ? `onclick="slide(1)" `: `disabled`
             }></a>
         </div>
         <div class="relative h-sm-6 center top-3 top-sm-0">
