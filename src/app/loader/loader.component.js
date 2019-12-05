@@ -54,7 +54,7 @@ export class LoaderComponent extends Component {
         RouterComponent.navigate("error");
     }
 
-    play() {
+    visit() {
         RouterComponent.navigate("square-list");
     }
 
