@@ -6,4 +6,5 @@ app {
     @extend .vh-min-12,
     .vw-12,
     .block;
+    user-select: none;
 }
