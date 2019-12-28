@@ -1,8 +1,9 @@
 import { Component, RouterComponent } from "babel-skeleton";
+
 import { template } from "./loader.component.html";
-import { LoaderError } from "./loader.error";
-import { ErrorService } from "../shared/services/error.service";
-import { SquareListService } from "../shared/services/square-list.service";
+import { LoaderError } from "./shared/errors/loader.error";
+import { SquareListService } from "../squares/shared/services/square-list.service";
+import { ErrorService } from "../error/shared/services/error.service";
 
 export class LoaderComponent extends Component {
 
@@ -17,24 +18,22 @@ export class LoaderComponent extends Component {
         ) / 100;
     }
 
-    getImage() {
-        let image = new Image;
-        image.onload = () => this.onLoad();
-        image.onerror = () => this.onError(image);
-        return image;
-    }
-
     onInit() {
         if (!this.done) {
             window.setTimeout(() => this.load(), 1000)
         }
     }
 
+    getImage() {
+        const image = new Image;
+        image.onload = () => this.onLoad();
+        image.onerror = () => this.onError(image);
+        return image;
+    }
 
     load() {
         SquareListService.get().forEach(square => {
-            const name = square.animal.name;
-            const basePath = `assets/images/animals/${name}/${name}`;
+            const basePath = `assets/images/animals/${square.animal.name}/${square.animal.name}`;
             this.getImage().src = `${basePath}-background.jpg`;
             for (let index = 1; index < 16 + 1; index++) {
                 this.getImage().src = `${basePath}-square-${index}.jpg`;
@@ -51,7 +50,6 @@ export class LoaderComponent extends Component {
 
     onError(image) {
         ErrorService.set(new LoaderError(image.src));
-        RouterComponent.navigate("error");
     }
 
     visit() {
