@@ -3,19 +3,22 @@ square {
     @extend .h-12;
     @extend .overflow-hidden;
 
+    .square {
+        @media screen and (orientation:portrait) {
+            background-position: center left;
+        }
+    }
+
     .level {
         margin-bottom: 1em;
     }
 
     .medail {
-        img {
-            width: 5em;
-            max-width: 50%;
-        }
+        width: 3.7em;
+        height: 5em;
     }
 
     .play {
-        background-repeat: no-repeat;
         background-position: center 40%;
         background-size: auto 70%;
     }
