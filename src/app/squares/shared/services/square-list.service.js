@@ -1,5 +1,6 @@
 import { Service } from 'babel-skeleton';
-import { default as game } from './../../../../config/game.json';
+
+import { default as game } from './../../../../../config/game.json';
 import { SquareList } from '../models/square-list.model';
 import { Square } from '../models/square.model';
 import { SquareService } from './square.service.js';
@@ -10,14 +11,25 @@ export const SquareListService = new class extends Service {
         super();
         this.squareList = new SquareList;
         game.animals.forEach((value, index) => {
-            let square = new Square;
+            const square = new Square;
+            this.squareList.push(square);
             square.animal.name = value;
             square.level.difficulty = 1;
             square.level.number = ++index;
             square.score.hit = 0;
-            this.squareList.push(square);
+            if (square.level.number < 3) {
+                square.score.hit = 1;
+            }
         });
         SquareService.set(this.squareList[0]);
+    }
+
+    isPrevious(square) {
+        return 1 !== square.level.number;
+    }
+
+    isNext(square) {
+        return this.squareList.length !== square.level.number && square.score.hit;
     }
 
     get() {

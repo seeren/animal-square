@@ -1,4 +1,4 @@
-export class LoaderError extends Error{
+export class LoaderError extends Error {
 
     constructor(src) {
         super(`"${src || "Asset"}" Not Loaded`);

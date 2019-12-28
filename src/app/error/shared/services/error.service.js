@@ -1,4 +1,4 @@
-import { Service } from 'babel-skeleton';
+import { Service, RouterComponent } from 'babel-skeleton';
 
 export const ErrorService = new class extends Service {
 
@@ -9,6 +9,7 @@ export const ErrorService = new class extends Service {
 
     set(error) {
         this.error = error;
+        RouterComponent.navigate("error");
     }
 
     get() {
