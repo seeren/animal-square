@@ -41,11 +41,9 @@ module.exports = {
         ]
     },
     plugins: [
-        new MiniCssExtractPlugin(
-            {
-                filename: 'index.css',
-            }
-        ),
+        new MiniCssExtractPlugin({
+            filename: 'index.css',
+        }),
         new BrowserSyncPlugin({
             host: 'localhost',
             port: 3000,
@@ -53,10 +51,17 @@ module.exports = {
                 'www/index.html',
             ],
             server: {
-                baseDir: [
-                    'www'
+                baseDir: 'www',
+                middleware: [
+                    function (req, res, next) {
+                        if (-1 === req.url.indexOf(".") && "/" !== req.url) {
+                            res.writeHead(302, { 'Location': '/' });
+                            res.end();
+                        }
+                        next();
+                    }
                 ]
-            }
+            },
         })
     ]
 };
