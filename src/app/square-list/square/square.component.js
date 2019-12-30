@@ -13,7 +13,7 @@ export class SquareComponent extends Component {
     }
 
     play() {
-        RouterComponent.navigate("puzzle", { id: this.square.level.number });
+        RouterComponent.navigate("square-puzzle", { id: this.square.level.number });
     }
 
 }
