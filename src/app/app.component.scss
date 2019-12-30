@@ -1,6 +1,7 @@
 @import "./loader/loader.component.scss";
 @import "./error/error.component.scss";
-@import "./squares/square-list/square-list.component.scss";
+@import "./square-list/square-list.component.scss";
+@import "./square-puzzle/square-puzzle.component.scss";
 
 app {
     @extend .vh-min-12,

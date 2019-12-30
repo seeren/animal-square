@@ -1,6 +1,6 @@
 import { Service } from 'babel-skeleton';
 
-import { default as game } from './../../../../../config/game.json';
+import { default as game } from './../../../../config/game.json';
 import { SquareList } from '../models/square-list.model';
 import { Square } from '../models/square.model';
 import { SquareService } from './square.service.js';

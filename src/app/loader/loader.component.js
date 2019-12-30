@@ -2,7 +2,7 @@ import { Component, RouterComponent } from "babel-skeleton";
 
 import { template } from "./loader.component.html";
 import { LoaderError } from "./shared/errors/loader.error";
-import { SquareListService } from "../squares/shared/services/square-list.service";
+import { SquareListService } from "../shared/services/square-list.service";
 import { ErrorService } from "../error/shared/services/error.service";
 
 export class LoaderComponent extends Component {
