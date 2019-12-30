@@ -6,16 +6,18 @@ export class SquarePuzzleComponent extends Component {
 
     constructor() {
         super({
-            selector: "puzzle",
+            selector: "square-puzzle",
             template: template
         });
     }
 
     onInit () {
+        console.log("?ss");
+        
         this.square = SquareService.get();
-        if (this.square.level.number !== RouterComponent.get(`id`)) {
-            return RouterComponent.navigate("square-list");
-        }
+        // if (this.square.level.number !== RouterComponent.get(`id`)) {
+        //     return RouterComponent.navigate("square-list");
+        // }
     }
 
 }

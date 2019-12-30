@@ -1,3 +1,9 @@
 square-puzzle {
 
+
+    @extend .block;
+    @extend .h-12,
+    .w-12;
+    // @extend .overflow-hidden;
+    background: red;
 }
