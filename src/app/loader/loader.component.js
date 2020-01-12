@@ -12,10 +12,30 @@ export class LoaderComponent extends Component {
             selector: "loader",
             template: template
         });
+        const basePath = `assets/images/`;
         this.done = 0;
-        this.increment = Math.trunc(
-            100 / (SquareListService.get().length * (16 + 1)) * 100
-        ) / 100;
+        this.images = [
+            `${basePath}animal-square.png`,
+            `${basePath}items/medails/medail-black.png`,
+            `${basePath}items/medails/medail-bronze.png`,
+            `${basePath}items/medails/medail-gold.png`,
+            `${basePath}items/medails/medail-silver.png`,
+            `${basePath}items/navigations/navigation-next.png`,
+            `${basePath}items/navigations/navigation-previous.png`
+        ];
+        SquareListService.get().forEach(square => {
+            const basePathAnimal = `${basePath}animals/${square.animal.name}/${square.animal.name}`;
+            this.images.push(
+                `${basePathAnimal}-background.jpg`,
+                `${basePathAnimal}-black.png`,
+                `${basePathAnimal}-color.png`,
+                `${basePathAnimal}-square.jpg`
+            );
+            for (let index = 1; index < 16; index++) {
+                this.images.push(`${basePathAnimal}-square-${index}.jpg`);
+            }
+        });
+        this.increment = 100 / this.images.length * 100 / 100;
     }
 
     onInit() {
@@ -32,18 +52,12 @@ export class LoaderComponent extends Component {
     }
 
     load() {
-        SquareListService.get().forEach(square => {
-            const basePath = `assets/images/animals/${square.animal.name}/${square.animal.name}`;
-            this.getImage().src = `${basePath}-background.jpg`;
-            for (let index = 1; index < 16 + 1; index++) {
-                this.getImage().src = `${basePath}-square-${index}.jpg`;
-            }
-        });
+        this.images.forEach(image => this.getImage().src = image);
     }
 
     onLoad() {
         if (!ErrorService.get()) {
-            this.done = Math.trunc((this.done + this.increment) * 100) / 100;
+            this.done = (this.done + this.increment) * 100 / 100;
             this.update();
         }
     }

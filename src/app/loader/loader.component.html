@@ -2,9 +2,6 @@
 <section class="inline-block v-middle w-6">
     <img class="w-10 w-sm-6" src="assets/images/animal-square.png" alt="Animal Square" />
     <h1 class="font-normal font-2 green">
-        ${100 !== Math.round(this.done)
-        ? `${ done ? Math.round(done) + "%" : "Loading"}`
-        : `<a onclick="visit()">Visit</a>`
-        }
+        ${ !done ? "Loading": (100 !== Math.round(done) ? Math.round(done) + "%" : `<a onclick="visit()">Visit</a>`)}
     </h1>
 </section>
