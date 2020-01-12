@@ -1,0 +1,24 @@
+puzzle {
+    @extend .block,
+    .absolute,
+    .top-0,
+    .left-0,
+    .right-0,
+    .bottom-3,
+    .w-12;
+    margin: auto;
+    height: 100vw;
+    max-width: 70vh;
+    max-height: 70%;
+
+    @media all and (min-width: #{map-get($breakpoints, 'sm')}px) {
+        position: static;
+        display: inline-block;
+        margin-right: -.25em;
+        vertical-align: middle;
+        height: 100%;
+        max-width: 60%;
+        max-height: 60vw;
+        width: 100vh;
+    }
+}
