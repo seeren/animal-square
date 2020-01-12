@@ -1,16 +1,20 @@
 square {
-    @extend .inline-block;
-    @extend .h-12;
-    @extend .overflow-hidden;
+    @extend .inline-block,
+    .h-12,
+    .center;
 
-    .square {
-        @media screen and (orientation:portrait) {
-            background-position: center left;
+    .fix-left {
+        margin-left: -.25em;
+
+        @media all and (min-width: #{map-get($breakpoints, 'sm')}px) {
+            margin-left: 0;
         }
     }
 
-    .level {
-        margin-bottom: 1em;
+    .bg-scene {
+        @media all and (min-width: #{map-get($breakpoints, 'sm')}px) {
+            background-position: center left;
+        }
     }
 
     .medail {
@@ -18,8 +22,22 @@ square {
         height: 5em;
     }
 
-    .play {
+    .gride {
         background-position: center 40%;
         background-size: auto 70%;
+        background-repeat: no-repeat;
+        margin: auto;
+        height: 100vw;
+        max-width: 70vh;
+        max-height: 70%;
+
+        @media all and (min-width: #{map-get($breakpoints, 'sm')}px) {
+            max-width: 60%;
+            max-height: 60vw;
+            height: 100%;
+            width: 100vh;
+            margin-right: 16.66% !important;
+        }
     }
+
 }
