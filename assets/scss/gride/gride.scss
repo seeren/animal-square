@@ -8,12 +8,24 @@ $nCol: 12;
             width: percentage(floor(100 / $nCol * $n * 100) / 100 / 100);
         }
 
+        .w-min#{$breakpoint}-#{$n} {
+            min-width: percentage(floor(100 / $nCol * $n * 100) / 100 / 100);
+        }
+
+        .w-max#{$breakpoint}-#{$n} {
+            max-width: percentage(floor(100 / $nCol * $n * 100) / 100 / 100);
+        }
+
         .vw#{$breakpoint}-#{$n} {
             width: #{(floor(100 / $nCol * $n * 100) / 100)}vw;
         }
 
         .h#{$breakpoint}-#{$n} {
             height: percentage(floor(100 / $nCol * $n * 100) / 100 / 100);
+        }
+
+        .h-max#{$breakpoint}-#{$n} {
+            max-height: percentage(floor(100 / $nCol * $n * 100) / 100 / 100);
         }
 
         .vh#{$breakpoint}-#{$n} {
