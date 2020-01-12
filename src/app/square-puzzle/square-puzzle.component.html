@@ -1,26 +1,26 @@
-<section class="square cover w-12 h-12 relative"
+<section class="bg-scene cover w-12 h-12 relative center"
     style="background-image: url(assets/images/animals/${square.animal.name}/${square.animal.name}-background.jpg)">
-dd
-    <!-- <aside class="inline-block fix v-top absolute bottom-0 h-3 w-12 static-sm h-sm-12 w-sm-3">
+
+    <aside
+        class="block absolute left-0 bottom-0 h-3 w-12 static-sm inline-block-sm fix-sm v-middle-sm h-sm-12 w-min-sm-2 w-sm-auto">
         <div class="inline-block fix v-middle h-12 w-0"></div>
-        <div class="relative h-12 h-sm-auto yellow inline-block fix v-middle center w-12 font-normal">
-            <h1 class="level font-2 font-normal none block-sm shadow">Level <span class="red">
-                    ${square.level.number}
+        <div class="relative left h-12 yellow inline-block fix v-middle w-12 font-normal h-sm-auto ">
+            <div class="inline-block fix v-middle h-12 w-0"></div>
+            <h1
+                class="inline-block fix center overflow-hidden word-break v-middle font-2 font-normal shadow w-4 block-sm w-sm-auto">
+                Lvl
+                <span class="red">${square.level.number}</span>
             </h1>
-            <div class="absolute static-sm w-6 w-sm-auto bottom-2 left-3 center">
-                <span class="medail inline-block cover"
-                    style="background-image: url(assets/images/items/medails/medail-black.png)"></span>
-                <p class="shadow">${square.score.hit}</p>
-            </div>
+            <br class="none block-sm">
+            <score></score>
         </div>
     </aside>
 
-    <article class="play cover inline-block fix h-10 w-12 h-sm-12 w-sm-6"
-        style="background-image: url(assets/images/animals/${square.animal.name}/${square.animal.name}-${square.score.hit ? `color` : `black`}.png)">
-        <div class="inline-block fix v-middle h-12 w-0"></div>
-        <h2 class="font-6 yellow shadow inline-block fix v-middle center w-12 font-normal">
-            <span onclick="play()">Play</span>
-        </h2>
-    </article> -->
+    <puzzle></puzzle>
+
+    <aside
+        class="bg-animal cover absolute right-0 bottom-0 h-3 w-4 static-sm inline-block-sm v-middle-sm h-sm-12 w-min-sm-2 w-sm-auto"
+        style="background-image: url(assets/images/animals/${square.animal.name}/${square.animal.name}-color.png)">
+    </aside>
 
 </section>

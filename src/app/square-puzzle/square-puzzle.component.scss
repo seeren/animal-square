@@ -1,9 +1,25 @@
+@import "./puzzle/puzzle.component.scss";
+@import "./score/score.component.scss";
+
 square-puzzle {
 
+    @extend .block,
+    .vh-12,
+    .w-12,
+    .overflow-hidden;
 
-    @extend .block;
-    @extend .h-12,
-    .w-12;
-    // @extend .overflow-hidden;
-    background: red;
+    .bg-scene {
+        @media all and (min-width: #{map-get($breakpoints, 'sm')}px) {
+            background-position: center left;
+        }
+    }
+
+    .bg-animal {
+        background-size: 60% auto;
+
+        @media all and (min-width: #{map-get($breakpoints, 'sm')}px) {
+            background-size: 90% auto;
+        }
+    }
+
 }
