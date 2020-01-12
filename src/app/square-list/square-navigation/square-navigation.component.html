@@ -1,12 +1,12 @@
-<aside class="absolute right-0 bottom-0 center h-2 w-12 h-sm-12 w-sm-3">
+<aside class="absolute right-0 bottom-0 center h-2 w-12 h-sm-12 w-sm-2">
     <div class="inline-block fix v-middle h-12 w-0"></div>
     <nav class="inline-block fix v-middle h-12 w-10">
-        <div class="relative h-sm-6 center top-3 top-sm-0">
-            <a class="absolute inline-block pointer right-1 left-sm-5 top-sm-5 cover next" ${ next ? `onclick="slide(1)"
+        <div class="relative center top-3 h-sm-6 top-sm-0">
+            <a class="next cover absolute inline-block pointer right-1 left-sm-0 top-sm-5" ${ next ? `onclick="slide(1)"
                 `: `disabled` }></a>
         </div>
-        <div class="relative h-sm-6 center top-3 top-sm-0">
-            <a class="absolute inline-block pointer left-1 left-sm-5 top-sm-5 cover prev" ${ previous ?
+        <div class="relative center top-3 h-sm-6 top-sm-0">
+            <a class="previous cover absolute inline-block pointer left-1 left-sm-0 top-sm-5" ${ previous ?
                 `onclick="slide(-1)" `: `disabled` }></a>
         </div>
     </nav>
