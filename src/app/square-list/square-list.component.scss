@@ -6,11 +6,11 @@ square-list {
     .vh-12,
     .overflow-hidden;
 
-    .caroussel {
+    .slider {
         transition: margin-left .5s ease-out;
 
         @for $n from 1 to 10 {
-            &.caroussel-#{$n} {
+            &.slider-#{$n} {
                 width: 100% * $n;
 
                 square[data-square-list] {
@@ -18,7 +18,7 @@ square-list {
                 }
             }
 
-            &.caroussel-target-#{$n} {
+            &.slider-target-#{$n} {
                 margin-left: -100% * ($n - 1);
             }
         }

@@ -27,16 +27,16 @@ export class SquareListComponent extends Component {
     }
 
     onUpdate() {
-        const carrousel = window.document.querySelector(`${this.selector} .caroussel`);
-        window.ontouchstart = e => this.onMouseDown(carrousel, e.touches[0].clientX);
-        window.ontouchend = () => this.onMouseUp(carrousel);
+        const slider = window.document.querySelector(`${this.selector} .slider`);
+        window.ontouchstart = e => this.onMouseDown(slider, e.touches[0].clientX);
+        window.ontouchend = () => this.onMouseUp(slider);
     }
 
     onSquare(square) {
         this.id = window.clearTimeout(this.id);
-        const carrousel = window.document.querySelector(`${this.selector} .caroussel`);
-        window.ontouchstart = window.ontouchend = window.ontouchmove = carrousel.style.marginLeft = null;
-        carrousel.className = carrousel.className.replace(
+        const slider = window.document.querySelector(`${this.selector} .slider`);
+        window.ontouchstart = window.ontouchend = window.ontouchmove = slider.style.marginLeft = null;
+        slider.className = slider.className.replace(
             `target-${this.square.level.number}`,
             `target-${square.level.number}`
         );
@@ -44,39 +44,39 @@ export class SquareListComponent extends Component {
         this.id = window.setTimeout(() => this.onUpdate(), 500);
     }
 
-    onMouseDown(carrousel, positionX) {
+    onMouseDown(slider, positionX) {
         const squares = SquareListService.get();
-        const width = carrousel.clientWidth / squares.length;
+        const width = slider.clientWidth / squares.length;
         const maximum = width * (squares.indexOf(squares.find(square => !square.score.hit)));
-        carrousel.style.transition = "unset";
-        carrousel.style.marginLeft = window.getComputedStyle(carrousel).getPropertyValue("margin-left");
+        slider.style.transition = "unset";
+        slider.style.marginLeft = window.getComputedStyle(slider).getPropertyValue("margin-left");
         window.ontouchmove = e => this.onMouseMove(
-            carrousel,
-            Number.parseInt(carrousel.style.marginLeft, 10) + (e.touches[0].clientX - positionX),
+            slider,
+            Number.parseInt(slider.style.marginLeft, 10) + (e.touches[0].clientX - positionX),
             width,
             maximum,
             positionX = e.touches[0].clientX
         );
     }
 
-    onMouseMove(carrousel, marginLeft, width, maximum) {
+    onMouseMove(slider, marginLeft, width, maximum) {
         const absoluteMarginLeft = Math.abs(marginLeft);
         if (0 > marginLeft
             && absoluteMarginLeft < maximum
-            && carrousel.clientWidth - width > absoluteMarginLeft
+            && slider.clientWidth - width > absoluteMarginLeft
             && absoluteMarginLeft + width > 0) {
-            carrousel.style.marginLeft = marginLeft + "px";
+            slider.style.marginLeft = marginLeft + "px";
         }
     }
 
-    onMouseUp(carrousel) {
+    onMouseUp(slider) {
         const squares = SquareListService.get();
-        const width = carrousel.clientWidth / squares.length;
-        const absoluteMarginLeft = Math.abs(Number.parseInt(carrousel.style.marginLeft, 10));
+        const width = slider.clientWidth / squares.length;
+        const absoluteMarginLeft = Math.abs(Number.parseInt(slider.style.marginLeft, 10));
         const target = absoluteMarginLeft / width;
         const key = squares.indexOf(this.square);
         const difference = target - key;
-        carrousel.style.transition = "margin-left .5s ease-out";
+        slider.style.transition = "margin-left .5s ease-out";
         SquareService.set(squares[
             key < target && 0.1 < difference ? key + 1 : (
                 key > target && -0.1 > difference ? key - 1 : key
