@@ -8,16 +8,11 @@ square-puzzle {
     .w-12,
     .overflow-hidden;
 
-    .bg-scene {
-        @media all and (min-width: #{map-get($breakpoints, 'sm')}px) {
-            background-position: center left;
-        }
-    }
-
     .bg-animal {
         background-size: 60% auto;
 
         @media all and (min-width: #{map-get($breakpoints, 'sm')}px) {
+            background-position: right;
             background-size: 90% auto;
         }
     }

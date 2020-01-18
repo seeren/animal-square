@@ -11,17 +11,6 @@ square {
         }
     }
 
-    .bg-scene {
-        @media all and (min-width: #{map-get($breakpoints, 'sm')}px) {
-            background-position: center left;
-        }
-    }
-
-    .medail {
-        width: 3.7em;
-        height: 5em;
-    }
-
     .gride {
         background-position: center 40%;
         background-size: auto 70%;
