@@ -7,7 +7,7 @@ square-list {
     .overflow-hidden;
 
     .slider {
-        transition: margin-left .5s ease-out;
+        transition: margin-left .3s ease-out;
 
         @for $n from 1 to 10 {
             &.slider-#{$n} {
@@ -21,6 +21,10 @@ square-list {
             &.slider-target-#{$n} {
                 margin-left: -100% * ($n - 1);
             }
+        }
+
+        @media all and (min-width: #{map-get($breakpoints, 'sm')}px) {
+            transition: margin-left .5s ease-out;
         }
     }
 
