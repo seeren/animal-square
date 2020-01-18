@@ -76,7 +76,7 @@ export class SquareListComponent extends Component {
         const target = absoluteMarginLeft / width;
         const key = squares.indexOf(this.square);
         const difference = target - key;
-        slider.style.transition = "margin-left .5s ease-out";
+        slider.style.transition = null;
         SquareService.set(squares[
             key < target && 0.1 < difference ? key + 1 : (
                 key > target && -0.1 > difference ? key - 1 : key
