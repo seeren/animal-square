@@ -8,4 +8,18 @@ app {
     .vw-12,
     .block;
     user-select: none;
+
+    .bg-scene {
+        background-position: left;
+
+        @media all and (min-width: #{map-get($breakpoints, 'sm')}px) {
+            background-position: center;
+        }
+    }
+
+    .medail {
+        width: 3.7em;
+        height: 5em;
+    }
+
 }
