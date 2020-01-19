@@ -5,9 +5,13 @@ import { SquareComponent } from "./square/square.component";
 import { SquareListService } from "../shared/services/square-list.service";
 import { SquareService } from "../shared/services/square.service";
 import { SquareNavigationComponent } from "./square-navigation/square-navigation.component";
+import { Square } from "../shared/models/square.model";
 
 export class SquareListComponent extends Component {
 
+    /**
+     * @constructor
+     */
     constructor() {
         super({
             selector: "square-list",
@@ -18,24 +22,44 @@ export class SquareListComponent extends Component {
                 .map(square => new SquareComponent(square))
                 .concat([new SquareNavigationComponent])
         });
-        SquareService.attach(service => this.onSquare(service.get()));
+        this.listner = service => this.onSquare(service.get());
     }
 
+    /**
+     * @fires
+     */
     onInit() {
+        SquareService.attach(this.listner);
         this.id = this.id || 0;
         this.square = SquareService.get();
     }
 
-    onUpdate() {
-        const slider = window.document.querySelector(`${this.selector} .slider`);
-        window.ontouchstart = e => this.onMouseDown(slider, e.touches[0].clientX);
-        window.ontouchend = () => this.onMouseUp(slider);
+    /**
+     * @fires
+     */
+    onDestroy() {
+        this.id = window.clearTimeout(this.id);
+        SquareService.detach(this.listner);
+        window.ontouchstart = window.ontouchmove = window.ontouchend = null;
     }
 
+    /**
+     * @fires
+     */
+    onUpdate() {
+        const slider = window.document.querySelector(`${this.selector} .slider`);
+        window.ontouchstart = e => this.onTouchStart(slider, e.touches[0].clientX);
+        window.ontouchend = () => this.onTouchEnd(slider);
+    }
+
+    /**
+     * @event
+     * @param {Square} square 
+     */
     onSquare(square) {
         this.id = window.clearTimeout(this.id);
         const slider = window.document.querySelector(`${this.selector} .slider`);
-        window.ontouchstart = window.ontouchend = window.ontouchmove = slider.style.marginLeft = null;
+        slider.style.marginLeft = window.ontouchstart = window.ontouchmove = window.ontouchend = null;
         slider.className = slider.className.replace(
             `target-${this.square.level.number}`,
             `target-${square.level.number}`
@@ -44,13 +68,18 @@ export class SquareListComponent extends Component {
         this.id = window.setTimeout(() => this.onUpdate(), 500);
     }
 
-    onMouseDown(slider, positionX) {
+    /**
+     * @event
+     * @param {HTMLElement} slider 
+     * @param {Number} positionX 
+     */
+    onTouchStart(slider, positionX) {
         const squares = SquareListService.get();
         const width = slider.clientWidth / squares.length;
         const maximum = width * (squares.indexOf(squares.find(square => !square.score.hit)));
         slider.style.transition = "unset";
         slider.style.marginLeft = window.getComputedStyle(slider).getPropertyValue("margin-left");
-        window.ontouchmove = e => this.onMouseMove(
+        window.ontouchmove = e => this.onTouchMove(
             slider,
             Number.parseInt(slider.style.marginLeft, 10) + (e.touches[0].clientX - positionX),
             width,
@@ -59,7 +88,14 @@ export class SquareListComponent extends Component {
         );
     }
 
-    onMouseMove(slider, marginLeft, width, maximum) {
+    /**
+     * @event
+     * @param {HTMLElement} slider 
+     * @param {Number} marginLeft 
+     * @param {Number} width 
+     * @param {Number} maximum 
+     */
+    onTouchMove(slider, marginLeft, width, maximum) {
         const absoluteMarginLeft = Math.abs(marginLeft);
         if (0 > marginLeft
             && absoluteMarginLeft < maximum
@@ -69,7 +105,11 @@ export class SquareListComponent extends Component {
         }
     }
 
-    onMouseUp(slider) {
+    /**
+     * @event
+     * @param {HTMLElement} slider 
+     */
+    onTouchEnd(slider) {
         const squares = SquareListService.get();
         const width = slider.clientWidth / squares.length;
         const absoluteMarginLeft = Math.abs(Number.parseInt(slider.style.marginLeft, 10));
