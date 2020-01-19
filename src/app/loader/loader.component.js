@@ -7,6 +7,9 @@ import { ErrorService } from "../error/shared/services/error.service";
 
 export class LoaderComponent extends Component {
 
+    /**
+     * @constructor
+     */
     constructor() {
         super({
             selector: "loader",
@@ -38,36 +41,45 @@ export class LoaderComponent extends Component {
         this.increment = 100 / this.images.length * 100 / 100;
     }
 
+    /**
+     * @fires
+     */
     onInit() {
         if (!this.done) {
-            window.setTimeout(() => this.load(), 1000)
+            window.setTimeout(
+                () => this.images.forEach(image => this.getImage().src = image),
+                1000
+            );
         }
     }
 
+    /**
+     * @event
+     */
+    visit() {
+        RouterComponent.navigate("square-list");
+    }
+
+    /**
+     * @returns {Image}
+     */
     getImage() {
         const image = new Image;
+        image.onerror = () => ErrorService.set(new LoaderError(image.src));
         image.onload = () => this.onLoad();
-        image.onerror = () => this.onError(image);
         return image;
     }
 
-    load() {
-        this.images.forEach(image => this.getImage().src = image);
-    }
-
+    /**
+     * @returns {Boolean}
+     */
     onLoad() {
         if (!ErrorService.get()) {
             this.done = (this.done + this.increment) * 100 / 100;
             this.update();
+            return true;
         }
-    }
-
-    onError(image) {
-        ErrorService.set(new LoaderError(image.src));
-    }
-
-    visit() {
-        RouterComponent.navigate("square-list");
+        return false;
     }
 
 }

@@ -5,6 +5,9 @@ import { ErrorService } from "./shared/services/error.service";
 
 export class ErrorComponent extends Component {
 
+    /**
+     * @constructor
+     */
     constructor() {
         super({
             selector: "error",
