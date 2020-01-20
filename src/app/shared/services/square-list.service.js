@@ -7,6 +7,9 @@ import { SquareService } from './square.service.js';
 
 export const SquareListService = new class extends Service {
 
+    /**
+     * @constructor
+     */
     constructor() {
         super();
         this.squareList = new SquareList;
@@ -24,14 +27,24 @@ export const SquareListService = new class extends Service {
         SquareService.set(this.squareList[0]);
     }
 
+    /**
+     * @param {Square} square 
+     * @returns {Boolean}
+     */
     isPrevious(square) {
         return 1 !== square.level.number;
     }
-
+    /**
+     * @param {Square} square 
+     * @returns {Boolean}
+     */
     isNext(square) {
         return this.squareList.length !== square.level.number && square.score.hit;
     }
-
+    
+    /**
+     * @returns {Square[]}
+     */
     get() {
         return this.squareList;
     }
