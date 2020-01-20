@@ -7,6 +7,9 @@ import { ScoreComponent } from "./score/score.component";
 
 export class SquarePuzzleComponent extends Component {
 
+    /**
+     * @constructor
+     */
     constructor() {
         super({
             selector: "square-puzzle",
@@ -18,6 +21,9 @@ export class SquarePuzzleComponent extends Component {
         });
     }
 
+    /**
+     * @fires
+     */
     onInit() {
         this.square = SquareService.get();
         // if (this.square.level.number !== RouterComponent.get(`id`)) {

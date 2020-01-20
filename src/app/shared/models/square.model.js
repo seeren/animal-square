@@ -4,6 +4,9 @@ import { Score } from "./score.model";
 
 export class Square {
 
+    /**
+     * @constructor
+     */
     constructor() {
         this.animal = new Animal;
         this.level = new Level;
