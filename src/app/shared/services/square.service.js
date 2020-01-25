@@ -20,11 +20,9 @@ export const SquareService = new class extends Service {
 
     /**
      * @param {Square} square
-     * @returns {SquareService} 
      */
     set(square) {
-        this.square = square;
-        return this.notify();
+        this.notify(this.square = square);
     }
 
 }
