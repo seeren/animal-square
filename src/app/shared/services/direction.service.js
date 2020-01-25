@@ -8,7 +8,6 @@ export const DirectionService = new class extends Service {
      */
     constructor() {
         super();
-        this.direction = new Direction;
     }
 
     /**
@@ -16,26 +15,26 @@ export const DirectionService = new class extends Service {
      * @returns {Direction}
      */
     get(event) {
+        
+        const direction = new Direction;
         if (event.target.parentNode === window.document.elementFromPoint(event.touches[0].clientX, event.touches[0].clientY - event.target.clientHeight)) {
-            this.direction.property = "top";
-            this.direction.axe = "Y";
-            this.direction.positive = false;
+            direction.property = "top";
+            direction.axe = "Y";
+            direction.positive = false;
         } else if (event.target.parentNode === window.document.elementFromPoint(event.touches[0].clientX, event.touches[0].clientY + event.target.clientHeight)) {
-            this.direction.property = "top";
-            this.direction.axe = "Y";
-            this.direction.positive = true;
+            direction.property = "top";
+            direction.axe = "Y";
+            direction.positive = true;
         } else if (event.target.parentNode === window.document.elementFromPoint(event.touches[0].clientX + event.target.clientWidth, event.touches[0].clientY)) {
-            this.direction.property = "left";
-            this.direction.axe = "X";
-            this.direction.positive = true;
+            direction.property = "left";
+            direction.axe = "X";
+            direction.positive = true;
         } else if (event.target.parentNode === window.document.elementFromPoint(event.touches[0].clientX - event.target.clientWidth, event.touches[0].clientY)) {
-            this.direction.property = "left";
-            this.direction.axe = "X";
-            this.direction.positive = false;
-        } else {
-            this.direction.property = this.direction.axe = this.direction.positive = null;
+            direction.property = "left";
+            direction.axe = "X";
+            direction.positive = false;
         }
-        return this.direction;
+        return direction;
     }
 
 }
