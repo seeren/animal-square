@@ -49,6 +49,7 @@ export class PuzzleComponent extends Component {
             const position = parseFloat(window.getComputedStyle(cel).getPropertyValue(direction.property), 10);
             const minimum = direction.positive ? position : position - cel.clientHeight;
             const maximum = direction.positive ? position + cel.clientHeight : position;
+            cel.className += ` fire ${direction.property}-${direction.positive}`;
             cel.style.transition = "unset";
             cel.style[direction.property] = `${position}px`;
             cel.ontouchstart = null;
@@ -84,7 +85,11 @@ export class PuzzleComponent extends Component {
      * @param {Number} maximum
      */
     onTouchEnd(cel, direction, initial, minimum, maximum) {
-        this.id = window.setTimeout(() => this.addTouchStart(cel, this.id = window.clearTimeout()), 300);
+        this.id = window.setTimeout(() => {
+            this.id = window.clearTimeout()
+            cel.className = cel.className.replace(` fire ${direction.property}-${direction.positive}`, "");
+            this.addTouchStart(cel);
+        }, 400);
         const position = parseFloat(cel.style[direction.property], 10);
         cel.ontouchmove = cel.ontouchend = cel.style.transition = null;
         cel.style[direction.property] = `${(
