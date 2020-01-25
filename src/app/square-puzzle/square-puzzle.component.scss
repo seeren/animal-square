@@ -1,5 +1,6 @@
-@import "./puzzle/puzzle.component.scss";
 @import "./score/score.component.scss";
+@import "./puzzle/puzzle.component.scss";
+@import "./resume/resume.component.scss";
 
 square-puzzle {
 
@@ -7,14 +8,5 @@ square-puzzle {
     .vh-12,
     .w-12,
     .overflow-hidden;
-
-    .bg-animal {
-        background-size: 60% auto;
-
-        @media all and (min-width: #{map-get($breakpoints, 'sm')}px) {
-            background-position: right;
-            background-size: 90% auto;
-        }
-    }
 
 }
