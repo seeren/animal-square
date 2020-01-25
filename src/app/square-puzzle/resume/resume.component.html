@@ -1,0 +1,18 @@
+${resume
+? `
+<div class="obfuscator fixed w-12 h-12 top-0 left-0 font-4" style="z-index: 9">
+    <div class="pannel yellow absolute w-12 top-0 bottom-0 left-0 center">
+        <span onclick="toogle()" class="shadow">Continue</span>
+        |
+        <span onclick="exit()" class="shadow">Exit</span>
+    </div>
+    <div class="bg-black absolute w-12 h-12 top-0 left-0"></div>
+</div>
+` : ``}
+
+<aside class="absolute right-0 bottom-0 h-3 w-4 static-sm inline-block-sm v-middle-sm h-sm-12 w-min-sm-2 w-sm-auto">
+    <div onclick="toogle()" class="relative top-2 h-8 w-10 left-1 top-sm-4 h-sm-4">
+        <div style="background-image: url(assets/images/animals/${square.animal.name}/${square.animal.name}-color.png)"
+            class="bg-animal cover h-12 w-12"></div>
+    </div>
+</aside>
