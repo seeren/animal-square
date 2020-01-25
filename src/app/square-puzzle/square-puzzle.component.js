@@ -4,6 +4,7 @@ import { template } from "./square-puzzle.component.html";
 import { SquareService } from "../shared/services/square.service";
 import { PuzzleComponent } from "./puzzle/puzzle.component";
 import { ScoreComponent } from "./score/score.component";
+import { ResumeComponent } from "./resume/resume.component";
 
 export class SquarePuzzleComponent extends Component {
 
@@ -16,7 +17,8 @@ export class SquarePuzzleComponent extends Component {
             template: template,
             components: [
                 new ScoreComponent,
-                new PuzzleComponent
+                new PuzzleComponent,
+                new ResumeComponent
             ]
         });
     }
