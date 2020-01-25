@@ -23,8 +23,6 @@ export class LoaderComponent extends Component {
             `${basePath}items/medails/medail-bronze.png`,
             `${basePath}items/medails/medail-gold.png`,
             `${basePath}items/medails/medail-silver.png`,
-            `${basePath}items/navigations/navigation-next.png`,
-            `${basePath}items/navigations/navigation-previous.png`
         ];
         SquareListService.get().forEach(square => {
             const basePathAnimal = `${basePath}animals/${square.animal.name}/${square.animal.name}`;
