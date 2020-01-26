@@ -13,6 +13,12 @@ export class ErrorComponent extends Component {
             selector: "error",
             template: template
         });
+    }
+
+    /**
+     * @fires
+     */
+    onInit() {
         this.error = ErrorService.get();
     }
 
