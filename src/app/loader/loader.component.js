@@ -15,15 +15,26 @@ export class LoaderComponent extends Component {
             selector: "loader",
             template: template
         });
-        const basePath = `assets/images/`;
+        this.timeout = 0;
         this.done = 0;
-        this.images = [
+        this.images = []
+    }
+
+    /**
+     * @fires
+     */
+    onInit() {
+        if (this.done) {
+            return;
+        }
+        const basePath = `assets/images/`;
+        this.images.push(
             `${basePath}animal-square.png`,
             `${basePath}items/medails/medail-black.png`,
             `${basePath}items/medails/medail-bronze.png`,
             `${basePath}items/medails/medail-gold.png`,
             `${basePath}items/medails/medail-silver.png`,
-        ];
+        );
         SquareListService.get().forEach(square => {
             const basePathAnimal = `${basePath}animals/${square.animal.name}/${square.animal.name}`;
             this.images.push(
@@ -36,19 +47,7 @@ export class LoaderComponent extends Component {
                 this.images.push(`${basePathAnimal}-square-${index}.jpg`);
             }
         });
-        this.increment = 100 / this.images.length * 100 / 100;
-    }
-
-    /**
-     * @fires
-     */
-    onInit() {
-        if (!this.done) {
-            window.setTimeout(
-                () => this.images.forEach(image => this.getImage().src = image),
-                1000
-            );
-        }
+        this.timeout = window.setTimeout(() => this.images.forEach(image => this.getImage().src = image), 1000);
     }
 
     /**
@@ -63,7 +62,11 @@ export class LoaderComponent extends Component {
      */
     getImage() {
         const image = new Image;
-        image.onerror = () => ErrorService.set(new LoaderError(image.src));
+        image.onerror = () => {
+            window.clearTimeout(this.timeout);
+            ErrorService.set(new LoaderError(image.src)
+            )
+        };
         image.onload = () => this.onLoad();
         return image;
     }
@@ -72,10 +75,16 @@ export class LoaderComponent extends Component {
      * @event
      */
     onLoad() {
-        if (!ErrorService.get()) {
-            this.done = (this.done + this.increment) * 100 / 100;
-            this.update();
-        }
+        this.done = (this.done + (100 / this.images.length * 100 / 100)) * 100 / 100;
+        this.update();
+    }
+
+    /**
+     * @event
+     */
+    onError() {
+        this.timeout = window.clearTimeout(this.timeout);
+        ErrorService.set(new LoaderError(image.src));
     }
 
 }
