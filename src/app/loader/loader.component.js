@@ -25,14 +25,23 @@ export class LoaderComponent extends Component {
      */
     onInit() {
         if (!this.done) {
-            const basePath = `assets/images/`;
-            this.images.push(
-                `${basePath}animal-square.png`,
-                `${basePath}items/medails/medail-black.png`,
-                `${basePath}items/medails/medail-bronze.png`,
-                `${basePath}items/medails/medail-gold.png`,
-                `${basePath}items/medails/medail-silver.png`,
-            );
+            const basePath = `dist/assets/images/`;
+            [
+                "fires/fire-down-left",
+                "fires/fire-down-right",
+                "fires/fire-left-down",
+                "fires/fire-left-up",
+                "fires/fire-right-down",
+                "fires/fire-right-up",
+                "fires/fire-up-left",
+                "fires/fire-up-right",
+                "medails/medail-black",
+                "medails/medail-bronze",
+                "medails/medail-gold",
+                "medails/medail-silver",
+                "navigations/navigation-next",
+                "navigations/navigation-previous"
+            ].forEach(item => this.images.push(`${basePath}items/${item}.png`));
             SquareListService.get().forEach(square => {
                 const basePathAnimal = `${basePath}animals/${square.animal.name}/${square.animal.name}`;
                 this.images.push(
@@ -45,6 +54,7 @@ export class LoaderComponent extends Component {
                     this.images.push(`${basePathAnimal}-square-${index}.jpg`);
                 }
             });
+            this.images.push(`${basePath}animal-square.png`);
             window.setTimeout(() => this.images.forEach(image => this.getImage().src = image), 1000);
         }
     }
