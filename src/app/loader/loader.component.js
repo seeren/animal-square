@@ -69,15 +69,13 @@ export class LoaderComponent extends Component {
     }
 
     /**
-     * @returns {Boolean}
+     * @event
      */
     onLoad() {
         if (!ErrorService.get()) {
             this.done = (this.done + this.increment) * 100 / 100;
             this.update();
-            return true;
         }
-        return false;
     }
 
 }

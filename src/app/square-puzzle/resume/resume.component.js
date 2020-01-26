@@ -5,12 +5,16 @@ import { ResumeService } from "../../shared/services/resume.service";
 
 export class ResumeComponent extends Component {
 
+    /**
+     * @constructor
+     */
     constructor() {
         super({
             selector: "resume",
             template: template
         });
     }
+
     /**
      * @fires
      */

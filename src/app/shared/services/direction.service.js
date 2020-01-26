@@ -15,7 +15,6 @@ export const DirectionService = new class extends Service {
      * @returns {Direction}
      */
     get(event) {
-        
         const direction = new Direction;
         if (event.target.parentNode === window.document.elementFromPoint(event.touches[0].clientX, event.touches[0].clientY - event.target.clientHeight)) {
             direction.property = "top";
