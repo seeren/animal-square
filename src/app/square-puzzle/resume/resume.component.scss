@@ -16,7 +16,7 @@ resume {
             margin: auto;
         }
 
-        &>div+div {
+        .pannel+div {
             z-index: 8;
             height: 100%;
             opacity: .7;
