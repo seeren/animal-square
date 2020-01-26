@@ -24,30 +24,29 @@ export class LoaderComponent extends Component {
      * @fires
      */
     onInit() {
-        if (this.done) {
-            return;
-        }
-        const basePath = `assets/images/`;
-        this.images.push(
-            `${basePath}animal-square.png`,
-            `${basePath}items/medails/medail-black.png`,
-            `${basePath}items/medails/medail-bronze.png`,
-            `${basePath}items/medails/medail-gold.png`,
-            `${basePath}items/medails/medail-silver.png`,
-        );
-        SquareListService.get().forEach(square => {
-            const basePathAnimal = `${basePath}animals/${square.animal.name}/${square.animal.name}`;
+        if (!this.done) {
+            const basePath = `assets/images/`;
             this.images.push(
-                `${basePathAnimal}-background.jpg`,
-                `${basePathAnimal}-black.png`,
-                `${basePathAnimal}-color.png`,
-                `${basePathAnimal}-square.jpg`
+                `${basePath}animal-square.png`,
+                `${basePath}items/medails/medail-black.png`,
+                `${basePath}items/medails/medail-bronze.png`,
+                `${basePath}items/medails/medail-gold.png`,
+                `${basePath}items/medails/medail-silver.png`,
             );
-            for (let index = 1; index < 16; index++) {
-                this.images.push(`${basePathAnimal}-square-${index}.jpg`);
-            }
-        });
-        this.timeout = window.setTimeout(() => this.images.forEach(image => this.getImage().src = image), 1000);
+            SquareListService.get().forEach(square => {
+                const basePathAnimal = `${basePath}animals/${square.animal.name}/${square.animal.name}`;
+                this.images.push(
+                    `${basePathAnimal}-background.jpg`,
+                    `${basePathAnimal}-black.png`,
+                    `${basePathAnimal}-color.png`,
+                    `${basePathAnimal}-square.jpg`
+                );
+                for (let index = 1; index < 16; index++) {
+                    this.images.push(`${basePathAnimal}-square-${index}.jpg`);
+                }
+            });
+            window.setTimeout(() => this.images.forEach(image => this.getImage().src = image), 1000);
+        }
     }
 
     /**
@@ -75,15 +74,16 @@ export class LoaderComponent extends Component {
      * @event
      */
     onLoad() {
-        this.done = (this.done + (100 / this.images.length * 100 / 100)) * 100 / 100;
-        this.update();
+        if (!ErrorService.get()) {
+            this.done = (this.done + (100 / this.images.length * 100 / 100)) * 100 / 100;
+            this.update();
+        }
     }
 
     /**
      * @event
      */
     onError() {
-        this.timeout = window.clearTimeout(this.timeout);
         ErrorService.set(new LoaderError(image.src));
     }
 
