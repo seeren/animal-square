@@ -15,7 +15,7 @@ export class SquareNavigationComponent extends Component {
             selector: "square-navigation",
             template: template
         });
-        SquareService.attach(service => this.onSquare(service.get()));
+        this.listner = service => this.onSquare(service.get());
     }
 
     /**
@@ -26,6 +26,14 @@ export class SquareNavigationComponent extends Component {
         this.square = SquareService.get();
         this.next = SquareListService.isNext(this.square);
         this.previous = SquareListService.isPrevious(this.square);
+        SquareService.attach(this.listner);
+    }
+
+    /**
+     * @fires
+     */
+    onDestroy() {
+        SquareService.detach(this.listner);
     }
 
     /**
