@@ -24,6 +24,15 @@ export class ResumeComponent extends Component {
     }
 
     /**
+     * @fires
+     */
+    onDestroy() {
+        if (this.resume) {
+            this.toogle();
+        }
+    }
+
+    /**
      * @event
      */
     toogle() {
