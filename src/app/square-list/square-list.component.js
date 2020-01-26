@@ -30,7 +30,7 @@ export class SquareListComponent extends Component {
      */
     onInit() {
         SquareService.attach(this.listner);
-        this.id = this.id || 0;
+        this.timeout = this.timeout || 0;
         this.square = SquareService.get();
     }
 
@@ -38,8 +38,8 @@ export class SquareListComponent extends Component {
      * @fires
      */
     onDestroy() {
-        this.id = window.clearTimeout(this.id);
         SquareService.detach(this.listner);
+        this.timeout = window.clearTimeout(this.timeout);
         window.ontouchstart = window.ontouchmove = window.ontouchend = null;
     }
 
@@ -57,7 +57,7 @@ export class SquareListComponent extends Component {
      * @param {Square} square 
      */
     onSquare(square) {
-        this.id = window.clearTimeout(this.id);
+        this.timeout = window.clearTimeout(this.timeout);
         const slider = window.document.querySelector(`${this.selector} .slider`);
         slider.style.marginLeft = window.ontouchstart = window.ontouchmove = window.ontouchend = null;
         slider.className = slider.className.replace(
@@ -65,7 +65,7 @@ export class SquareListComponent extends Component {
             `target-${square.level.number}`
         );
         this.square = square;
-        this.id = window.setTimeout(() => this.onUpdate(), 500);
+        this.timeout = window.setTimeout(() => this.onUpdate(), 500);
     }
 
     /**
