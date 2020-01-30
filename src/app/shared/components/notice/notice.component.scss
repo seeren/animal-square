@@ -1,0 +1,23 @@
+notice {
+
+    @extend .absolute,
+    .h-12,
+    .w-12,
+    .top-0,
+    .bottom-0,
+    .left-0,
+    .cover,
+    .animate;
+    background-size: auto 80%;
+
+    h2 {
+        @extend .absolute,
+        .top-0,
+        .right-0,
+        .bottom-0,
+        .left-0;
+        height: 1em;
+        margin: auto;
+    }
+
+}
