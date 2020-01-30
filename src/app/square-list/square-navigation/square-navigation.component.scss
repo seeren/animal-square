@@ -13,12 +13,12 @@ square-navigation {
 
     .previous {
         @include nav-item();
-        background-image: url(./../assets/images/items/navigations/navigation-previous.png);
+        background-image: url('./../www/dist/assets/images/items/navigations/navigation-previous.png');
     }
 
     .next {
         @include nav-item();
-        background-image: url(./../assets/images/items/navigations/navigation-next.png);
+        background-image: url('./../www/dist/assets/images/items/navigations/navigation-next.png');
     }
 
 }
