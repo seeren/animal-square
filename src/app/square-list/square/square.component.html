@@ -14,19 +14,17 @@
             <br class="none block-sm">
             <div class="inline-block fix fix-left v-middle w-4 center w-sm-12">
                 <span class="medail inline-block cover"
-                    style="background-image: url(assets/images/items/medails/medail-black.png)"></span>
+                    style="background-image: url(dist/assets/images/items/medails/medail-black.png)"></span>
                 <p class="shadow">${square.score.hit}</p>
             </div>
         </div>
     </aside>
 
     <article
-        class="gride block absolute top-0 bottom-3 w-12 left-0 right-0 static-sm inline-block-sm fix-sm v-middle-sm"
-        style="background-image: url(dist/assets/images/animals/${square.animal.name}/${square.animal.name}-${square.score.hit ? `color` : `black`}.png)">
-        <div class="inline-block fix v-middle h-12 w-0"></div>
-        <h2 class="font-6 yellow shadow inline-block fix v-middle center w-12 font-normal">
-            <span onclick="play()">Play</span>
-        </h2>
+        class="gride block absolute top-0 bottom-3 w-12 left-0 right-0 relative-sm inline-block-sm fix-sm v-middle-sm">
+        <div onclick="play()">
+            <notice></notice>
+        </div>
     </article>
 
 </section>
