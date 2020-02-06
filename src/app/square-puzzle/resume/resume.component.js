@@ -1,7 +1,8 @@
 import { Component, RouterComponent } from "babel-skeleton";
+
 import { template } from "./resume.component.html";
-import { SquareService } from "../../shared/services/square.service";
 import { ResumeService } from "../../shared/services/resume.service";
+import { SquareListService } from "../../shared/services/square-list.service";
 
 export class ResumeComponent extends Component {
 
@@ -19,7 +20,8 @@ export class ResumeComponent extends Component {
      * @fires
      */
     onInit() {
-        this.square = SquareService.get();
+
+        this.square = SquareListService.getById(1, RouterComponent.get("id"));
         this.resume = ResumeService.get();
     }
 
