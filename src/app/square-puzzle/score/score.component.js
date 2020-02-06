@@ -1,7 +1,7 @@
-import { Component } from "babel-skeleton";
+import { Component, RouterComponent } from "babel-skeleton";
 
 import { template } from "./score.component.html";
-import { SquareService } from "../../shared/services/square.service";
+import { SquareListService } from "../../shared/services/square-list.service";
 
 export class ScoreComponent extends Component {
 
@@ -19,7 +19,7 @@ export class ScoreComponent extends Component {
      * @fires
      */
     onInit() {
-        this.square = SquareService.get();
+        this.square = SquareListService.getById(1, RouterComponent.get("id"));
     }
 
 }
