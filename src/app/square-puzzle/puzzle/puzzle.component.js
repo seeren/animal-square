@@ -1,8 +1,10 @@
-import { Component } from "babel-skeleton";
+import { Component, RouterComponent } from "babel-skeleton";
+
 import { template } from "./puzzle.component.html";
-import { SquareService } from "../../shared/services/square.service";
 import { DirectionService } from "../../shared/services/direction.service";
 import { Direction } from "../../shared/models/direction.model";
+import { SquareListService } from "../../shared/services/square-list.service";
+import { MonkeyComponent } from "./monkey/monkey.component";
 
 export class PuzzleComponent extends Component {
 
@@ -12,7 +14,8 @@ export class PuzzleComponent extends Component {
     constructor() {
         super({
             selector: "puzzle",
-            template: template
+            template: template,
+            components: [new MonkeyComponent]
         });
     }
 
@@ -21,7 +24,7 @@ export class PuzzleComponent extends Component {
      */
     onInit() {
         this.id = 0;
-        this.square = SquareService.get();
+        this.square = SquareListService.getById(1, RouterComponent.get("id"));
     }
 
     /**
