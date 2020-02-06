@@ -18,6 +18,16 @@
     }
 }
 
+@keyframes animate-fall {
+    0% {
+        top: -150vh;
+    }
+
+    100% {
+        top: 0;
+    }
+}
+
 .animate {
     animation-timing-function: ease-in-out;
     animation-duration: 1.5s;
@@ -30,5 +40,9 @@
 
     &-show {
         animation-name: animate-show;
+    }
+
+    &-fall {
+        animation-name: animate-fall;
     }
 }
