@@ -1,6 +1,6 @@
 resume {
 
-    .bg-animal {
+    .animal {
         background-size: auto 100%;
 
         @media all and (min-width: #{map-get($breakpoints, 'sm')}px) {
