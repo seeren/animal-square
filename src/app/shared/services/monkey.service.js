@@ -5,18 +5,28 @@ export const MonkeyService = new class extends Service {
     constructor() {
         super();
         this.state = null;
-    }
-
-    start() {
-        this.notify(this.state = "start");
+        this.number = null;
     }
 
     hit() {
         this.notify(this.state = "hit");
     }
 
+    start(number) {
+        this.number = number;
+        this.notify(this.state = "start");
+    }
+
     stop() {
         this.notify(this.state = "stop");
+    }
+
+    pause() {
+        this.notify(this.state = "pause");
+    }
+
+    resume() {
+        this.notify(this.state = "resume");
     }
 
 }
