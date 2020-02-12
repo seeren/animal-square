@@ -1,0 +1,71 @@
+$monkey-size: 75;
+$monkey-top: 150;
+$monkey-left: -100;
+
+@function getTranslateX($x) {
+    @return percentage(-(((($monkey-left * - 1) - $monkey-size) / 25) + $x + 2) / 3);
+}
+
+@function getTranslateY($y) {
+    @return percentage(-(((100 - $monkey-top - $monkey-size) / 25) + (3 + ($y * -1))) / 3);
+}
+
+@for $x from 1 to 5 {
+    @for $y from 1 to 5 {
+        $index: $x + (16 - ($y * 4));
+
+        monkey.monkey-#{$index} {
+            display: block;
+            animation-name: monkey-#{$index};
+        }
+
+        @keyframes monkey-#{$index} {
+            0% {
+                transform: rotate(0deg) translateX(0%) translateY(0%) rotate(0deg);
+            }
+
+            40%,
+            55% {
+                transform: rotate(180deg) translateX(getTranslateX($x)) translateY(getTranslateY($y)) rotate(-180deg);
+            }
+
+            100% {
+                transform: rotate(360deg) translateX(percentage(((((($monkey-left * - 1) - $monkey-size) / 25) * 2) + 7) / 3)) translateY(0%) rotate(-360deg);
+            }
+
+            46%,
+            50.01% {
+                background-position: left;
+            }
+
+            46.01%,
+            50% {
+                background-position: right;
+            }
+
+        }
+
+    }
+}
+
+monkey {
+    z-index: 9;
+    @extend .none,
+    .absolute;
+    background-position: left;
+    background-size: 200% 100%;
+    background-image: url('./../www/dist/assets/images/items/monkeys/monkey-right.png');
+    width: percentage($monkey-size / 100);
+    height: percentage($monkey-size / 100);
+    top: percentage($monkey-top / 100);
+    left: percentage($monkey-left / 100);
+    animation-duration: 2s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-out;
+
+    &.pause {
+        animation-play-state: paused;
+    }
+
+}
