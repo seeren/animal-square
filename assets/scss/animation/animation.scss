@@ -8,9 +8,10 @@
     }
 }
 
+
 @keyframes animate-show {
     0% {
-        top: 100vh;
+        top: -100vh;
     }
 
     100% {
@@ -18,13 +19,21 @@
     }
 }
 
-@keyframes animate-fall {
+@keyframes animate-scroll {
     0% {
-        top: -150vh;
+        top: 100vh;
+    }
+
+    20% {
+        top: 10vh;
+    }
+
+    80% {
+        top: -10vh;
     }
 
     100% {
-        top: 0;
+        top: -100vh;
     }
 }
 
@@ -42,7 +51,10 @@
         animation-name: animate-show;
     }
 
-    &-fall {
-        animation-name: animate-fall;
+    &-scroll {
+        animation-timing-function: linear;
+        animation-duration: 5s;
+        animation-name: animate-scroll;
     }
+
 }
