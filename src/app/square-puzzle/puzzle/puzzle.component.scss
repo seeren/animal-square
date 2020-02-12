@@ -3,8 +3,9 @@
 
 puzzle {
 
-    @extend .animate,
-    // .animate-fall,
+    @extend 
+    .animate,
+    .animate-show,
     .block,
     .absolute,
     .top-0,
