@@ -23,44 +23,52 @@ export class PuzzleComponent extends Component {
      * @fires
      */
     onInit() {
-        this.id = 0;
+        this.id = false;
         this.square = SquareListService.getById(1, RouterComponent.get("id"));
     }
 
     /**
      * @fires
+     * @param {HTMLElement} puzzle
      */
     onUpdate() {
-        for (const cel of window.document.querySelectorAll(`${this.selector} .cel`)) this.addTouchStart(cel);
+        for (const cel of window.document.querySelectorAll(`${this.selector} .cel`)) {
+            this.registerTouchStart(cel);
+        };
     }
 
     /**
      * @param {HTMLElement} cel 
      */
-    addTouchStart(cel) {
-        cel.ontouchstart = e => this.onTouchStart(cel, { X: e.touches[0].clientX, Y: e.touches[0].clientY });
+    registerTouchStart(cel) {
+        cel.ontouchstart = e => this.onTouchStart({
+            target: cel,
+            touches: [{ clientX: e.touches[e.touches.length - 1].clientX, clientY: e.touches[e.touches.length - 1].clientY }],
+            X: e.touches[0].clientX,
+            Y: e.touches[0].clientY
+        });
     }
 
     /**
      * @event
-     * @param {HTMLElement} cel 
-     * @param {Object} client
+     * @param {TouchEvent} event
      */
-    onTouchStart(cel, client) {
+    onTouchStart(event) {
         const direction = DirectionService.get(event);
-        if (direction.property && !this.id) {
+        if (!this.id && direction.property) {
+            this.id = true;
+            const cel = event.target;
             const position = parseFloat(window.getComputedStyle(cel).getPropertyValue(direction.property), 10);
             const minimum = direction.positive ? position : position - cel.clientHeight;
             const maximum = direction.positive ? position + cel.clientHeight : position;
             cel.className += ` fire ${direction.property}-${direction.positive}`;
             cel.style.transition = "unset";
             cel.style[direction.property] = `${position}px`;
-            cel.ontouchstart = null;
-            cel.ontouchend = () => this.onTouchEnd(cel, direction, position, minimum, maximum);
+            cel.ontouchend = () => this.onTouchEnd(cel, direction, minimum, maximum, position);
             cel.ontouchmove = e => {
                 this.onTouchMove(cel, direction, minimum, maximum);
-                direction.distance = e.touches[0][`client${direction.axe}`] - client[direction.axe];
-                client[direction.axe] = e.touches[0][`client${direction.axe}`]
+                direction.distance = e.touches[0][`client${direction.axe}`] - event[direction.axe];
+                event[direction.axe] = e.touches[0][`client${direction.axe}`]
             };
         }
     }
@@ -74,25 +82,25 @@ export class PuzzleComponent extends Component {
      */
     onTouchMove(cel, direction, minimum, maximum) {
         const target = parseFloat(cel.style[direction.property], 10) + direction.distance;
-        cel.style[direction.property] = `${
-            target > minimum ? (target > maximum ? maximum : target) : minimum
-            }px`;
+        cel.style[direction.property] = `${target > minimum
+            ? (target > maximum ? maximum : target)
+            : minimum}px`;
     }
 
     /**
      * @event
      * @param {HTMLElement} cel 
      * @param {Direction} direction
-     * @param {Number} initial
      * @param {Number} minimum
      * @param {Number} maximum
+     * @param {Number} initial
      */
-    onTouchEnd(cel, direction, initial, minimum, maximum) {
+    onTouchEnd(cel, direction, minimum, maximum, initial) {
+        this.id = window.clearTimeout(this.id);
         this.id = window.setTimeout(() => {
-            this.id = window.clearTimeout()
             cel.className = cel.className.replace(` fire ${direction.property}-${direction.positive}`, "");
-            this.addTouchStart(cel);
-        }, 400);
+            this.id = false;
+        }, 300);
         const position = parseFloat(cel.style[direction.property], 10);
         cel.ontouchmove = cel.ontouchend = cel.style.transition = null;
         cel.style[direction.property] = `${(
