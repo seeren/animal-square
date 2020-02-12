@@ -37,6 +37,13 @@ export class NoticeComponent extends Component {
     }
 
     /**
+     * @returns {String}
+     */
+    get title() {
+        return this.notice.title;
+    }
+
+    /**
      * @param {String} background
      */
     set background(background) {
@@ -92,6 +99,8 @@ export class NoticeComponent extends Component {
      * @return {Number}
      */
     scroll() {
+        this.animate("hide");
+        this.update();
         return this.animate("scroll");
     }
 
