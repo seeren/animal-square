@@ -39,6 +39,7 @@ export class LoaderComponent extends Component {
                 "medails/medail-bronze",
                 "medails/medail-gold",
                 "medails/medail-silver",
+                "monkeys/monkey-right",
                 "navigations/navigation-next",
                 "navigations/navigation-previous"
             ].forEach(item => this.images.push(`${basePath}items/${item}.png`));
