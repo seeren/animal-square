@@ -11,6 +11,13 @@ let instance = 0;
 export class NoticeComponent extends Component {
 
     /**
+     * @returns {Number}
+     */
+    getInstance() {
+        return instance;
+    }
+
+    /**
      * @constructor
      */
     constructor() {
@@ -20,13 +27,6 @@ export class NoticeComponent extends Component {
         });
         this.notice = new Notice;
         instance++;
-    }
-
-    /**
-     * @returns {Number}
-     */
-    getInstance() {
-        return instance;
     }
 
     /**
@@ -47,8 +47,8 @@ export class NoticeComponent extends Component {
      * @fires
      */
     onInit() {
-        this.notice.title = this.notice.title || "Notice";
-        this.notice.background = this.notice.background || null;
+        this.title = this.notice.title || "Notice";
+        this.background = this.notice.background || null;
     }
 
     /**
@@ -63,30 +63,36 @@ export class NoticeComponent extends Component {
     }
 
     /**
+     * @param {String} state
+     * @return {Number}
+     */
+    animate(state) {
+        const element = window.document.querySelector(`${this.selector}`);
+        element.className = `animate animate-${state}`;
+        return parseFloat(
+            window.getComputedStyle(element).getPropertyValue("animation-duration")
+        ) * 1000;
+    }
+
+    /**
      * @return {Number}
      */
     show() {
-        return this.animate("hide", "show");
+        return this.animate("show");
     }
 
     /**
      * @return {Number}
      */
     hide() {
-        return this.animate("show", "hide");
+        return this.animate("hide");
     }
 
     /**
-     * @param {String} actual
-     * @param {String} next
      * @return {Number}
      */
-    animate(actual, next) {
-        const element = window.document.querySelector(`${this.selector}`);
-        const duration = parseFloat(window.getComputedStyle(element)
-            .getPropertyValue("animation-duration")) * 1000;
-        element.className = element.className.replace(` animate-${actual}`, "") + ` animate-${next}`;
-        return duration;
+    scroll() {
+        return this.animate("scroll");
     }
 
 }
