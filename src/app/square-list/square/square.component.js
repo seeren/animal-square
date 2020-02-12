@@ -17,6 +17,7 @@ export class SquareComponent extends Component {
             components: [new NoticeComponent]
         });
         this.square = square;
+        this.notice = this.components[0];
     }
 
     /**
@@ -24,10 +25,11 @@ export class SquareComponent extends Component {
      */
     onInit() {
         this.timeout = 0;
-        this.components[0].title = "Play";
-        this.components[0].background = `animals/${
-            this.square.animal.name
-            }/${this.square.animal.name}-${this.square.score.hit ? `color` : `black`}.png`;
+        this.notice.title = "Play";
+        this.notice.background = `animals/${
+            this.square.animal.name}/${
+            this.square.animal.name}-${
+            this.square.score.hit ? `color` : `black`}.png`;
     }
 
     /**
@@ -49,7 +51,7 @@ export class SquareComponent extends Component {
         if (!this.timeout) {
             this.timeout = window.setTimeout(
                 () => RouterComponent.navigate("square-puzzle", { id: this.square.level.number }),
-                this.components[0].hide()
+                this.notice.hide()
             );
         }
     }
