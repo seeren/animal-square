@@ -4,61 +4,70 @@ import { MonkeyService } from "../../../shared/services/monkey.service";
 
 export class MonkeyComponent extends Component {
 
+    /**
+     * @constructor
+     */
     constructor() {
         super({
             selector: "monkey",
             template: template
         });
-        this.listener = (service) => {
-            if (this[service.state]) {
-                const monkey = window.document.querySelector(this.selector);
-                this[service.state](
-                    monkey,
-                    service.number,
-                    parseFloat(window.getComputedStyle(monkey).getPropertyValue("animation-duration"), 10) * 1000
-                );
-            }
-        }
+        this.listener = (service) => this[service.state] ? this[service.state]() : null;
     }
 
     /**
      * @fires
      */
     onInit() {
+        this.timeout = 0
         MonkeyService.attach(this.listener);
+    }
+    /**
+     * @fires
+     */
+    onUpdate(element) {
+        this.monkey = element;
+        this.duration = window.parseFloat(window.getComputedStyle(element).getPropertyValue("animation-duration"), 10) * 1000
     }
 
     /**
      * @fires
      */
     onDestroy() {
+        this.timeout = window.clearTimeout(this.timeout);
         MonkeyService.detach(this.listener);
     }
-
+    
     /**
-     * @param {HTMLElement} monkey 
-     * @param {Number} number 
-     * @param {Number} duration 
+     * @event
      */
-    start(monkey, number, duration) {
-        monkey.className = `monkey-${number}`;
-        window.setTimeout(() => MonkeyService.hit(), duration / 2);
+    stop() {
+        this.monkey.className = ``;
     }
 
     /**
-     * @param {HTMLElement} monkey 
+     * @event
      */
-    pause(monkey) {
-        if (-1 === monkey.className.indexOf(" pause")) {
-            monkey.className += " pause";
+    start() {
+        this.play();
+        this.monkey.className = `monkey-${MonkeyService.number}`;
+        this.timeout = window.setTimeout(() => MonkeyService.hit(), this.duration / 2);
+    }
+
+    /**
+     * @event
+     */
+    play() {
+        this.monkey.className = this.monkey.className.replace(" pause", "");
+    }
+
+    /**
+     * @event
+     */
+    pause() {
+        if (-1 === this.monkey.className.indexOf(" pause")) {
+            this.monkey.className += " pause";
         }
-    }
-
-    /**
-     * @param {HTMLElement} monkey 
-     */
-    resume(monkey) {
-        monkey.className = monkey.className.replace(" pause", "");
     }
 
 }
