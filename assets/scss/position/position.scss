@@ -44,3 +44,9 @@ $min-width in $breakpoints {
         @include sides(-#{$breakpoint});
     }
 }
+
+@for $z-index from 1 to 10 {
+    .z-#{$z-index} {
+        z-index: $z-index;
+    }
+}
