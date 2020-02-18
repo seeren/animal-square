@@ -5,6 +5,9 @@ import { DirectionService } from "../../shared/services/direction.service";
 import { Direction } from "../../shared/models/direction.model";
 import { SquareListService } from "../../shared/services/square-list.service";
 import { MonkeyComponent } from "./monkey/monkey.component";
+import { ScoreService } from "../../shared/services/score.service";
+import { PuzzleService } from "../../shared/services/puzzle.service";
+import { SquareService } from "../../shared/services/square.service";
 
 export class PuzzleComponent extends Component {
 
@@ -23,8 +26,15 @@ export class PuzzleComponent extends Component {
      * @fires
      */
     onInit() {
-        this.id = false;
-        this.square = SquareListService.getById(1, RouterComponent.get("id"));
+        this.timeout = false;
+        this.square = SquareService.get();
+    }
+
+    /**
+     * @fires
+     */
+    onDestroy() {
+        this.timeout = window.clearTimeout(this.timeout);
     }
 
     /**
@@ -33,20 +43,8 @@ export class PuzzleComponent extends Component {
      */
     onUpdate() {
         for (const cel of window.document.querySelectorAll(`${this.selector} .cel`)) {
-            this.registerTouchStart(cel);
+            cel.ontouchstart = (e) => this.onTouchStart(DirectionService.getEvent(e));
         };
-    }
-
-    /**
-     * @param {HTMLElement} cel 
-     */
-    registerTouchStart(cel) {
-        cel.ontouchstart = e => this.onTouchStart({
-            target: cel,
-            touches: [{ clientX: e.touches[e.touches.length - 1].clientX, clientY: e.touches[e.touches.length - 1].clientY }],
-            X: e.touches[0].clientX,
-            Y: e.touches[0].clientY
-        });
     }
 
     /**
@@ -55,8 +53,8 @@ export class PuzzleComponent extends Component {
      */
     onTouchStart(event) {
         const direction = DirectionService.get(event);
-        if (!this.id && direction.property) {
-            this.id = true;
+        if (!this.timeout && direction.property) {
+            this.timeout = true;
             const cel = event.target;
             const position = parseFloat(window.getComputedStyle(cel).getPropertyValue(direction.property), 10);
             const minimum = direction.positive ? position : position - cel.clientHeight;
@@ -67,8 +65,8 @@ export class PuzzleComponent extends Component {
             cel.ontouchend = () => this.onTouchEnd(cel, direction, minimum, maximum, position);
             cel.ontouchmove = e => {
                 this.onTouchMove(cel, direction, minimum, maximum);
-                direction.distance = e.touches[0][`client${direction.axe}`] - event[direction.axe];
-                event[direction.axe] = e.touches[0][`client${direction.axe}`]
+                direction.distance = e.touches[0][`client${direction.axe.toUpperCase()}`] - event[direction.axe];
+                event[direction.axe] = e.touches[0][`client${direction.axe.toUpperCase()}`];
             };
         }
     }
@@ -81,7 +79,7 @@ export class PuzzleComponent extends Component {
      * @param {Number} maximum
      */
     onTouchMove(cel, direction, minimum, maximum) {
-        const target = parseFloat(cel.style[direction.property], 10) + direction.distance;
+        const target = window.parseFloat(cel.style[direction.property], 10) + direction.distance;
         cel.style[direction.property] = `${target > minimum
             ? (target > maximum ? maximum : target)
             : minimum}px`;
@@ -96,18 +94,19 @@ export class PuzzleComponent extends Component {
      * @param {Number} initial
      */
     onTouchEnd(cel, direction, minimum, maximum, initial) {
-        this.id = window.clearTimeout(this.id);
-        this.id = window.setTimeout(() => {
+        this.timeout = window.clearTimeout(this.timeout);
+        this.timeout = window.setTimeout(() => {
             cel.className = cel.className.replace(` fire ${direction.property}-${direction.positive}`, "");
-            this.id = false;
+            PuzzleService.complete() ? ScoreService.stop() : this.timeout = false;
         }, 300);
-        const position = parseFloat(cel.style[direction.property], 10);
+        const position = window.parseFloat(cel.style[direction.property], 10);
         cel.ontouchmove = cel.ontouchend = cel.style.transition = null;
         cel.style[direction.property] = `${(
             minimum === initial && minimum === position ? maximum : (
                 maximum === initial && maximum === position || position - minimum < maximum - position
                     ? minimum : maximum
-            )) / cel.parentNode.clientHeight * 100}%`;
+            )
+        ) / cel.parentNode.clientHeight * 100}%`;
     }
 
 }
