@@ -8,10 +8,10 @@ puzzle .cel.fire {
 
     &::before,
     &::after {
-        z-index: 9;
-        content: "";
         @extend .block,
-        .relative;
+        .relative,
+        .z-9;
+        content: "";
         background-repeat: no-repeat;
     }
 
