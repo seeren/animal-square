@@ -55,7 +55,7 @@ export class NoticeComponent extends Component {
      */
     onInit() {
         this.title = this.notice.title || "Notice";
-        this.background = this.notice.background || null;
+        this.background = null;
     }
 
     /**
@@ -73,19 +73,25 @@ export class NoticeComponent extends Component {
      * @param {String} state
      * @return {Number}
      */
-    animate(state) {
+    animate(state, text) {
+        if (text) {
+            this.title = text;
+            this.animate("hide");
+            this.update();
+        }
         const element = window.document.querySelector(`${this.selector}`);
         element.className = `animate animate-${state}`;
-        return parseFloat(
+        return window.parseFloat(
             window.getComputedStyle(element).getPropertyValue("animation-duration")
         ) * 1000;
     }
 
     /**
+     * @param {String} text
      * @return {Number}
      */
-    show() {
-        return this.animate("show");
+    show(text) {
+        return this.animate("show", text || this.title);
     }
 
     /**
@@ -96,12 +102,19 @@ export class NoticeComponent extends Component {
     }
 
     /**
+     * @param {String} text
      * @return {Number}
      */
-    scroll() {
-        this.animate("hide");
-        this.update();
-        return this.animate("scroll");
+    scroll(text) {
+        return this.animate("scroll", text || this.title);
+    }
+
+    /**
+     * @param {String} text
+     * @return {Number}
+     */
+    pass(text) {
+        return this.animate("pass", text || this.title);
     }
 
 }
