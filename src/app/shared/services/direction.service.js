@@ -11,35 +11,54 @@ export const DirectionService = new class extends Service {
     }
 
     /**
+     * @param {HTMLElement} element 
+     * @return {TouchEvent}
+     */
+    getTouchesEvent(element) {
+        const shape = element.getBoundingClientRect();
+        const x = shape.x + shape.width / 2;
+        const y = shape.y + shape.height / 2;
+        return { target: element, touches: [{ clientX: x, clientY: y }], x: x, y: y };
+    }
+
+    /**
+     * @param {TouchEvent} event 
+     * @return {TouchEvent}
+     */
+    getEvent(event) {
+        const touch = event.touches[event.touches.length - 1];
+        return { target: event.target, x: touch.clientX, y: touch.clientY };
+    }
+
+    /**
+     * @param {Number} x 
+     * @param {Number} y 
+     * @param {String} property 
+     * @param {String} axe 
+     * @param {Boolean} positive 
+     * @returns {Direction}
+     */
+    createDirection(x, y, property, axe, positive) {
+        const direction = new Direction;
+        direction.x = x;
+        direction.y = y;
+        direction.property = property;
+        direction.axe = axe;
+        direction.positive = positive;
+        return direction;
+    }
+
+    /**
      * @param {TouchEvent} event 
      * @returns {Direction[]}
      */
-    getAll(event) {
-        const top = new Direction;
-        const bottom = new Direction;
-        const right = new Direction;
-        const left = new Direction;
-        top.x = event.touches[0].clientX;
-        top.y = event.touches[0].clientY - event.target.clientHeight;
-        top.property = "top";
-        top.axe = "Y";
-        top.positive = false;
-        bottom.x = event.touches[0].clientX;
-        bottom.y = event.touches[0].clientY + event.target.clientHeight;
-        bottom.property = "top";
-        bottom.axe = "Y";
-        bottom.positive = true;
-        right.x = event.touches[0].clientX + event.target.clientWidth;
-        right.y = event.touches[0].clientY;
-        right.property = "left";
-        right.axe = "X";
-        right.positive = true;
-        left.x = event.touches[0].clientX - event.target.clientWidth;
-        left.y = event.touches[0].clientY;
-        left.property = "left";
-        left.axe = "X";
-        left.positive = false;
-        return [top, bottom, right, left];
+    getDirections(event) {
+        return [
+            this.createDirection(event.x, event.y - event.target.clientHeight, "top", "y", false),
+            this.createDirection(event.x, event.y + event.target.clientHeight, "top", "y", true),
+            this.createDirection(event.x + event.target.clientWidth, event.y, "left", "x", true),
+            this.createDirection(event.x - event.target.clientWidth, event.y, "left", "x", false)
+        ];
     }
 
     /**
@@ -47,11 +66,11 @@ export const DirectionService = new class extends Service {
      * @returns {Direction}
      */
     get(event) {
-        for (const direction of this.getAll(event)) {
+        for (const direction of this.getDirections(event)) {
             const elements = document.elementsFromPoint(direction.x, direction.y);
-            const index = elements.indexOf(event.target.parentNode);
-            if (-1 !== index) {
-                const element = elements[index - 1];
+            const parentIndex = elements.indexOf(event.target.parentNode);
+            if (-1 !== parentIndex) {
+                const element = elements[parentIndex - 1];
                 if (!element || element.tagName !== event.target.tagName) {
                     return direction;
                 }
