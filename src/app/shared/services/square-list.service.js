@@ -17,12 +17,8 @@ export const SquareListService = new class extends Service {
             const square = new Square;
             this.squareList.push(square);
             square.animal.name = value;
-            square.level.difficulty = 1;
             square.level.number = ++index;
-            square.score.hit = 0;
-            if (square.level.number < 3) {
-                square.score.hit = 1;
-            }
+            square.score.time = 0;
         });
         SquareService.set(this.squareList[0]);
     }
@@ -34,19 +30,30 @@ export const SquareListService = new class extends Service {
     isPrevious(square) {
         return 1 !== square.level.number;
     }
+
     /**
      * @param {Square} square 
      * @returns {Boolean}
      */
     isNext(square) {
-        return this.squareList.length !== square.level.number && square.score.hit;
+        return this.squareList.length !== square.level.number && square.score.time;
     }
-    
+
     /**
      * @returns {Square[]}
      */
     get() {
         return this.squareList;
+    }
+
+    /**
+     * @param {Number} id 
+     * @returns {Square}
+     */
+    set(id) {
+        const square = this.squareList.find(square => id === square.level.number);
+        SquareService.set(square)
+        return square;
     }
 
 }
