@@ -3,8 +3,7 @@
 
 puzzle {
 
-    @extend 
-    .animate,
+    @extend .animate,
     .animate-show,
     .block,
     .absolute,
@@ -12,7 +11,8 @@ puzzle {
     .left-0,
     .right-0,
     .bottom-3,
-    .w-12;
+    .w-12,
+    .z-8;
     margin: auto;
     height: 100vw;
     max-width: 70vh;
