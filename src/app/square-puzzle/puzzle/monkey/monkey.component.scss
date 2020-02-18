@@ -59,7 +59,7 @@ monkey {
     height: percentage($monkey-size / 100);
     top: percentage($monkey-top / 100);
     left: percentage($monkey-left / 100);
-    animation-duration: 2s;
+    animation-duration: 4s;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
     animation-timing-function: ease-out;
