@@ -3,6 +3,7 @@ import { Component, RouterComponent } from "babel-skeleton";
 import { template } from "./square.component.html";
 import { Square } from "../../shared/models/square.model";
 import { NoticeComponent } from "../../shared/components/notice/notice.component";
+import { ScoreService } from "../../shared/services/score.service";
 
 export class SquareComponent extends Component {
 
@@ -25,11 +26,7 @@ export class SquareComponent extends Component {
      */
     onInit() {
         this.timeout = 0;
-        this.notice.title = "Play";
-        this.notice.background = `animals/${
-            this.square.animal.name}/${
-            this.square.animal.name}-${
-            this.square.score.hit ? `color` : `black`}.png`;
+        this.medail = ScoreService.medail(this.square);
     }
 
     /**
@@ -45,14 +42,25 @@ export class SquareComponent extends Component {
     }
 
     /**
+     * @fires
+     */
+    onUpdate() {
+        this.notice.background = `animals/${
+            this.square.animal.name}/${
+            this.square.animal.name}-${
+            this.square.score.time ? `color` : `black`}.png`;
+        this.notice.show("Play");
+    }
+
+    /**
      * @event
      */
     play() {
         if (!this.timeout) {
-            this.timeout = window.setTimeout(
-                () => RouterComponent.navigate("square-puzzle", { id: this.square.level.number }),
-                this.notice.hide()
-            );
+            this.timeout = window.setTimeout(() => RouterComponent.navigate(
+                "square-puzzle",
+                { id: this.square.level.number }
+            ), this.notice.hide());
         }
     }
 
