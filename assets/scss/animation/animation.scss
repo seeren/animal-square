@@ -4,14 +4,14 @@
     }
 
     100% {
-        top: -100vh;
+        top: -150vh;
     }
 }
 
 
 @keyframes animate-show {
     0% {
-        top: -100vh;
+        top: -150vh;
     }
 
     100% {
@@ -53,7 +53,13 @@
 
     &-scroll {
         animation-timing-function: linear;
-        animation-duration: 5s;
+        animation-duration: 6s;
+        animation-name: animate-scroll;
+    }
+    
+    &-pass {
+        animation-timing-function: linear;
+        animation-duration: 3s;
         animation-name: animate-scroll;
     }
 
