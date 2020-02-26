@@ -56,7 +56,7 @@ export class LoaderComponent extends Component {
                 }
             });
             this.images.push(`${basePath}animal-square.png`);
-            window.setTimeout(() => this.images.forEach(image => this.getImage().src = image), 1000);
+            window.setTimeout(() => this.images.forEach(image => this.getImage().src = image), 3000);
         }
     }
 
@@ -74,8 +74,7 @@ export class LoaderComponent extends Component {
         const image = new Image;
         image.onerror = () => {
             window.clearTimeout(this.timeout);
-            ErrorService.set(new LoaderError(image.src)
-            )
+            ErrorService.set(new LoaderError(image.src));
         };
         image.onload = () => this.onLoad();
         return image;

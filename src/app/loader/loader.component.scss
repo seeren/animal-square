@@ -1,5 +1,26 @@
 loader {
     @extend .block,
+    .cover,
     .vh-min-12,
     .center;
+    background-image: url("./../resources/splash.png");
+
+    .progress {
+        @extend .absolute,
+        .w-6,
+        .left-0,
+        .right-0,
+        .box-shadow,
+        .shadow;
+        bottom: 1em;
+        margin: auto;
+        padding: .5em;
+        border-radius: .5em;
+        line-height: .5em;
+
+        .bar {
+            height: .5em;
+        }
+    }
+
 }
