@@ -49,13 +49,13 @@ export class SquareComponent extends Component {
             this.square.animal.name}/${
             this.square.animal.name}-${
             this.square.score.time ? `color` : `black`}.png`;
-        this.notice.show("Play");
+        this.notice.show("Visit");
     }
 
     /**
      * @event
      */
-    play() {
+    visit() {
         if (!this.timeout) {
             this.timeout = window.setTimeout(() => RouterComponent.navigate(
                 "square-puzzle",
