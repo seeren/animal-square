@@ -8,6 +8,7 @@
     "build": "webpack --mode production",
     "dev": "webpack --mode development --watch",
     "prod": "webpack --mode production --watch",
+    "res": "cordova-res",
     "skeleton": "skeleton",
     "start": "npm run dev",
     "test": "mocha --require @babel/register --recursive test/unit",
