@@ -40,7 +40,7 @@ export class SquarePuzzleComponent extends Component {
      */
     onInit() {
         this.timeout = 0;
-        this.square = SquareListService.set(RouterComponent.get("id"));
+        this.square = SquareListService.set(RouterComponent.get("id") || 1);
         MonkeyService.attach(this.monkeyListener);
         ScoreService.attach(this.scoreListener);
         ResumeService.attach(this.resumeListener);
@@ -98,7 +98,8 @@ export class SquarePuzzleComponent extends Component {
         if (ScoreService.time) {
             this.square.score.time = ScoreService.time;
         }
-        this.notice.background = `items/medails/medail-${ScoreService.medail(this.square)}.png`;
+        const medail = ScoreService.medail(this.square);
+        this.notice.background = `items/medails/medail-${medail}.png`;
         this.timeout = window.setTimeout(() => {
             const link = window.document.querySelector(`${this.selector} notice .text`);
             link.onclick = () => {
@@ -109,7 +110,7 @@ export class SquarePuzzleComponent extends Component {
                     RouterComponent.navigate("square-list");
                 }, this.notice.hide());
             }
-        }, this.notice.show(ScoreService.time ? "Good" : "Timeout"));
+        }, this.notice.show(ScoreService.time ? medail : "Timeout"));
     }
 
     /**

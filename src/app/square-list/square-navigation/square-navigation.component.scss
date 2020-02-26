@@ -1,24 +1,10 @@
 square-navigation {
-
-    @mixin nav-item() {
-        opacity: 1;
-        width: 3em;
-        height: 2em;
-
-        &[disabled] {
-            opacity: .3;
-            @extend .initial;
+    @each $var in ("previous", "next") {
+        .#{$var} {
+            opacity: 1;
+            width: 3em;
+            height: 2em;
+            background-image: url('./../www/dist/assets/images/items/navigations/navigation-#{$var}.png');
         }
     }
-
-    .previous {
-        @include nav-item();
-        background-image: url('./../www/dist/assets/images/items/navigations/navigation-previous.png');
-    }
-
-    .next {
-        @include nav-item();
-        background-image: url('./../www/dist/assets/images/items/navigations/navigation-next.png');
-    }
-
 }
