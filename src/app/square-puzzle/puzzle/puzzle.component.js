@@ -1,9 +1,8 @@
-import { Component, RouterComponent } from "babel-skeleton";
+import { Component } from "babel-skeleton";
 
 import { template } from "./puzzle.component.html";
 import { DirectionService } from "../../shared/services/direction.service";
 import { Direction } from "../../shared/models/direction.model";
-import { SquareListService } from "../../shared/services/square-list.service";
 import { MonkeyComponent } from "./monkey/monkey.component";
 import { ScoreService } from "../../shared/services/score.service";
 import { PuzzleService } from "../../shared/services/puzzle.service";
