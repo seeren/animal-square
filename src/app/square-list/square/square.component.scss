@@ -29,4 +29,19 @@ square {
         }
     }
 
+    notice {
+        background-position: 50% 150%;
+
+        @media all and (min-width: #{map-get($breakpoints, 'sm')}px) {
+            background-position: 50%;
+        }
+
+        .text {
+            line-height: 3em;
+
+            @media all and (min-width: #{map-get($breakpoints, 'sm')}px) {
+                line-height: 1em;
+            }
+        }
+    }
 }
