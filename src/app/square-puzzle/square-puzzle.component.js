@@ -40,6 +40,7 @@ export class SquarePuzzleComponent extends Component {
      */
     onInit() {
         this.timeout = 0;
+        this.monkeyTimeout = 0;
         this.square = SquareListService.set(RouterComponent.get("id") || 1);
         MonkeyService.attach(this.monkeyListener);
         ScoreService.attach(this.scoreListener);
@@ -51,6 +52,7 @@ export class SquarePuzzleComponent extends Component {
      */
     onDestroy() {
         this.timeout = window.clearTimeout(this.timeout);
+        this.monkeyTimeout = window.clearTimeout(this.monkeyTimeout);
         MonkeyService.detach(this.monkeyListener);
         ScoreService.detach(this.scoreListener);
         ResumeService.detach(this.resumeListener);
@@ -60,9 +62,9 @@ export class SquarePuzzleComponent extends Component {
      * @fires
      */
     onUpdate() {
-        this.timeout = window.setTimeout(
-            () => ScoreService.start(MonkeyService.start(15)),
-            this.notice.scroll("Ready") * 3 / 4
+        this.monkeyTimeout = window.setTimeout(
+            () => MonkeyService.start(15),
+            this.notice.scroll("Ready") / 2
         );
     }
 
@@ -78,14 +80,16 @@ export class SquarePuzzleComponent extends Component {
      * @event
      */
     play() {
-        if (MonkeyService.isPlayable()) {
+        if (!ResumeService.resume && "stop" !== ScoreService.state) {
+            this.monkeyTimeout = window.clearTimeout(this.monkeyTimeout);
             ScoreService.play();
             MonkeyService.play();
-            this.timeout = window.setTimeout(() => {
-                MonkeyService.isPlayable()
+            this.monkeyTimeout = window.setTimeout(() =>
+                !ResumeService.resume && "stop" !== ScoreService.state
                     ? MonkeyService.start(MonkeyService.random())
-                    : null
-            }, (10 + Math.floor(Math.random() * Math.floor(30))) * 1000);
+                    : null,
+                (10 + Math.floor(Math.random() * Math.floor(30))) * 1000
+            );
         }
     }
 
@@ -121,12 +125,10 @@ export class SquarePuzzleComponent extends Component {
             this.pause();
             const cel = MonkeyService.cel();
             if (cel && this.touch(cel, DirectionService.getTouchesEvent(cel))) {
-                this.notice.pass("Ready" === this.notice.title ? "Go" : "Tap");
+                this.notice.pass("Ready" === this.notice.title ? "Go" : "Hum");
                 return this.touches(this.notice.title === "Go"
-                    // ? 10 + this.square.level.number
-                    ? 1
-                    : 1,
-                    // : this.square.level.number,
+                    ? 10 + this.square.level.number
+                    : this.square.level.number,
                     PuzzleService.duration(cel) * 1000,
                 );
             }
@@ -140,6 +142,7 @@ export class SquarePuzzleComponent extends Component {
      * @returns {Boolean} 
      */
     touch(cel, event) {
+        MonkeyService.number = PuzzleService.number(cel);
         cel.ontouchstart(event);
         return cel.ontouchend ? !cel.ontouchend() : false;
     }
@@ -155,8 +158,8 @@ export class SquarePuzzleComponent extends Component {
             const events = [];
             for (const cel of window.document.querySelectorAll(`${this.selector} .cel`)) {
                 const event = DirectionService.getTouchesEvent(cel);
-                const number = window.parseInt(cel.className.substring(8, 10), 10);
-                if (MonkeyService.number !== number && DirectionService.get(event).property) {
+                if (MonkeyService.number !== PuzzleService.number(cel)
+                    && DirectionService.get(event).property) {
                     cels.push(cel);
                     events.push(event);
                 }
