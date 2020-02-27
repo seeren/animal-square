@@ -3,6 +3,7 @@ import { Component, RouterComponent } from "babel-skeleton";
 import { template } from "./resume.component.html";
 import { ResumeService } from "../../shared/services/resume.service";
 import { SquareService } from "../../shared/services/square.service";
+import { ScoreService } from "../../shared/services/score.service";
 
 export class ResumeComponent extends Component {
 
@@ -37,7 +38,9 @@ export class ResumeComponent extends Component {
      * @event
      */
     toogle() {
-        return this.resume = ResumeService.toogle();
+        if (ScoreService.state) {
+            return this.resume = ResumeService.toogle();
+        }
     }
 
     /**
