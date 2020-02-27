@@ -62,6 +62,7 @@ export class SquarePuzzleComponent extends Component {
      * @fires
      */
     onUpdate() {
+        this.pause();
         this.monkeyTimeout = window.setTimeout(
             () => MonkeyService.start(15),
             this.notice.scroll("Ready") / 2
@@ -84,8 +85,8 @@ export class SquarePuzzleComponent extends Component {
             this.monkeyTimeout = window.clearTimeout(this.monkeyTimeout);
             ScoreService.play();
             MonkeyService.play();
-            this.monkeyTimeout = window.setTimeout(() =>
-                !ResumeService.resume && "stop" !== ScoreService.state
+            this.monkeyTimeout = window.setTimeout(
+                () => !ResumeService.resume && "stop" !== ScoreService.state
                     ? MonkeyService.start(MonkeyService.random())
                     : null,
                 (10 + Math.floor(Math.random() * Math.floor(30))) * 1000
@@ -97,7 +98,6 @@ export class SquarePuzzleComponent extends Component {
      * @event
      */
     stop() {
-        this.pause();
         this.timeout = window.clearTimeout(this.timeout);
         if (ScoreService.time) {
             this.square.score.time = ScoreService.time;
