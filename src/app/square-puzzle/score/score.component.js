@@ -1,4 +1,4 @@
-import { Component, RouterComponent } from "babel-skeleton";
+import { Component } from "babel-skeleton";
 
 import { template } from "./score.component.html";
 import { ScoreService } from "../../shared/services/score.service";
