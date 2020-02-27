@@ -1,6 +1,4 @@
 import { Service } from 'babel-skeleton';
-import { ScoreService } from './score.service';
-import { ResumeService } from './resume.service';
 
 export const MonkeyService = new class extends Service {
 
@@ -11,13 +9,6 @@ export const MonkeyService = new class extends Service {
         super();
         this.state = null;
         this.number = null;
-    }
-
-    /**
-     * @returns {Boolean}
-     */
-    isPlayable() {
-        return !ResumeService.resume && "stop" !== ScoreService.state;
     }
 
     /**
