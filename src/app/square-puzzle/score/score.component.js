@@ -21,6 +21,7 @@ export class ScoreComponent extends Component {
      */
     onInit() {
         this.timeout = 0;
+        ScoreService.time = 320;
         ScoreService.attach(this.listener);
     }
 
@@ -42,6 +43,13 @@ export class ScoreComponent extends Component {
             score.innerHTML = ScoreService.time;
             ScoreService.time ? this.play() : ScoreService.stop();
         }, 1000);
+    }
+
+    /**
+     * @event
+     */
+    stop() {
+        this.pause();
     }
 
     /**

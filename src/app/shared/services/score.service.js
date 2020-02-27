@@ -8,7 +8,7 @@ export const ScoreService = new class extends Service {
     constructor() {
         super();
         this.state = null;
-        this.time = 320;
+        this.time = 0;
     }
 
     /**
@@ -38,7 +38,7 @@ export const ScoreService = new class extends Service {
      */
     medail(square) {
         return !square.score.time ? "black" : (
-            square.score.time > 275 ? "gold" : (
+            square.score.time > 250 ? "gold" : (
                 square.score.time > 150 ? "silver" : "bronze"
             )
         );
