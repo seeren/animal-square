@@ -18,6 +18,14 @@ export const PuzzleService = new class extends Service {
     }
 
     /**
+     * @param {HTMLElement}
+     * @returns {Number}
+     */
+    number(cel) {
+        return window.parseInt(cel.className.substring(8, 10), 10);
+    }
+
+    /**
      * @returns {Boolean}
      */
     complete() {
