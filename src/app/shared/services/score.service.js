@@ -8,7 +8,7 @@ export const ScoreService = new class extends Service {
     constructor() {
         super();
         this.state = null;
-        this.time = 0;
+        this.time = 320;
     }
 
     /**
@@ -16,14 +16,6 @@ export const ScoreService = new class extends Service {
      */
     stop() {
         this.notify(this.state = "stop");
-    }
-
-    /**
-     * @emits
-     */
-    start() {
-        this.time = 320;
-        this.notify(this.state = "start");
     }
 
     /**
