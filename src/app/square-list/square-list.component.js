@@ -76,14 +76,14 @@ export class SquareListComponent extends Component {
     onTouchStart(slider, clientX) {
         const squares = SquareListService.get();
         const width = slider.clientWidth / squares.length;
-        const maximum = width * (squares.indexOf(squares.find(square => !square.score.time)));
+        const actualSquare = squares.find(square => !square.score.time)
         slider.style.transition = "unset";
         slider.style.marginLeft = window.getComputedStyle(slider).getPropertyValue("margin-left");
         window.ontouchmove = e => this.onTouchMove(
             slider,
             Number.parseInt(slider.style.marginLeft, 10) + (e.touches[0].clientX - clientX),
             width,
-            maximum,
+            width * (actualSquare ? squares.indexOf(actualSquare) : squares.length - 1),
             clientX = e.touches[0].clientX
         );
     }
