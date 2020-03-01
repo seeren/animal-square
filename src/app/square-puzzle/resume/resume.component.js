@@ -38,7 +38,7 @@ export class ResumeComponent extends Component {
      * @event
      */
     toogle() {
-        if (ScoreService.state) {
+        if ("play" === ScoreService.state || this.resume) {
             return this.resume = ResumeService.toogle();
         }
     }
