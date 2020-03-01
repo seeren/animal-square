@@ -7,6 +7,7 @@ import { MonkeyComponent } from "./monkey/monkey.component";
 import { ScoreService } from "../../shared/services/score.service";
 import { PuzzleService } from "../../shared/services/puzzle.service";
 import { SquareService } from "../../shared/services/square.service";
+import { SquareSoundService } from "../../shared/services/sound/square-sound.service";
 
 export class PuzzleComponent extends Component {
 
@@ -106,6 +107,7 @@ export class PuzzleComponent extends Component {
                     ? minimum : maximum
             )
         ) / cel.parentNode.clientHeight * 100}%`;
+        SquareSoundService.play();
     }
 
 }
