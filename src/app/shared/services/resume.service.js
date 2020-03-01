@@ -22,7 +22,7 @@ export const ResumeService = new class extends Service {
      */
     toogle() {
         this.notify(this.resume = !this.resume);
-        return this.resume;
+        return this.get();
     }
 
 }
