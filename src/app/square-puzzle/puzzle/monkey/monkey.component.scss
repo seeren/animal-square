@@ -54,7 +54,7 @@ monkey {
     .absolute;
     background-position: left;
     background-size: 200% 100%;
-    background-image: url('./../www/dist/assets/images/items/monkeys/monkey-right.png');
+    background-image: url(/dist/assets/images/items/monkeys/monkey-right.png);
     width: percentage($monkey-size / 100);
     height: percentage($monkey-size / 100);
     top: percentage($monkey-top / 100);

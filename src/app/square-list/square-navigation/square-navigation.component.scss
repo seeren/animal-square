@@ -4,7 +4,7 @@ square-navigation {
             opacity: 1;
             width: 3em;
             height: 2em;
-            background-image: url('./../www/dist/assets/images/items/navigations/navigation-#{$var}.png');
+            background-image: url(/dist/assets/images/items/navigations/navigation-#{$var}.png);
         }
     }
 }

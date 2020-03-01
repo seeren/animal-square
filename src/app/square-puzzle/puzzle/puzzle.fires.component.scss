@@ -17,13 +17,16 @@ puzzle .cel.fire {
 
     @each $key,
     $value in $fire-positions {
+        $before: map-get($value, 0);
+        $after: map-get($value, 1);
+
         &.#{$key} {
             &::before {
-                background-image: url("./../www/dist/assets/images/items/fires/fire-#{map-get($value, 0)}.png");
+                background-image: url(/dist/assets/images/items/fires/fire-#{$before}.png);
             }
 
             &::after {
-                background-image: url("./../www/dist/assets/images/items/fires/fire-#{map-get($value, 1)}.png");
+                background-image: url(/dist/assets/images/items/fires/fire-#{$after}.png);
             }
         }
     }
