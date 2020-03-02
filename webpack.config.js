@@ -30,10 +30,7 @@ module.exports = {
                 test: /\.(jpg|png|woff|eot|ttf|svg)$/,
                 loader: 'file-loader',
                 options: {
-                    name: '[path][name].[ext]',
-                    outputPath: (url) => {
-                        return url.replace("www/dist/", "")
-                    }
+                    name: '[path][name].[ext]'
                 },
             }
         ]
