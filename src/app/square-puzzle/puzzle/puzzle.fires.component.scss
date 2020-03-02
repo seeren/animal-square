@@ -22,11 +22,11 @@ puzzle .cel.fire {
 
         &.#{$key} {
             &::before {
-                background-image: url(/dist/assets/images/items/fires/fire-#{$before}.png);
+                background-image: url(./../www/dist/assets/images/items/fires/fire-#{$before}.png);
             }
 
             &::after {
-                background-image: url(/dist/assets/images/items/fires/fire-#{$after}.png);
+                background-image: url(./../www/dist/assets/images/items/fires/fire-#{$after}.png);
             }
         }
     }
