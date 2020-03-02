@@ -15,9 +15,7 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                use: [
-                    'babel-loader'
-                ]
+                loader: 'babel-loader'
             },
             {
                 test: /\.scss$/,
@@ -33,6 +31,9 @@ module.exports = {
                 loader: 'file-loader',
                 options: {
                     name: '[path][name].[ext]',
+                    outputPath: (url) => {
+                        return url.replace("www/dist/", "")
+                    }
                 },
             }
         ]
@@ -46,6 +47,8 @@ module.exports = {
     plugins: [
         new MiniCssExtractPlugin({
             filename: 'index.css',
+
+            publicPath: "../../"
         }),
         new BrowserSyncPlugin({
             host: 'localhost',
