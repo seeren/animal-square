@@ -1,13 +1,13 @@
 import { Component } from "babel-skeleton";
 
 import { template } from "./puzzle.component.html";
-import { DirectionService } from "../../shared/services/direction.service";
+import { DirectionService } from "../shared/direction.service";
 import { Direction } from "../../shared/models/direction.model";
 import { MonkeyComponent } from "./monkey/monkey.component";
 import { ScoreService } from "../../shared/services/score.service";
-import { PuzzleService } from "../../shared/services/puzzle.service";
+import { PuzzleService } from "../shared/puzzle.service";
 import { SquareService } from "../../shared/services/square.service";
-import { SquareSoundService } from "../../shared/services/sound/square-sound.service";
+import { SquareSoundService } from "../../shared/services/sounds/square-sound.service";
 
 export class PuzzleComponent extends Component {
 
@@ -99,6 +99,7 @@ export class PuzzleComponent extends Component {
             cel.className = cel.className.replace(` fire ${direction.property}-${direction.positive}`, "");
             PuzzleService.complete() ? ScoreService.stop() : this.timeout = false;
         }, 300);
+        SquareSoundService.play();
         const position = window.parseFloat(cel.style[direction.property], 10);
         cel.ontouchmove = cel.ontouchend = cel.style.transition = null;
         cel.style[direction.property] = `${(
@@ -107,7 +108,6 @@ export class PuzzleComponent extends Component {
                     ? minimum : maximum
             )
         ) / cel.parentNode.clientHeight * 100}%`;
-        SquareSoundService.play();
     }
 
 }

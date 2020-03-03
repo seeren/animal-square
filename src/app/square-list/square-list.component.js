@@ -6,6 +6,9 @@ import { SquareListService } from "../shared/services/square-list.service";
 import { SquareService } from "../shared/services/square.service";
 import { SquareNavigationComponent } from "./square-navigation/square-navigation.component";
 import { Square } from "../shared/models/square.model";
+import { JungleSoundService } from "../shared/services/sounds/jungle-sound.service";
+import { PageSoundService } from "../shared/services/sounds/page-sound.service";
+import { WhipSoundService } from "../shared/services/sounds/whip-sound.service";
 
 export class SquareListComponent extends Component {
 
@@ -22,25 +25,28 @@ export class SquareListComponent extends Component {
                 .map(square => new SquareComponent(square))
                 .concat([new SquareNavigationComponent])
         });
-        this.listner = service => this.onSquare(service.get());
+        this.listener = service => this.onSquare(service.get());
     }
 
     /**
      * @fires
      */
     onInit() {
-        SquareService.attach(this.listner);
+        WhipSoundService.play();
+        JungleSoundService.visit();
         this.timeout = this.timeout || 0;
         this.square = SquareService.get();
+        SquareService.attach(this.listener);
     }
 
     /**
      * @fires
      */
     onDestroy() {
-        SquareService.detach(this.listner);
+        JungleSoundService.pause();
         this.timeout = window.clearTimeout(this.timeout);
         window.ontouchstart = window.ontouchmove = window.ontouchend = null;
+        SquareService.detach(this.listener);
     }
 
     /**
@@ -116,12 +122,14 @@ export class SquareListComponent extends Component {
         const target = absoluteMarginLeft / width;
         const key = squares.indexOf(this.square);
         const difference = target - key;
+        const targetKey = key < target && 0.1 < difference ? key + 1 : (
+            key > target && -0.1 > difference ? key - 1 : key
+        );
         slider.style.transition = null;
-        SquareService.set(squares[
-            key < target && 0.1 < difference ? key + 1 : (
-                key > target && -0.1 > difference ? key - 1 : key
-            )
-        ]);
+        if (key !== targetKey) {
+            PageSoundService.play();
+        }
+        SquareService.set(squares[targetKey]);
     }
 
 }

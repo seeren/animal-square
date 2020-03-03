@@ -1,6 +1,8 @@
 import { Component } from "babel-skeleton";
+
 import { template } from "./monkey.component.html";
-import { MonkeyService } from "../../../shared/services/monkey.service";
+import { MonkeyService } from "../../shared/monkey.service";
+import { MonkeySoundService } from "../../../shared/services/sounds/monkey-sound.service";
 
 export class MonkeyComponent extends Component {
 
@@ -37,7 +39,7 @@ export class MonkeyComponent extends Component {
         this.timeout = window.clearTimeout(this.timeout);
         MonkeyService.detach(this.listener);
     }
-    
+
     /**
      * @event
      */
@@ -49,9 +51,13 @@ export class MonkeyComponent extends Component {
      * @event
      */
     start() {
+        MonkeySoundService.start();
         this.play();
         this.monkey.className = `monkey-${MonkeyService.number}`;
-        this.timeout = window.setTimeout(() => MonkeyService.hit(), this.duration / 2);
+        this.timeout = window.setTimeout(() => {
+            MonkeySoundService.hit();
+            MonkeyService.hit();
+        }, this.duration / 2);
     }
 
     /**

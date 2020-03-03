@@ -4,6 +4,7 @@ import { template } from "./square.component.html";
 import { Square } from "../../shared/models/square.model";
 import { NoticeComponent } from "../../shared/components/notice/notice.component";
 import { ScoreService } from "../../shared/services/score.service";
+import { WhipSoundService } from "../../shared/services/sounds/whip-sound.service";
 
 export class SquareComponent extends Component {
 
@@ -26,7 +27,7 @@ export class SquareComponent extends Component {
      */
     onInit() {
         this.timeout = 0;
-        this.medail = ScoreService.medail(this.square);
+        this.medail = ScoreService.medail(this.square.score.time);
     }
 
     /**
@@ -57,6 +58,7 @@ export class SquareComponent extends Component {
      */
     visit() {
         if (!this.timeout) {
+            WhipSoundService.play();
             this.timeout = window.setTimeout(() => RouterComponent.navigate(
                 "square-puzzle",
                 { id: this.square.level.number }
