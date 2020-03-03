@@ -1,14 +1,8 @@
 import { Service } from 'babel-skeleton';
-import { Direction } from '../models/direction.model';
+
+import { Direction } from '../../shared/models/direction.model';
 
 export const DirectionService = new class extends Service {
-
-    /**
-     * @constructor
-     */
-    constructor() {
-        super();
-    }
 
     /**
      * @param {HTMLElement} element 

@@ -2,10 +2,6 @@ import { Service } from 'babel-skeleton';
 
 export const PuzzleService = new class extends Service {
 
-    constructor() {
-        super();
-    }
-
     /**
      * @param {HTMLElement}
      * @returns {Number}
