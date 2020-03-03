@@ -5,7 +5,7 @@ import { LoaderComponent } from "./app/loader/loader.component";
 import { SquareListComponent } from "./app/square-list/square-list.component";
 import { SquarePuzzleComponent } from "./app/square-puzzle/square-puzzle.component";
 import { ErrorComponent } from "./app/error/error.component";
-import { ErrorService } from "./app/error/shared/services/error.service";
+import { ErrorService } from "./app/error/shared/error.service";
 
 (run => window.cordova
     ? window.document.addEventListener("deviceready", run, false)
