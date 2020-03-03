@@ -1,6 +1,7 @@
 import { Service } from 'babel-skeleton';
 
 import { default as game } from './../../../../config/game.json';
+
 import { SquareList } from '../models/square-list.model';
 import { Square } from '../models/square.model';
 import { SquareService } from './square.service.js';
@@ -18,7 +19,7 @@ export const SquareListService = new class extends Service {
             this.squareList.push(square);
             square.animal.name = value;
             square.level.number = ++index;
-            square.score.time = 0;
+            square.score.time = 0
         });
         SquareService.set(this.squareList[0]);
     }

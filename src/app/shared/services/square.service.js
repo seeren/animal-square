@@ -1,4 +1,5 @@
 import { Service } from 'babel-skeleton';
+
 import { Square } from '../models/square.model';
 
 export const SquareService = new class extends Service {

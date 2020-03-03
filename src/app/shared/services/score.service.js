@@ -34,12 +34,12 @@ export const ScoreService = new class extends Service {
 
     /**
      * @param {Square} square
-     * @returns {String}
+     * @returns {Number}
      */
-    medail(square) {
-        return !square.score.time ? "black" : (
-            square.score.time > 250 ? "gold" : (
-                square.score.time > 150 ? "silver" : "bronze"
+    medail(time) {
+        return !time ? "black" : (
+            time > 250 ? "gold" : (
+                time > 150 ? "silver" : "bronze"
             )
         );
     }
