@@ -12,5 +12,4 @@ export class Direction {
         this.positive = null;
     }
 
-
 }
