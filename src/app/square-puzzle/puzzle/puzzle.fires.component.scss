@@ -1,4 +1,5 @@
-$fire-positions: (top-true: (0: 'down-left', 1: 'down-right'),
+$fire-positions: (
+    top-true: (0: 'down-left', 1: 'down-right'),
     top-false: (0:'up-left', 1:'up-right'),
     left-true: (0:'right-up', 1:'right-down'),
     left-false: (0:'left-up', 1:'left-down'),

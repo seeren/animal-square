@@ -3,8 +3,6 @@
 @import './$sides.scss';
 @import './../gride/$breakpoints.scss';
 
-$nCol: 12;
-
 @mixin overflow() {
     @each $overflow in $overflows {
         @each $type in ('', -x, -y) {
@@ -25,9 +23,9 @@ $nCol: 12;
 
 @mixin sides($breakpoint) {
     @each $side in $sides {
-        @for $n from 0 through $nCol {
+        @for $n from 0 through 12 {
             .#{$side}#{$breakpoint}-#{$n} {
-                #{$side}: percentage(floor(100 / $nCol * $n * 100) / 100 / 100);
+                #{$side}: percentage(floor(100 / 12 * $n * 100) / 100 / 100);
             }
         }
     }
