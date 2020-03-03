@@ -118,12 +118,15 @@ export class SquarePuzzleComponent extends Component {
         WhipSoundService.play();
         if (ScoreService.time > this.square.score.time) {
             this.square.score.time = ScoreService.time;
+            SquareListService.save();
         }
         ScoreService.time ? BirdSoundService.success() : BirdSoundService.fail();
         const medail = ScoreService.medail(ScoreService.time);
         this.notice.background = `items/medails/medail-${medail}.png`;
         this.timeout = window.setTimeout(() => {
-            ScoreService.time ? MagicSoundService.play() : null;
+            if (ScoreService.time) {
+                MagicSoundService.play();
+            }
             const link = window.document.querySelector(`${this.selector} notice .text`);
             link.onclick = () => {
                 link.onclick = null;
@@ -148,9 +151,10 @@ export class SquarePuzzleComponent extends Component {
             if (cel && this.touch(cel, DirectionService.getTouchesEvent(cel))) {
                 WhipSoundService.play();
                 this.notice.pass("Ready" === this.notice.title ? "Go" : "Hum");
-                return this.touches(this.notice.title === "Go"
-                    ? 10 + this.square.level.number
-                    : this.square.level.number,
+                return this.touches(
+                    this.notice.title === "Go"
+                        ? 10 + this.square.level.number
+                        : this.square.level.number,
                     PuzzleService.duration(cel) * 1000,
                 );
             }
