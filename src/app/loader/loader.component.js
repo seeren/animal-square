@@ -1,9 +1,10 @@
 import { Component, RouterComponent } from "babel-skeleton";
 
 import { template } from "./loader.component.html";
-import { LoaderError } from "./shared/errors/loader.error";
+import { LoaderError } from "./shared/loader.error";
 import { SquareListService } from "../shared/services/square-list.service";
-import { ErrorService } from "../error/shared/services/error.service";
+import { ErrorService } from "../error/shared/error.service";
+import { BirdSoundService } from "../shared/services/sounds/bird-sound.service";
 
 export class LoaderComponent extends Component {
 
@@ -15,9 +16,9 @@ export class LoaderComponent extends Component {
             selector: "loader",
             template: template
         });
-        this.timeout = 0;
         this.done = 0;
-        this.images = []
+        this.images = this.getImages();
+        this.audios = this.getAudios();
     }
 
     /**
@@ -25,46 +26,67 @@ export class LoaderComponent extends Component {
      */
     onInit() {
         if (!this.done) {
-            const basePath = `dist/assets/images/`;
-            [
-                "fires/fire-down-left",
-                "fires/fire-down-right",
-                "fires/fire-left-down",
-                "fires/fire-left-up",
-                "fires/fire-right-down",
-                "fires/fire-right-up",
-                "fires/fire-up-left",
-                "fires/fire-up-right",
-                "medails/medail-black",
-                "medails/medail-bronze",
-                "medails/medail-gold",
-                "medails/medail-silver",
-                "monkeys/monkey-right",
-                "navigations/navigation-next",
-                "navigations/navigation-previous"
-            ].forEach(item => this.images.push(`${basePath}items/${item}.png`));
-            SquareListService.get().forEach(square => {
-                const basePathAnimal = `${basePath}animals/${square.animal.name}/${square.animal.name}`;
-                this.images.push(
-                    `${basePathAnimal}-background.jpg`,
-                    `${basePathAnimal}-black.png`,
-                    `${basePathAnimal}-color.png`,
-                    `${basePathAnimal}-square.jpg`
-                );
-                for (let index = 1; index < 16; index++) {
-                    this.images.push(`${basePathAnimal}-square-${index}.jpg`);
-                }
-            });
-            this.images.push(`${basePath}animal-square.png`);
-            window.setTimeout(() => this.images.forEach(image => this.getImage().src = image), 3000);
+            window.setTimeout(() => {
+                this.images.forEach(image => this.getImage().src = `dist/assets/images/${image}`);
+                this.audios.forEach(audio => this.getAudio().src = `dist/assets/mp4/${audio}`);
+            }, 1000);
         }
     }
 
     /**
-     * @event
+     * @returns {String[]}
      */
-    visit() {
-        RouterComponent.navigate("square-list");
+    getImages() {
+        const images = [
+            "items/fires/fire-down-left.png",
+            "items/fires/fire-down-right.png",
+            "items/fires/fire-left-down.png",
+            "items/fires/fire-left-up.png",
+            "items/fires/fire-right-down.png",
+            "items/fires/fire-right-up.png",
+            "items/fires/fire-up-left.png",
+            "items/fires/fire-up-right.png",
+            "items/medails/medail-black.png",
+            "items/medails/medail-bronze.png",
+            "items/medails/medail-gold.png",
+            "items/medails/medail-silver.png",
+            "items/monkeys/monkey-right.png",
+            "items/navigations/navigation-next.png",
+            "items/navigations/navigation-previous.png",
+            "items/navigations/navigation-previous.png",
+        ];
+        SquareListService.get().forEach(square => {
+            const basePath = `animals/${square.animal.name}/${square.animal.name}`;
+            images.push(
+                `${basePath}-background.jpg`,
+                `${basePath}-black.png`,
+                `${basePath}-color.png`,
+                `${basePath}-square.jpg`
+            );
+            for (let index = 1; index < 16; index++) {
+                images.push(`${basePath}-square-${index}.jpg`);
+            }
+        });
+        return images;
+    }
+
+    /**
+     * @returns {String[]}
+     */
+    getAudios() {
+        return [
+            "bird-fail.mp4",
+            "bird-signal.mp4",
+            "bird-success.mp4",
+            "magic.mp4",
+            "monkey-hit.mp4",
+            "monkey-start.mp4",
+            "page.mp4",
+            "puzzle.mp4",
+            "square.mp4",
+            "visit.mp4",
+            "whip.mp4",
+        ];
     }
 
     /**
@@ -72,12 +94,19 @@ export class LoaderComponent extends Component {
      */
     getImage() {
         const image = new Image;
-        image.onerror = () => {
-            window.clearTimeout(this.timeout);
-            ErrorService.set(new LoaderError(image.src));
-        };
+        image.onerror = () => this.onError(image.src);
         image.onload = () => this.onLoad();
         return image;
+    }
+
+    /**
+     * @returns {Audio}
+     */
+    getAudio() {
+        const audio = new Audio;
+        audio.onerror = () => this.onError(audio.src);
+        audio.oncanplaythrough = () => this.onLoad();
+        return audio;
     }
 
     /**
@@ -85,16 +114,25 @@ export class LoaderComponent extends Component {
      */
     onLoad() {
         if (!ErrorService.get()) {
-            this.done = (this.done + (100 / this.images.length * 100 / 100)) * 100 / 100;
+            this.done = (this.done + (100 / (this.images.length + this.audios.length) * 100 / 100)) * 100 / 100;
             this.update();
         }
     }
 
     /**
      * @event
+     * @param {String} src 
      */
-    onError() {
-        ErrorService.set(new LoaderError(image.src));
+    onError(src) {
+        ErrorService.set(new LoaderError(src));
+    }
+
+    /**
+     * @event
+     */
+    visit() {
+        BirdSoundService.signal();
+        RouterComponent.navigate("square-list");
     }
 
 }
