@@ -1,4 +1,4 @@
-import { Component } from "babel-skeleton";
+import { Component, RouterComponent } from "babel-skeleton";
 
 import { template } from "./square-navigation.component.html";
 import { SquareService } from "../../shared/services/square.service";
@@ -27,6 +27,7 @@ export class SquareNavigationComponent extends Component {
         this.square = SquareService.get();
         this.next = SquareListService.isNext(this.square);
         this.previous = SquareListService.isPrevious(this.square);
+        this.length = SquareListService.get().length;
         SquareService.attach(this.listner);
     }
 
@@ -73,6 +74,13 @@ export class SquareNavigationComponent extends Component {
         SquareService.set(SquareListService.get().find(square =>
             square.level.number === this.square.level.number + offset
         ));
+    }
+
+    /**
+     * @event
+     */
+    ranking() {
+        RouterComponent.navigate("ranking");
     }
 
 }
