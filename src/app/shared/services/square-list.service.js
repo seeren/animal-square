@@ -13,15 +13,41 @@ export const SquareListService = new class extends Service {
      */
     constructor() {
         super();
-        this.squareList = new SquareList;
+        this.squareList = this.select();
+        if (!this.squareList) {
+            this.squareList = this.init();
+            this.save();
+        }
+        SquareService.set(this.squareList[0]);
+    }
+
+    /**
+     * @returns {Square[]}
+     */
+    init() {
+        const squareList = new SquareList;
         game.animals.forEach((value, index) => {
             const square = new Square;
-            this.squareList.push(square);
+            squareList.push(square);
             square.animal.name = value;
             square.level.number = ++index;
             square.score.time = 0
         });
-        SquareService.set(this.squareList[0]);
+        return squareList;
+    }
+
+    /**
+     * @returns {Square[]|void}
+     */
+    select() {
+        return JSON.parse(window.localStorage.getItem("animal-square"))
+    }
+
+    /**
+     * @returns {void}
+     */
+    save() {
+        window.localStorage.setItem("animal-square", JSON.stringify(this.squareList));
     }
 
     /**
