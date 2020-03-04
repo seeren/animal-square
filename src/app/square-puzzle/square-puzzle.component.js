@@ -119,8 +119,10 @@ export class SquarePuzzleComponent extends Component {
         if (ScoreService.time > this.square.score.time) {
             this.square.score.time = ScoreService.time;
             SquareListService.save();
+            BirdSoundService.success();
+        } else {
+            BirdSoundService.fail();
         }
-        ScoreService.time ? BirdSoundService.success() : BirdSoundService.fail();
         const medail = ScoreService.medail(ScoreService.time);
         this.notice.background = `items/medails/medail-${medail}.png`;
         this.timeout = window.setTimeout(() => {
