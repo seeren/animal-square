@@ -38,8 +38,8 @@ export const ScoreService = new class extends Service {
      */
     medail(time) {
         return !time ? "black" : (
-            time > 250 ? "gold" : (
-                time > 150 ? "silver" : "bronze"
+            time > 175 ? "gold" : (
+                time > 50 ? "silver" : "bronze"
             )
         );
     }
