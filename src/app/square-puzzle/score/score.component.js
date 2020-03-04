@@ -21,7 +21,7 @@ export class ScoreComponent extends Component {
      */
     onInit() {
         this.timeout = 0;
-        ScoreService.time = 320;
+        ScoreService.time = 200;
         ScoreService.attach(this.listener);
     }
 
