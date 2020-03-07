@@ -1,5 +1,6 @@
 /.nyc_output/
 /.vscode/
+/assets/psd
 /coverage/
 /node_modules/
 /platforms/
