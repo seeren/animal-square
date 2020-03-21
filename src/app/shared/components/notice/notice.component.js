@@ -3,19 +3,7 @@ import { Component } from "babel-skeleton";
 import { template } from "./notice.component.html";
 import { Notice } from "../../models/notice.model";
 
-/**
- * @type {Number}
- */
-let instance = 0;
-
 export class NoticeComponent extends Component {
-
-    /**
-     * @returns {Number}
-     */
-    getInstance() {
-        return instance;
-    }
 
     /**
      * @constructor
@@ -26,7 +14,6 @@ export class NoticeComponent extends Component {
             template: template
         });
         this.notice = new Notice;
-        instance++;
     }
 
     /**
