@@ -11,13 +11,13 @@ resume {
 
     .obfuscator {
         .pannel {
-            z-index: 9;
+            @extend .z-9;
             height: 1em;
             margin: auto;
         }
 
         .pannel+div {
-            z-index: 8;
+            @extend .z-8;
             height: 100%;
             opacity: .7;
         }

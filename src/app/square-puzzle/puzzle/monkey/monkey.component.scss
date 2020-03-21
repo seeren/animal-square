@@ -49,9 +49,9 @@ $monkey-left: -100;
 }
 
 monkey {
-    z-index: 9;
     @extend .none,
-    .absolute;
+    .absolute,
+    .z-9;
     background-position: left;
     background-size: 200% 100%;
     background-image: url(./../assets/images/items/monkeys/monkey-right.png);
