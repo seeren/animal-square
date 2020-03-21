@@ -16,7 +16,9 @@ export class SquareComponent extends Component {
         super({
             selector: "square",
             template: template,
-            components: [new NoticeComponent]
+            components: [
+                new NoticeComponent
+            ]
         });
         this.square = square;
         this.notice = this.components[0];
@@ -28,18 +30,6 @@ export class SquareComponent extends Component {
     onInit() {
         this.timeout = 0;
         this.medail = ScoreService.medail(this.square.score.time);
-    }
-
-    /**
-     * @fires
-     * @param {Component} component 
-     * @param {Boolean} replace 
-     */
-    attach(component, replace) {
-        super.attach(component, replace);
-        const instance = component.getInstance() - 1;
-        this.template = this.template.replace(`square="0"`, `square="${instance}"`);
-        component.selector = `notice[data-square="${instance}"]`;
     }
 
     /**
