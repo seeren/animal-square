@@ -1,6 +1,5 @@
 <section class="bg-scene cover w-12 h-12 relative center"
     style="background-image: url(dist/assets/images/animals/${square.animal.name}/${square.animal.name}-background.jpg)">
-
     <aside
         class="block absolute left-0 bottom-0 h-3 w-12 static-sm inline-block-sm fix-sm v-middle-sm h-sm-12 w-min-sm-2 w-sm-auto">
         <div class="inline-block fix v-middle h-12 w-0"></div>
@@ -12,10 +11,10 @@
                 <span class="red">${square.level.number}</span>
             </h1>
             <br class="none block-sm">
-            <score></score>
+            <score class="inline-block fix v-middle w-4 center w-sm-12"></score>
         </div>
     </aside>
-    <puzzle></puzzle>
+    <puzzle class="animate animate-show block absolute top-0 left-0 right-0 bottom-3 w-12 z-8"></puzzle>
     <resume></resume>
     <notice></notice>
 </section>
