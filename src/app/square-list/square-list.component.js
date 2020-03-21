@@ -18,9 +18,7 @@ export class SquareListComponent extends Component {
     constructor() {
         super({
             selector: "square-list",
-            template: template
-                .replace("${length}", SquareListService.get().length)
-                .replace("${squares}", SquareListService.get().map(() => `<square></square>`).join("")),
+            template: template,
             components: SquareListService.get()
                 .map(square => new SquareComponent(square))
                 .concat([new SquareNavigationComponent])
