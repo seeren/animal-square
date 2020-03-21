@@ -3,30 +3,20 @@
 
 puzzle {
 
-    @extend .animate,
-    .animate-show,
-    .block,
-    .absolute,
-    .top-0,
-    .left-0,
-    .right-0,
-    .bottom-3,
-    .w-12,
-    .z-8;
     margin: auto;
     height: 100vw;
     max-width: 70vh;
     max-height: 70%;
 
     @media all and (min-width: #{map-get($breakpoints, 'sm')}px) {
-        position: relative;
-        display: inline-block;
-        margin-right: -.25em;
-        vertical-align: middle;
-        height: 100%;
-        max-width: 60%;
-        max-height: 60vw;
-        width: 100vh;
+        position: relative !important;
+        display: inline-block !important;
+        margin-right: -.25em !important;
+        vertical-align: middle !important;
+        height: 100% !important;
+        max-width: 60% !important;
+        max-height: 60vw !important;
+        width: 100vh !important;
     }
 
     .cel {
