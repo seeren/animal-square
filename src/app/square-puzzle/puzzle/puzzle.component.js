@@ -18,7 +18,9 @@ export class PuzzleComponent extends Component {
         super({
             selector: "puzzle",
             template: template,
-            components: [new MonkeyComponent]
+            components: [
+                new MonkeyComponent
+            ]
         });
     }
 
