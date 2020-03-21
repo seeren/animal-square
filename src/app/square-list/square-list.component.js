@@ -50,6 +50,20 @@ export class SquareListComponent extends Component {
     /**
      * @fires
      */
+    onPause() {
+        JungleSoundService.pause();
+    }
+
+    /**
+     * @fires
+     */
+    onResume() {
+        JungleSoundService.visit();
+    }
+
+    /**
+     * @fires
+     */
     onUpdate() {
         const slider = window.document.querySelector(`${this.selector} .slider`);
         window.ontouchstart = e => this.onTouchStart(slider, e.touches[0].clientX);
