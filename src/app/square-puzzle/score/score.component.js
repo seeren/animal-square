@@ -2,6 +2,7 @@ import { Component } from "babel-skeleton";
 
 import { template } from "./score.component.html";
 import { ScoreService } from "../../shared/services/score.service";
+import { ResumeService } from "../shared/resume.service";
 
 export class ScoreComponent extends Component {
 
@@ -13,6 +14,7 @@ export class ScoreComponent extends Component {
             selector: "score",
             template: template
         });
+        this.listener = (service) => service.resume ? this.onPause() : this.onResume();
     }
 
     /**
@@ -21,6 +23,7 @@ export class ScoreComponent extends Component {
     onInit() {
         this.interval = 0;
         ScoreService.time = 200;
+        ResumeService.attach(this.listener);
     }
 
     /**
@@ -29,6 +32,7 @@ export class ScoreComponent extends Component {
     onDestroy() {
         this.onPause();
         ScoreService.stop();
+        ResumeService.detach(this.listener);
     }
 
     /**
