@@ -3,12 +3,13 @@ import { Service } from 'babel-skeleton';
 export const PuzzleService = new class extends Service {
 
     /**
-     * @param {HTMLElement}
      * @returns {Number}
      */
-    duration(cel) {
+    duration() {
         return window.parseFloat(
-            window.getComputedStyle(cel).getPropertyValue("transition-duration"),
+            window.getComputedStyle(
+                window.document.querySelector(`puzzle .cel`)
+            ).getPropertyValue("transition-duration"),
             10
         );
     }
