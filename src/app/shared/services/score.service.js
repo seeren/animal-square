@@ -7,7 +7,6 @@ export const ScoreService = new class extends Service {
      */
     constructor() {
         super();
-        this.state = null;
         this.time = 0;
     }
 
@@ -15,21 +14,7 @@ export const ScoreService = new class extends Service {
      * @emits
      */
     stop() {
-        this.notify(this.state = "stop");
-    }
-
-    /**
-     * @emits
-     */
-    play() {
-        this.notify(this.state = "play");
-    }
-
-    /**
-     * @emits
-     */
-    pause() {
-        this.notify(this.state = "pause");
+        this.notify();
     }
 
     /**
@@ -37,11 +22,9 @@ export const ScoreService = new class extends Service {
      * @returns {Number}
      */
     medail(time) {
-        return !time ? "black" : (
-            time > 175 ? "gold" : (
-                time > 50 ? "silver" : "bronze"
-            )
-        );
+        return time
+            ? time > 175 ? "gold" : (time > 50 ? "silver" : "bronze")
+            : "black";
     }
 
 }
