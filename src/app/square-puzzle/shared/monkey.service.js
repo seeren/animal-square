@@ -34,21 +34,6 @@ export const MonkeyService = new class extends Service {
     }
 
     /**
-     * @emits
-     */
-    play() {
-        this.notify(this.state = "play");
-    }
-
-    /**
-     * @emits
-     */
-    pause() {
-        this.notify(this.state = "pause");
-    }
-
-
-    /**
      * @returns {Number} 
      */
     random() {
