@@ -13,50 +13,50 @@ export class ScoreComponent extends Component {
             selector: "score",
             template: template
         });
-        this.listener = (service) => this[service.state] ? this[service.state]() : null;
     }
 
     /**
      * @fires
      */
     onInit() {
-        this.timeout = 0;
+        this.interval = 0;
         ScoreService.time = 200;
-        ScoreService.attach(this.listener);
     }
 
     /**
      * @fires
      */
     onDestroy() {
-        this.pause();
-        ScoreService.detach(this.listener);
+        this.onPause();
+        ScoreService.stop();
     }
 
     /**
-     * @event
+     * @fires
      */
-    play() {
+    onUpdate() {
         const score = window.document.querySelector(`${this.selector} .time`);
-        this.timeout = window.setTimeout(() => {
+        this.interval = window.setInterval(() => {
             ScoreService.time--;
             score.innerHTML = ScoreService.time;
-            ScoreService.time ? this.play() : ScoreService.stop();
+            if (0 === ScoreService.time) {
+                this.onDestroy();
+            }
         }, 1000);
     }
 
     /**
-     * @event
+     * @fires
      */
-    stop() {
-        this.pause();
+    onPause() {
+        window.clearInterval(this.interval);
     }
 
     /**
-     * @event
+     * @fires
      */
-    pause() {
-        this.timeout = window.clearTimeout(this.timeout);
+    onResume() {
+        this.onUpdate();
     }
 
 }
