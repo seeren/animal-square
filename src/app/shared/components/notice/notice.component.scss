@@ -21,4 +21,7 @@ notice {
         margin: auto;
     }
 
+    &.pause {
+        animation-play-state: paused !important;
+    }
 }
