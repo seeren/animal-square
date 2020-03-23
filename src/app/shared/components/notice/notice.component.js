@@ -14,6 +14,7 @@ export class NoticeComponent extends Component {
             template: template
         });
         this.notice = new Notice;
+        this.element = null;
     }
 
     /**
@@ -51,8 +52,27 @@ export class NoticeComponent extends Component {
      * @param {HTMLElement} element 
      */
     onUpdate(element) {
+        this.element = element;
         if (this.notice.background) {
-            element.style.backgroundImage = `url("dist/assets/images/${this.notice.background}")`;
+            this.element.style.backgroundImage = `url("dist/assets/images/${this.notice.background}")`;
+        }
+    }
+
+    /**
+      * @fires
+      */
+    onPause() {
+        if (-1 === this.element.className.indexOf(" pause")) {
+            this.element.className += " pause";
+        }
+    }
+    
+    /**
+     * @fires
+     */
+    onResume() {
+        if (-1 !== this.element.className.indexOf(" pause")) {
+            this.element.className = this.element.className.replace(" pause", "");
         }
     }
 
@@ -66,10 +86,9 @@ export class NoticeComponent extends Component {
             this.animate("hide");
             this.update();
         }
-        const element = window.document.querySelector(`${this.selector}`);
-        element.className = `animate animate-${state}`;
+        this.element.className = `animate animate-${state}`;
         return window.parseFloat(
-            window.getComputedStyle(element).getPropertyValue("animation-duration")
+            window.getComputedStyle(this.element).getPropertyValue("animation-duration")
         ) * 1000;
     }
 
