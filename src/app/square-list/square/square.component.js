@@ -44,16 +44,37 @@ export class SquareComponent extends Component {
     }
 
     /**
+     * @fires
+     */
+    onPause() {
+        window.clearTimeout(this.timeout);
+    }
+
+    /**
+     * @fires
+     */
+    onResume() {
+        if (this.timeout) {
+            this.navigate(500);
+        }
+    }
+
+    /**
      * @event
      */
     visit() {
         if (!this.timeout) {
             WhipSoundService.play();
-            this.timeout = window.setTimeout(() => RouterComponent.navigate(
-                "square-puzzle",
-                { id: this.square.level.number }
-            ), this.notice.hide());
+            this.navigate(this.notice.hide());
         }
+    }
+
+    /**
+     * @event
+     * @param {Number}
+     */
+    navigate(duration) {
+        this.timeout = window.setTimeout(() => this.navigate(), duration);
     }
 
 }
