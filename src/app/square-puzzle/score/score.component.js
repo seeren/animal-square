@@ -14,7 +14,8 @@ export class ScoreComponent extends Component {
             selector: "score",
             template: template
         });
-        this.listener = (service) => service.resume ? this.onPause() : this.onResume();
+        this.resumeListener = (service) => service.resume ? this.onPause() : this.onResume();
+        this.scoreListener = () => this.onPause();
     }
 
     /**
@@ -23,7 +24,8 @@ export class ScoreComponent extends Component {
     onInit() {
         this.interval = null;
         ScoreService.time = 200;
-        ResumeService.attach(this.listener);
+        ResumeService.attach(this.resumeListener);
+        ScoreService.attach(this.scoreListener);
     }
 
     /**
@@ -32,7 +34,8 @@ export class ScoreComponent extends Component {
     onDestroy() {
         this.onPause();
         ScoreService.stop();
-        ResumeService.detach(this.listener);
+        ResumeService.detach(this.resumeListener);
+        ScoreService.detach(this.scoreListener);
     }
 
     /**
