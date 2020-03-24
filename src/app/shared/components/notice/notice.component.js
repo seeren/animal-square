@@ -54,7 +54,9 @@ export class NoticeComponent extends Component {
     onUpdate(element) {
         this.element = element;
         if (this.notice.background) {
-            this.element.style.backgroundImage = `url("dist/assets/images/${this.notice.background}")`;
+            this.element.style.backgroundImage = `url("dist/assets/images/${
+                this.notice.background
+                }")`;
         }
     }
 
@@ -66,7 +68,7 @@ export class NoticeComponent extends Component {
             this.element.className += " pause";
         }
     }
-    
+
     /**
      * @fires
      */
