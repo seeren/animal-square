@@ -27,12 +27,8 @@ export class LoaderComponent extends Component {
     onInit() {
         if (!this.done) {
             window.setTimeout(() => {
-                this.images.forEach(
-                    image => this.getImage().src = `dist/assets/images/${image}`
-                );
-                this.audios.forEach(
-                    audio => this.getAudio().src = `dist/assets/mp4/${audio}`
-                );
+                this.images.forEach(image => this.getImage().src = `dist/assets/images/${image}`);
+                this.audios.forEach(audio => this.getAudio().src = `dist/assets/mp4/${audio}`);
             }, 1000);
         }
     }
@@ -75,6 +71,16 @@ export class LoaderComponent extends Component {
     }
 
     /**
+     * @returns {Image}
+     */
+    getImage() {
+        const image = new Image;
+        image.onerror = () => this.onError(image.src);
+        image.onload = () => this.onLoad();
+        return image;
+    }
+
+    /**
      * @returns {String[]}
      */
     getAudios() {
@@ -91,16 +97,6 @@ export class LoaderComponent extends Component {
             "visit.mp4",
             "whip.mp4",
         ];
-    }
-
-    /**
-     * @returns {Image}
-     */
-    getImage() {
-        const image = new Image;
-        image.onerror = () => this.onError(image.src);
-        image.onload = () => this.onLoad();
-        return image;
     }
 
     /**
