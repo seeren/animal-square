@@ -83,12 +83,12 @@ export class SquareComponent extends Component {
      * @param {Number}
      */
     navigate(duration) {
-        this.timeout = window.setTimeout(() => {
-            this.timeout = null;
-            RouterComponent.navigate("square-puzzle", {
+        this.timeout = window.setTimeout(
+            () => RouterComponent.navigate("square-puzzle", {
                 id: this.square.level.number
-            });
-        }, duration);
+            }),
+            duration
+        );
     }
 
 }
