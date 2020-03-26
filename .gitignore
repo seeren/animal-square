@@ -6,5 +6,6 @@
 /platforms/
 /plugins/
 /www/dist/
+*.keystore
 keystore
 package-lock.json
