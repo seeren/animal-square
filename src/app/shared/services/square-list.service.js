@@ -31,7 +31,7 @@ export const SquareListService = new class extends Service {
             squareList.push(square);
             square.animal.name = value;
             square.level.number = ++index;
-            square.score.time = 0
+            square.score.time = 0;
         });
         return squareList;
     }
