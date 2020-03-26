@@ -19,13 +19,6 @@ export const MonkeyService = new class extends Service {
     }
 
     /**
-     * @emits
-     */
-    stop() {
-        this.notify(this.state = "stop");
-    }
-
-    /**
      * @param {Number} number
      */
     start(number) {
