@@ -8,12 +8,21 @@ export const ScoreService = new class extends Service {
     constructor() {
         super();
         this.time = 0;
+        this.state = null;
+    }
+
+    /**
+     * @emits
+     */
+    start() {
+        this.state = "start";
     }
 
     /**
      * @emits
      */
     stop() {
+        this.state = "stop";
         this.notify();
     }
 
