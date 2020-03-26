@@ -1,6 +1,6 @@
 {
   "name": "animal-square",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "scripts": {
     "android": "cordova run android --device",
     "android:build": "npm run build & npm run android",
