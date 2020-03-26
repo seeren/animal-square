@@ -38,21 +38,38 @@ export class RankingComponent extends Component {
             "black" === medail ? black++ : ("gold" === medail
                 ? gold++ : ("silver" === medail ? silver++ : bronze++));
         });
-        this.medail = black > gold ? "black" : (gold > silver
-            ? "gold" : (silver > bronze ? "silver" : bronze));
+        this.medail = black > gold
+            ? "black"
+            : (gold > silver ? "gold" : (silver > bronze ? "silver" : "bronze"));
     }
 
     /**
      * @fires
      */
     onDestroy() {
+        this.onPause();
+    }
+
+    /**
+     * @fires
+     */
+    onPause() {
         BirdSoundService.pause();
     }
 
     /**
      * @fires
      */
+    onResume() {
+        BirdSoundService.success();
+    }
+
+    /**
+     * @fires
+     */
     onUpdate() {
+        console.log(this.medail);
+
         WhipSoundService.play();
         BirdSoundService.success();
         this.notice.background = `items/medails/medail-${this.medail}.png`;
