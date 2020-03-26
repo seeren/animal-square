@@ -32,7 +32,7 @@ export class SquareListComponent extends Component {
     onInit() {
         WhipSoundService.play();
         JungleSoundService.visit();
-        this.timeout = this.timeout || 0;
+        this.timeout = 0;
         this.square = SquareService.get();
         SquareService.attach(this.listener);
     }
@@ -42,7 +42,7 @@ export class SquareListComponent extends Component {
      */
     onDestroy() {
         JungleSoundService.pause();
-        this.timeout = window.clearTimeout(this.timeout);
+        window.clearTimeout(this.timeout);
         window.ontouchstart = window.ontouchmove = window.ontouchend = null;
         SquareService.detach(this.listener);
     }
@@ -75,7 +75,7 @@ export class SquareListComponent extends Component {
      * @param {Square} square 
      */
     onSquare(square) {
-        this.timeout = window.clearTimeout(this.timeout);
+        window.clearTimeout(this.timeout);
         const slider = window.document.querySelector(`${this.selector} .slider`);
         slider.style.marginLeft = window.ontouchstart = window.ontouchmove = window.ontouchend = null;
         slider.className = slider.className.replace(
