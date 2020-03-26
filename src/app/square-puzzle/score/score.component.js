@@ -22,7 +22,9 @@ export class ScoreComponent extends Component {
      * @fires
      */
     onInit() {
+        this.onPause();
         this.interval = null;
+        ScoreService.start();
         ScoreService.time = 200;
         ResumeService.attach(this.resumeListener);
         ScoreService.attach(this.scoreListener);
@@ -42,7 +44,6 @@ export class ScoreComponent extends Component {
      * @fires
      */
     onUpdate() {
-        ScoreService.start();
         const score = window.document.querySelector(`${this.selector} .time`);
         this.interval = window.setInterval(() => {
             ScoreService.time--;
