@@ -28,8 +28,15 @@ export class SquareComponent extends Component {
      * @fires
      */
     onInit() {
-        this.timeout = 0;
+        this.timeout = null;
         this.medail = ScoreService.medail(this.square.score.time);
+    }
+
+    /**
+     * @fires
+     */
+    onDestroy() {
+        this.onPause();
     }
 
     /**
@@ -47,7 +54,9 @@ export class SquareComponent extends Component {
      * @fires
      */
     onPause() {
-        window.clearTimeout(this.timeout);
+        if (this.timeout) {
+            window.clearTimeout(this.timeout);
+        }
     }
 
     /**
@@ -74,7 +83,12 @@ export class SquareComponent extends Component {
      * @param {Number}
      */
     navigate(duration) {
-        this.timeout = window.setTimeout(() => this.navigate(), duration);
+        this.timeout = window.setTimeout(() => {
+            this.timeout = null;
+            RouterComponent.navigate("square-puzzle", {
+                id: this.square.level.number
+            });
+        }, duration);
     }
 
 }
