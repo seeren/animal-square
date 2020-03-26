@@ -48,8 +48,7 @@ export class SquarePuzzleComponent extends Component {
         this.touchDuration = null;
         this.timeout = 0;
         this.touchHit = 0;
-        this.square = SquareListService.set(1);
-        // this.square = SquareListService.set(RouterComponent.get("id") || 1);
+        this.square = SquareListService.set(RouterComponent.get("id") || 1);
         ScoreService.attach(this.scoreListener);
         MonkeyService.attach(this.monkeyListener);
         ResumeService.attach(this.resumeListener);
