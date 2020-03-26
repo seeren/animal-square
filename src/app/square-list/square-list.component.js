@@ -32,7 +32,7 @@ export class SquareListComponent extends Component {
     onInit() {
         WhipSoundService.play();
         JungleSoundService.visit();
-        this.timeout = 0;
+        this.timeout = null;
         this.square = SquareService.get();
         SquareService.attach(this.listener);
     }
