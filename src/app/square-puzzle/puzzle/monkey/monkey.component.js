@@ -49,7 +49,6 @@ export class MonkeyComponent extends Component {
             window.getComputedStyle(element).getPropertyValue("animation-duration"), 10
         ) * 1000;
         this.delay = this.duration;
-
     }
 
     /**
@@ -95,8 +94,8 @@ export class MonkeyComponent extends Component {
     start() {
         if (this.delay === this.duration) {
             MonkeySoundService.start();
-            this.interval = this.runInterval();
             this.monkey.className = `monkey-${MonkeyService.number}`;
+            this.interval = this.runInterval();
         }
     }
 
