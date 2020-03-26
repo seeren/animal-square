@@ -27,8 +27,12 @@ export class LoaderComponent extends Component {
     onInit() {
         if (!this.done) {
             window.setTimeout(() => {
-                this.images.forEach(image => this.getImage().src = `dist/assets/images/${image}`);
-                this.audios.forEach(audio => this.getAudio().src = `dist/assets/mp4/${audio}`);
+                this.images.forEach(
+                    image => this.getImage().src = `dist/assets/images/${image}`
+                );
+                this.audios.forEach(
+                    audio => this.getAudio().src = `dist/assets/mp4/${audio}`
+                );
             }, 1000);
         }
     }
@@ -114,7 +118,9 @@ export class LoaderComponent extends Component {
      */
     onLoad() {
         if (!ErrorService.get()) {
-            this.done = (this.done + (100 / (this.images.length + this.audios.length) * 100 / 100)) * 100 / 100;
+            this.done = (this.done + (
+                100 / (this.images.length + this.audios.length) * 100 / 100
+            )) * 100 / 100;
             this.update();
         }
     }
