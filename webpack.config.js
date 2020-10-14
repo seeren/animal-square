@@ -8,7 +8,8 @@ module.exports = {
     ],
     output: {
         path: __dirname + "/www/dist",
-        filename: 'index.js'
+        filename: 'index.js',
+        publicPath: "./"
     },
     module: {
         rules: [
@@ -37,15 +38,13 @@ module.exports = {
     },
     watchOptions: {
         ignored: [
-            /node_modules/,
-            /test/
+            '/node_modules/',
+            '/test/'
         ]
     },
     plugins: [
         new MiniCssExtractPlugin({
             filename: 'index.css',
-
-            publicPath: "../../"
         }),
         new BrowserSyncPlugin({
             host: 'localhost',
@@ -56,13 +55,9 @@ module.exports = {
             server: {
                 baseDir: 'www',
                 middleware: [
-                    function (req, res, next) {
-                        if (-1 === req.url.indexOf(".") && "/" !== req.url) {
-                            res.writeHead(302, { 'Location': '/' });
-                            res.end();
-                        }
-                        next();
-                    }
+                    (req, res, next) => (-1 === req.url.indexOf('.') && '/' !== req.url
+                        ? res.end(res.writeHead(302, { Location: '/' }))
+                        : next()),
                 ]
             },
         })
