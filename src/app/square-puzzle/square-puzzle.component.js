@@ -84,7 +84,6 @@ export class SquarePuzzleComponent extends Component {
         window.clearTimeout(this.monkeyServiceTimeout);
         window.clearTimeout(this.touchesTimeout);
         JungleSoundService.pause();
-        BirdSoundService.pause();
     }
 
     /**
