@@ -1,17 +1,6 @@
 ranking {
-    @extend .block,
-    .cover,
-    .vh-min-12,
-    .center;
+    @extend .block, .cover, .vh-min-12, .center;
     background-image: url("./../resources/splash.jpg");
-
-    .title {
-        top: 1em;
-        margin: auto;
-        padding: .5em;
-        border-radius: .5em;
-        line-height: .5em;
-    }
 
     .gride {
         margin: auto;
@@ -27,9 +16,7 @@ ranking {
         }
 
         notice .text {
-            line-height: 2em;
+            line-height: 180%;
         }
-
     }
-
 }
