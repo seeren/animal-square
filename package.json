@@ -2,9 +2,13 @@
   "name": "animal-square",
   "version": "1.1.0",
   "scripts": {
-    "android": "cordova run android --device",
-    "android:build": "npm run build & npm run android",
+    "android": "npm run build && cordova run android --device",
+    "android:build": "npm run build && cordova build android --release -- --packageType=bundle",
+    "android:emulate": "npm run build && cordova run android --emulator",
     "android:install": "cordova platform add android",
+    "ios": "npm run build && cordova run ios --device",
+    "ios:emulate": "npm run build && cordova run ios --emulator",
+    "ios:install": "cordova platform add ios",
     "build": "webpack --mode production",
     "dev": "webpack --mode development --watch",
     "prod": "webpack --mode production --watch",
@@ -20,7 +24,8 @@
   "private": true,
   "cordova": {
     "platforms": [
-      "android"
+      "android",
+      "ios"
     ],
     "plugins": {
       "cordova-plugin-device": {},
@@ -42,11 +47,15 @@
     "browser-sync-webpack-plugin": "latest",
     "chai": "latest",
     "cordova": "latest",
+    "cordova-ios": "^6.2.0",
+    "cordova-plugin-splashscreen": "github:goinnn/cordova-plugin-splashscreen#4.0.0#colors",
     "cordova-res": "latest",
     "coveralls": "latest",
     "cross-env": "latest",
     "css-loader": "latest",
     "file-loader": "latest",
+    "ios-deploy": "^1.11.4",
+    "ios-sim": "^9.0.0",
     "jsdom": "latest",
     "mini-css-extract-plugin": "latest",
     "mocha": "latest",
@@ -67,7 +76,6 @@
     "cordova-plugin-device": "^2.0.3",
     "cordova-plugin-headercolor": "^1.0.0",
     "cordova-plugin-navigationbar-color": "^0.1.0",
-    "cordova-plugin-splashscreen": "git+https://github.com/goinnn/cordova-plugin-splashscreen.git#4.0.0#colors",
     "cordova-plugin-statusbar": "^2.4.3"
   }
 }
