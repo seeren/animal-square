@@ -6,6 +6,7 @@
 /platforms/
 /plugins/
 /www/dist/
+.DS_Store
 *.keystore
 keystore
 package-lock.json
