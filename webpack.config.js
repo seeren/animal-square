@@ -9,7 +9,8 @@ module.exports = {
     output: {
         path: __dirname + "/www/dist",
         filename: 'index.js',
-        publicPath: "./"
+        publicPath: "./",
+        assetModuleFilename: '[path][name].[ext]'
     },
     module: {
         rules: [
@@ -29,10 +30,7 @@ module.exports = {
             },
             {
                 test: /\.(jpg|png|woff|eot|ttf|svg)$/,
-                loader: 'file-loader',
-                options: {
-                    name: '[path][name].[ext]'
-                },
+                type: 'asset/resource',
             }
         ]
     },
