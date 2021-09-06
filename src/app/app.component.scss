@@ -6,14 +6,14 @@
 @import "./square-puzzle/square-puzzle.component.scss";
 
 app {
-    @extend .vh-min-12,
-    .vw-12,
-    .block;
+    @extend .vh-min-12, .vw-12, .block;
     user-select: none;
-
+    -webkit-user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     .bg-scene {
         background-position: left;
-
         @media all and (min-width: #{map-get($breakpoints, 'sm')}px) {
             background-position: center;
         }
@@ -23,5 +23,4 @@ app {
         width: 3.7em;
         height: 5em;
     }
-
 }
