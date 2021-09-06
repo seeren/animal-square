@@ -1,28 +1,15 @@
 loader {
-    @extend .block,
-    .cover,
-    .vh-min-12,
-    .center;
+    @extend .block, .cover, .vh-min-12, .center;
     background-image: url("./../resources/splash.jpg");
-
     .progress {
-        @extend .absolute,
-        .w-4,
-        .w-sm-2,
-        .left-0,
-        .right-0,
-        .top-7,
-        .bottom-0,
-        .box-shadow,
-        .shadow;
-        height: .75em;
-        line-height: .75em;
+        @extend .absolute, .w-4, .w-sm-2, .left-0, .right-0, .top-7, .bottom-0, .box-shadow, .shadow;
+        height: 0.75em;
+        line-height: 0.75em;
         margin: auto;
         padding: 1em;
         border-radius: 1em;
         .bar {
-            height: .75em;
+            height: 0.75em;
         }
     }
-
 }

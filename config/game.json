@@ -7,5 +7,36 @@
 		"zebra",
 		"hyena",
 		"rhinoceros"
+	],
+	"sounds": [
+		"bird-fail.mp4",
+		"bird-signal.mp4",
+		"bird-success.mp4",
+		"magic.mp4",
+		"monkey-hit.mp4",
+		"monkey-start.mp4",
+		"page.mp4",
+		"puzzle.mp4",
+		"square.mp4",
+		"visit.mp4",
+		"whip.mp4"
+	],
+	"images": [
+		"items/fires/fire-down-left.png",
+		"items/fires/fire-down-right.png",
+		"items/fires/fire-left-down.png",
+		"items/fires/fire-left-up.png",
+		"items/fires/fire-right-down.png",
+		"items/fires/fire-right-up.png",
+		"items/fires/fire-up-left.png",
+		"items/fires/fire-up-right.png",
+		"items/medails/medail-black.png",
+		"items/medails/medail-bronze.png",
+		"items/medails/medail-gold.png",
+		"items/medails/medail-silver.png",
+		"items/monkeys/monkey-right.png",
+		"items/navigations/navigation-next.png",
+		"items/navigations/navigation-previous.png",
+		"items/navigations/navigation-previous.png"
 	]
 }
