@@ -1,5 +1,5 @@
 square-navigation {
-    @each $var in ("previous", "next") {
+    @each $var in ('previous', 'next') {
         .#{$var} {
             opacity: 1;
             width: 3em;
