@@ -10,10 +10,9 @@
     <content src="index.html" />
     <preference name="scheme" value="app" />
     <preference name="hostname" value="localhost" />
-    <preference name="android-minSdkVersion" value="19" />
-    <preference name="android-targetSdkVersion" value="29" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="StatusBarOverlaysWebView" value="false" />
+    <preference name="StatusBarBackgroundColor" value="#000000" />
     <preference name="HeaderColor" value="#239122" />
     <preference name="StatusBarStyle" value="lightcontent" />
     <preference name="NavigationBarBackgroundColor" value="#000000" />
