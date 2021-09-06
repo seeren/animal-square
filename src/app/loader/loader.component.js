@@ -1,20 +1,17 @@
-import { Component, RouterComponent } from "babel-skeleton";
+import { Component, RouterComponent } from 'babel-skeleton';
 
 import { default as game } from './../../../config/game.json';
-import { template } from "./loader.component.html";
+import { template } from './loader.component.html';
 
-import { LoaderError } from "./shared/loader.error";
-import { SquareListService } from "../shared/services/square-list.service";
-import { ErrorService } from "../error/shared/error.service";
-import { BirdSoundService } from "../shared/services/sounds/bird-sound.service";
+import { LoaderError } from './shared/loader.error';
+import { SquareListService } from '../shared/services/square-list.service';
+import { ErrorService } from '../error/shared/error.service';
+import { BirdSoundService } from '../shared/services/sounds/bird-sound.service';
 
 export class LoaderComponent extends Component {
 
     constructor() {
-        super({
-            selector: "loader",
-            template: template
-        });
+        super({ selector: 'loader', template });
         this.done = 0;
         this.images = this.getImages();
         this.audios = this.getAudios();
@@ -55,6 +52,7 @@ export class LoaderComponent extends Component {
         image.onerror = () => this.onError(image.src);
         image.onload = () => this.onLoad();
         image.src = src;
+        return image;
     }
 
     getAudio(src) {
@@ -63,6 +61,7 @@ export class LoaderComponent extends Component {
         audio.oncanplaythrough = () => this.onLoad();
         audio.src = src;
         audio.load();
+        return audio;
     }
 
     onLoad() {
@@ -80,7 +79,7 @@ export class LoaderComponent extends Component {
 
     visit() {
         BirdSoundService.signal();
-        RouterComponent.navigate("square-list");
+        RouterComponent.navigate('square-list');
     }
 
 }
