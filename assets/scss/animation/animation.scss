@@ -2,18 +2,15 @@
     0% {
         top: 0;
     }
-
     100% {
         top: -150vh;
     }
 }
 
-
 @keyframes animate-show {
     0% {
         top: -150vh;
     }
-
     100% {
         top: 0;
     }
@@ -23,15 +20,12 @@
     0% {
         top: 100vh;
     }
-
     20% {
         top: 10vh;
     }
-
     80% {
         top: -10vh;
     }
-
     100% {
         top: -100vh;
     }
@@ -42,25 +36,20 @@
     animation-duration: 1.5s;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
-
     &-hide {
         animation-name: animate-hide;
     }
-
     &-show {
         animation-name: animate-show;
     }
-
     &-scroll {
         animation-timing-function: linear;
         animation-duration: 5s;
         animation-name: animate-scroll;
     }
-    
     &-pass {
         animation-timing-function: linear;
         animation-duration: 3s;
         animation-name: animate-scroll;
     }
-
 }
