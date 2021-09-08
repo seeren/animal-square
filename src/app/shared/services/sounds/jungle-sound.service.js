@@ -4,16 +4,10 @@ import { SoundService } from './sound.service';
 
 export const JungleSoundService = new class extends Service {
 
-    /**
-     * @returns {void} 
-     */
     visit() {
         SoundService.play("jungle", `visit.mp4`, true).volume = .6;
     }
 
-    /**
-     * @returns {void} 
-     */
     puzzle() {
         !SoundService.players.jungle
             || -1 === SoundService.players.jungle.src.indexOf("puzzle")
@@ -21,9 +15,6 @@ export const JungleSoundService = new class extends Service {
             : SoundService.get("jungle").play();
     }
 
-    /**
-     * @returns {void} 
-     */
     pause() {
         SoundService.pause("jungle");
     }
