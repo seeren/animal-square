@@ -1,13 +1,10 @@
 square {
-
     .fix-left {
-        margin-left: -.25em;
-
+        margin-left: -0.25em;
         @media all and (min-width: #{map-get($breakpoints, 'sm')}px) {
             margin-left: 0;
         }
     }
-
     .gride {
         background-position: center 40%;
         background-size: auto 70%;
@@ -16,7 +13,6 @@ square {
         height: 100vw;
         max-width: 70vh;
         max-height: 70%;
-
         @media all and (min-width: #{map-get($breakpoints, 'sm')}px) {
             max-width: 60%;
             max-height: 60vw;
@@ -25,17 +21,13 @@ square {
             margin-right: 16.66% !important;
         }
     }
-
     notice {
-        background-position: 50% 150%;
-
+        background-position: 50% 100%;
         @media all and (min-width: #{map-get($breakpoints, 'sm')}px) {
             background-position: 50%;
         }
-
         .text {
             line-height: 3em;
-
             @media all and (min-width: #{map-get($breakpoints, 'sm')}px) {
                 line-height: 1em;
             }
