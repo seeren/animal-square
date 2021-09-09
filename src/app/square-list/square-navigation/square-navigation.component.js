@@ -48,7 +48,6 @@ export class SquareNavigationComponent extends Component {
     }
 
     slide(offset) {
-        console.log('slide');
         PageSoundService.play();
         SquareService.set(SquareListService.get().find(square =>
             square.level.number === this.square.level.number + offset
