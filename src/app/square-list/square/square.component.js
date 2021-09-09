@@ -43,7 +43,7 @@ export class SquareComponent extends Component {
     }
 
     onResume() {
-        if (this.timeout) {
+        if (!this.timeout) {
             this.navigate(500);
         }
     }
