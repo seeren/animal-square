@@ -16,7 +16,6 @@ export class SquareNavigationComponent extends Component {
         this.id = this.id || 0;
         this.square = SquareService.get();
         this.next = SquareListService.hasNext(this.square);
-        console.log(this.next);
         this.previous = SquareListService.hasPrevious(this.square);
         this.length = SquareListService.get().length;
         SquareService.attach(this.listner);
