@@ -5,33 +5,35 @@ export const SoundService = new class extends Service {
     constructor() {
         super();
         this.players = {};
-        this.baseDir = 'dist/assets/mp4';
     }
 
     get(id) {
-        return this.players[id] || this.push(id);
-    }
-
-    push(id) {
+        if (!this.players[id]) {
+            this.players[id] = [];
+        }
         const player = window.document.createElement('audio');
-        player.id = id;
-        window.document.body.appendChild(player);
         player.volume = 1;
-        return this.players[id] = player;
+        this.players[id].push(player);
+        return player;
     }
 
     play(id, src, loop) {
         const player = this.get(id);
-        player.src = `${this.baseDir}/${src}`;
-        loop ? player.setAttribute('loop', 'loop') : player.removeAttribute('loop');
+        player.src = `dist/assets/mp4/${src}`;
+        if (loop) {
+            player.setAttribute('loop', 'loop');
+        }
+        player.onended = () => this.players[id].splice(this.players[id].indexOf(player), 1);
         player.play();
         return player;
     }
 
     pause(id) {
-        const player = this.get(id);
-        player.pause();
-        return player;
+        this.players[id].forEach((player) => player.pause());
+        if (this.players[id].length > 1) {
+            this.players[id].splice(-1);
+        }
+        return this.players[id][0];
     }
 
 }
