@@ -1,5 +1,5 @@
 square-navigation {
-    @extend .z-9;
+    @extend .z-9, .overflow-hidden;
     @each $var in ('previous', 'next') {
         .#{$var} {
             opacity: 1;
