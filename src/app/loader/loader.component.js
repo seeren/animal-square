@@ -1,6 +1,7 @@
 import { Component, RouterComponent } from 'babel-skeleton';
 
 import { default as game } from './../../../config/game.json';
+
 import { template } from './loader.component.html';
 
 import { LoaderError } from './shared/loader.error';

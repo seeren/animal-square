@@ -2,11 +2,11 @@ loader {
     @extend .block, .cover, .vh-min-12, .center;
     background-image: url("./../resources/splash.jpg");
     .progress {
-        @extend .absolute, .w-4, .w-sm-2, .left-0, .right-0, .top-7, .bottom-0, .box-shadow, .shadow;
+        @extend .absolute, .w-4, .w-sm-2, .left-0, .right-0, .top-7, .bottom-0, .box-shadow, .shadow, .font-2;
         height: 0.75em;
         line-height: 0.75em;
         margin: auto;
-        padding: 1em;
+        padding: .5em;
         border-radius: 1em;
         .bar {
             height: 0.75em;
