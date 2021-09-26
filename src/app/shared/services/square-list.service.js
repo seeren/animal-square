@@ -8,22 +8,16 @@ import { SquareService } from './square.service.js';
 
 export const SquareListService = new class extends Service {
 
-    /**
-     * @constructor
-     */
     constructor() {
         super();
-        this.squareList = this.select();
+        // this.squareList = this.fetch();
         if (!this.squareList) {
             this.squareList = this.init();
             this.save();
         }
-        SquareService.set(this.squareList[0]);
+        SquareService.set(this.squareList[5]);
     }
 
-    /**
-     * @returns {Square[]}
-     */
     init() {
         const squareList = new SquareList;
         game.animals.forEach((value, index) => {
@@ -31,56 +25,33 @@ export const SquareListService = new class extends Service {
             squareList.push(square);
             square.animal.name = value;
             square.level.number = ++index;
-            square.score.time = 0;
+            square.score.time = 10;
         });
         return squareList;
     }
 
-    /**
-     * @returns {Square[]|void}
-     */
-    select() {
-        return JSON.parse(window.localStorage.getItem("animal-square"))
+    fetch() {
+        return JSON.parse(window.localStorage.getItem('animal-square'))
     }
 
-    /**
-     * @returns {void}
-     */
     save() {
-        window.localStorage.setItem("animal-square", JSON.stringify(this.squareList));
+        window.localStorage.setItem('animal-square', JSON.stringify(this.squareList));
     }
-
-    /**
-     * @param {Square} square 
-     * @returns {Boolean}
-     */
-    isPrevious(square) {
-        return 1 !== square.level.number;
-    }
-
-    /**
-     * @param {Square} square 
-     * @returns {Boolean}
-     */
-    isNext(square) {
-        return this.squareList.length !== square.level.number && square.score.time;
-    }
-
-    /**
-     * @returns {Square[]}
-     */
+    
     get() {
         return this.squareList;
     }
+    
+    find(id) {
+        return this.squareList.find((square) => id === square.level.number);
+    }
+    
+    hasPrevious(square) {
+        return 1 !== square.level.number;
+    }
 
-    /**
-     * @param {Number} id 
-     * @returns {Square}
-     */
-    set(id) {
-        const square = this.squareList.find(square => id === square.level.number);
-        SquareService.set(square)
-        return square;
+    hasNext(square) {
+        return (this.squareList.length !== square.level.number) && square.score.time;
     }
 
 }

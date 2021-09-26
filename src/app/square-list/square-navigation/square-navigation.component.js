@@ -10,23 +10,24 @@ export class SquareNavigationComponent extends Component {
 
     constructor() {
         super({ selector: 'square-navigation', template });
-        this.listner = service => this.onSquare(service.get());
+        this.onSquareHandler = () => this.onSquare(SquareService.get());
     }
 
     onInit() {
+        SquareService.attach(this.onSquareHandler);
         this.square = SquareService.get();
         this.next = SquareListService.hasNext(this.square);
         this.previous = SquareListService.hasPrevious(this.square);
         this.length = SquareListService.get().length;
-        SquareService.attach(this.listner);
     }
 
     onDestroy() {
-        SquareService.detach(this.listner);
+        SquareService.detach(this.onSquareHandler);
     }
 
     onSquare(square) {
-        if (this.square !== square) {
+        if (square !== this.square) {
+            this.onDestroy();
             this.onInit();
             this.update();
         }
@@ -34,10 +35,7 @@ export class SquareNavigationComponent extends Component {
 
     slide(offset) {
         PageSoundService.play();
-        const square = SquareListService.get().find(
-            (square) => square.level.number === this.square.level.number + offset
-        );
-        SquareService.set(square);
+        SquareService.set(SquareListService.find(this.square.level.number + offset));
     }
 
     ranking() {
