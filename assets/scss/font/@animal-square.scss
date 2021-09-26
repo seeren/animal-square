@@ -1,16 +1,16 @@
 @mixin animal-square {
     @font-face {
-        font-family: 'animal-square';
+        font-family: "animal-square";
         src: url(./../assets/font/animal-square/animal-square.eot);
         font-weight: 400;
         font-style: normal;
-        src: url(./../assets/font/animal-square/animal-square.eot) format('embedded-opentype'),
-            url(./../assets/font/animal-square/animal-square.woff) format('woff'),
-            url(./../assets/font/animal-square/animal-square.ttf) format('truetype'),
-            url(./../assets/font/animal-square/animal-square.svg) format('svg');
+        src: url(./../assets/font/animal-square/animal-square.eot) format("embedded-opentype"),
+            url(./../assets/font/animal-square/animal-square.woff) format("woff"),
+            url(./../assets/font/animal-square/animal-square.ttf) format("truetype"),
+            url(./../assets/font/animal-square/animal-square.svg) format("svg");
     }
 
     .font-animal-square {
-        font-family: 'animal-square';
+        font-family: "animal-square";
     }
 }

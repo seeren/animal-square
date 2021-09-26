@@ -1,29 +1,21 @@
-@import './../gride/$breakpoints.scss';
-@import './@animal-square.scss';
+@import "./../gride/$breakpoints.scss";
+@import "./@animal-square.scss";
 
 @include animal-square;
 
-@mixin size ($breakpoint) {
+@mixin size($breakpoint) {
     @for $n from 0 through 6 {
         .font#{$breakpoint}-#{$n} {
             font-size: #{$n}em;
         }
-
         .font#{$breakpoint}-#{$n}-5 {
-            font-size: #{$n + .5}em;
+            font-size: #{$n + 0.5}em;
         }
     }
 }
 
 @mixin weight {
-
-    @each $weight in (thin,
-        lighter,
-        light,
-        normal,
-        bold,
-        bolder,
-        black) {
+    @each $weight in (thin, lighter, light, normal, bold, bolder, black) {
         .font-#{$weight} {
             font-weight: $weight;
         }
@@ -34,7 +26,6 @@
     .hyphens {
         hyphens: auto;
     }
-
     .word-break {
         word-break: break-all;
     }
@@ -44,19 +35,15 @@
     .pointer {
         cursor: pointer;
     }
-
     .initial {
         cursor: initial;
     }
-
     .shadow {
-        text-shadow: .05em .05em #000;
+        text-shadow: 0.05em 0.05em #000;
     }
-
     .box-shadow {
-        box-shadow: .05em .05em #000;
+        box-shadow: 0.05em 0.05em #000;
     }
-
     .cover {
         background-repeat: no-repeat;
         background-position: center;
@@ -64,13 +51,12 @@
     }
 }
 
-@include size('');
+@include size("");
 @include weight();
 @include cesure();
 @include decoration();
 
-@each $breakpoint,
-$min-width in $breakpoints {
+@each $breakpoint, $min-width in $breakpoints {
     @media all and (min-width: #{$min-width}px) {
         @include size(-#{$breakpoint});
     }
