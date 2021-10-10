@@ -1,24 +1,25 @@
 @import "./square/square.component.scss";
 @import "./square-navigation/square-navigation.component.scss";
 
+$squareNumber: 7;
+
 square-list {
     @extend .block, .vh-12, .overflow-hidden;
     .slider {
-        transition: margin-left 0.3s ease-out;
+        transition: transform 0.3s ease-out;
         @for $n from 1 to 10 {
             &.slider-#{$n} {
                 width: 100% * $n;
-
                 square[data-square-list] {
                     width: 100% / $n;
                 }
             }
             &.slider-target-#{$n} {
-                margin-left: -100% * ($n - 1);
+                transform: translateX(-#{100% / $squareNumber * ($n - 1)});
             }
         }
         @media all and (min-width: #{map-get($breakpoints, 'sm')}px) {
-            transition: margin-left 0.5s ease-out;
+            transition: transform 0.5s ease-out;
         }
     }
 }
