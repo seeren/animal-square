@@ -61,7 +61,8 @@ export class SquareListComponent extends Component {
     }
 
     onSquare(square) {
-        this.slider.style.marginLeft = null;
+        this.slider.style.transform = null;
+        this.slider.removeAttribute('data-translateX')
         this.slider.classList.replace(`slider-target-${this.square.level.number}`, `slider-target-${square.level.number}`);
         this.square = square;
     }
@@ -69,12 +70,13 @@ export class SquareListComponent extends Component {
     onTouchStart(e) {
         if (!e.target.classList.contains('previous') && !e.target.classList.contains('next')) {
             this.slider.style.transition = 'unset';
-            this.slider.style.marginLeft = window.getComputedStyle(this.slider).getPropertyValue('margin-left');
+            let translateX = window.getComputedStyle(this.slider).getPropertyValue('transform').split(', ')[4];
+            this.setTranslateX(translateX);
             let clientX = e.touches[0].clientX;
             window.ontouchend = (e) => this.onTouchEnd(e);
             window.ontouchmove = (e) => {
-                const marginLeft = Number.parseInt(this.slider.style.marginLeft, 10) + (e.touches[0].clientX - clientX);
-                this.move(marginLeft);
+                translateX = Number.parseInt(this.slider.getAttribute('data-translateX'), 10) + (e.touches[0].clientX - clientX);
+                this.move(translateX);
                 clientX = e.touches[0].clientX;
             }
         }
@@ -83,8 +85,8 @@ export class SquareListComponent extends Component {
     onTouchEnd() {
         window.ontouchmove = null;
         window.ontouchend = null;
-        const absoluteMarginLeft = Math.abs(Number.parseInt(this.slider.style.marginLeft, 10));
-        const target = absoluteMarginLeft / this.sliderAnimation.width;
+        const absoluteTranslateX = Math.abs(this.slider.getAttribute('data-translateX'));
+        const target = absoluteTranslateX / this.sliderAnimation.width;
         const key = SquareListService.get().indexOf(this.square);
         const difference = target - key;
         const targetKey = key < target && 0.1 < difference 
@@ -97,14 +99,16 @@ export class SquareListComponent extends Component {
         SquareService.set(SquareListService.get()[targetKey]);
     }
 
-    move(marginLeft) {
-        const absoluteMarginLeft = Math.abs(marginLeft);
-        if (marginLeft < 0
-            && absoluteMarginLeft < this.sliderAnimation.maximum
-            && this.slider.clientWidth - this.sliderAnimation.width > absoluteMarginLeft
-            && absoluteMarginLeft + this.sliderAnimation.width > 0) {
-            this.slider.style.marginLeft = `${marginLeft}px`;
+    move(translateX) {
+        const absoluteTranslateX = Math.abs(translateX);
+        if (translateX < 0 && absoluteTranslateX < this.sliderAnimation.maximum){
+            this.setTranslateX(translateX);
         }
+    }
+
+    setTranslateX(translateX) {
+        this.slider.style.transform = `translateX(${translateX}px)`;
+        this.slider.setAttribute('data-translateX', translateX);
     }
 
 }
