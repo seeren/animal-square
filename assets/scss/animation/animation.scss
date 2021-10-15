@@ -1,33 +1,33 @@
 @keyframes animate-hide {
     0% {
-        top: 0;
+        transform: translateY(0);
     }
     100% {
-        top: -150vh;
+        transform: translateY(-150vh);
     }
 }
 
 @keyframes animate-show {
     0% {
-        top: -150vh;
+        transform: translateY(-150vh);
     }
     100% {
-        top: 0;
+        transform: translateY(0);
     }
 }
 
 @keyframes animate-scroll {
     0% {
-        top: 100vh;
+        transform: translateY(100vh);
     }
     20% {
-        top: 10vh;
+        transform: translateY(10vh);
     }
     80% {
-        top: -10vh;
+        transform: translateY(-10vh);
     }
     100% {
-        top: -100vh;
+        transform: translateY(-100vh);
     }
 }
 
