@@ -4,14 +4,8 @@ import { template } from "./app.component.html";
 
 export class AppComponent extends Component {
 
-    /**
-     * @constructor
-     */
     constructor() {
-        super({
-            selector: "app",
-            template: template
-        });
+        super({selector: "app", template});
     }
 
 }
