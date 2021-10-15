@@ -85,8 +85,7 @@ export class SquareListComponent extends Component {
     onTouchEnd() {
         window.ontouchmove = null;
         window.ontouchend = null;
-        const absoluteTranslateX = Math.abs(this.slider.getAttribute('data-translateX'));
-        const target = absoluteTranslateX / this.sliderAnimation.width;
+        const target = Math.abs(this.slider.getAttribute('data-translateX')) / this.sliderAnimation.width;
         const key = SquareListService.get().indexOf(this.square);
         const difference = target - key;
         const targetKey = key < target && 0.1 < difference 
@@ -100,8 +99,7 @@ export class SquareListComponent extends Component {
     }
 
     move(translateX) {
-        const absoluteTranslateX = Math.abs(translateX);
-        if (translateX < 0 && absoluteTranslateX < this.sliderAnimation.maximum){
+        if (translateX < 0 && Math.abs(translateX) < this.sliderAnimation.maximum){
             this.setTranslateX(translateX);
         }
     }
