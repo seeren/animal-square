@@ -1,20 +1,17 @@
 ranking {
     @extend .block, .cover, .vh-min-12, .center;
     background-image: url("./../resources/splash.jpg");
-
     .gride {
         margin: auto;
         height: 100vw;
         max-width: 70vh;
         max-height: 70%;
-
         @media all and (min-width: #{map-get($breakpoints, 'sm')}px) {
             max-width: 60%;
             max-height: 60vw;
             height: 100%;
             width: 100vh;
         }
-
         notice .text {
             line-height: 180%;
         }
