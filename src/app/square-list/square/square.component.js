@@ -9,10 +9,9 @@ import { WhipSoundService } from '../../shared/services/sounds/whip-sound.servic
 export class SquareComponent extends Component {
 
     constructor(square) {
-        super({ selector: 'square', template, components: [
-                new NoticeComponent
-            ]
-        });
+        super({ selector: 'square', template, components: [ 
+            new NoticeComponent 
+        ]});
         this.square = square;
         this.notice = this.components[0];
         this.notice.onclick = () => this.visit();
@@ -43,7 +42,7 @@ export class SquareComponent extends Component {
     }
 
     onResume() {
-        if (!this.timeout) {
+        if (this.timeout) {
             this.navigate(500);
         }
     }
