@@ -8,8 +8,9 @@ export const ScoreService = new class extends Service {
         this.state = null;
     }
 
-    start() {
+    start(time) {
         this.state = 'start';
+        this.time = time;
     }
 
     stop() {
@@ -19,11 +20,7 @@ export const ScoreService = new class extends Service {
 
     medail(time) {
         return time
-            ? time > 175 
-                ? 'gold'
-                : (time > 50 
-                    ? 'silver' 
-                    : 'bronze')
+            ? time > 175 ? 'gold' : (time > 75 ? 'silver' : 'bronze')
             : 'black';
     }
 
