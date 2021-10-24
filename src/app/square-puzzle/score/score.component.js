@@ -16,9 +16,14 @@ export class ScoreComponent extends Component {
     onInit() {
         this.onPause();
         this.interval = null;
-        ScoreService.start(200);
+        ScoreService.start();
         ResumeService.attach(this.resumeListener);
         ScoreService.attach(this.scoreListener);
+    }
+
+    onUpdate() {
+        this.score = window.document.querySelector(`${this.selector} .time`);
+        this.score.innerHTML = ScoreService.time;
     }
 
     onDestroy() {
@@ -26,17 +31,6 @@ export class ScoreComponent extends Component {
         ScoreService.stop();
         ResumeService.detach(this.resumeListener);
         ScoreService.detach(this.scoreListener);
-    }
-
-    onUpdate() {
-        const score = window.document.querySelector(`${this.selector} .time`);
-        score.innerHTML = ScoreService.time;
-        this.interval = window.setInterval(() => {
-            score.innerHTML = --ScoreService.time;
-            if (0 === ScoreService.time) {
-                this.onDestroy();
-            }
-        }, 1000);
     }
 
     onPause() {
@@ -48,8 +42,17 @@ export class ScoreComponent extends Component {
 
     onResume() {
         if (!this.interval) {
-            this.onUpdate();
+            this.decrement();
         }
+    }
+
+    decrement() {
+        this.interval = window.setInterval(() => {
+            this.score.innerHTML = --ScoreService.time;
+            if (0 === ScoreService.time) {
+                this.onDestroy();
+            }
+        }, 1000);
     }
 
 }
