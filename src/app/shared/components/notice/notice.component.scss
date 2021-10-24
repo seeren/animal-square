@@ -1,5 +1,5 @@
 notice {
-    @extend .absolute, .h-12, .w-12, .top-0, .bottom-0, .left-0, .cover, .animate, .z-9;
+    @extend .absolute, .h-12, .w-12, .top-0, .bottom-0, .left-0, .cover, .animate;
     background-size: 80% auto;
     @media all and (min-width: #{map-get($breakpoints, 'sm')}px) {
         background-size: auto 80%;
