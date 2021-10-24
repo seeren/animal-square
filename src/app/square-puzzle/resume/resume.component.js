@@ -1,54 +1,37 @@
-import { Component, RouterComponent } from "babel-skeleton";
+import { Component, RouterComponent } from 'babel-skeleton';
 
-import { template } from "./resume.component.html";
-import { ResumeService } from "../shared/resume.service";
-import { SquareService } from "../../shared/services/square.service";
-import { BirdSoundService } from "../../shared/services/sounds/bird-sound.service";
+import { template } from './resume.component.html';
+
+import { ResumeService } from '../shared/resume.service';
+import { SquareService } from '../../shared/services/square.service';
+import { BirdSoundService } from '../../shared/services/sounds/bird-sound.service';
 
 export class ResumeComponent extends Component {
 
-    /**
-     * @constructor
-     */
     constructor() {
-        super({
-            selector: "resume",
-            template: template
-        });
+        super({ selector: 'resume', template });
     }
 
-    /**
-     * @fires
-     */
     onInit() {
         this.square = SquareService.get();
         this.resume = ResumeService.get();
     }
 
-    /**
-     * @fires
-     */
     onDestroy() {
-        if (this.resume) {
+        if (ResumeService.get()) {
             this.toogle();
         }
     }
 
-    /**
-     * @event
-     */
     toogle() {
-        if (!this.resume) {
+        if (!ResumeService.get()) {
             BirdSoundService.signal();
         }
         return this.resume = ResumeService.toogle();
     }
 
-    /**
-     * @event
-     */
     exit() {
-        RouterComponent.navigate("square-list");
+        RouterComponent.navigate('square-list');
     }
 
 }
