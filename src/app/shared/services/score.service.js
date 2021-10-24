@@ -8,7 +8,7 @@ export const ScoreService = new class extends Service {
         this.state = null;
     }
 
-    start(time) {
+    start(time = 200) {
         this.state = 'start';
         this.time = time;
     }
