@@ -1,11 +1,11 @@
-@import './$positions.scss';
-@import './$overflows.scss';
-@import './$sides.scss';
-@import './../gride/$breakpoints.scss';
+@import "./$positions.scss";
+@import "./$overflows.scss";
+@import "./$sides.scss";
+@import "./../gride/$breakpoints.scss";
 
 @mixin overflow() {
     @each $overflow in $overflows {
-        @each $type in ('', -x, -y) {
+        @each $type in ("", -x, -y) {
             .overflow#{$type}-#{$overflow} {
                 overflow#{$type}: $overflow;
             }
@@ -31,20 +31,35 @@
     }
 }
 
-@include position('');
-@include overflow();
-@include sides('');
-
-@each $breakpoint,
-$min-width in $breakpoints {
-    @media all and (min-width: #{$min-width}px) {
-        @include position(-#{$breakpoint});
-        @include sides(-#{$breakpoint});
+@mixin transform() {
+    @for $x from 0 to 4 {
+        @for $y from 0 to 4 {
+            .x-#{$x} {
+                &.y-#{$y} {
+                    transform: translate(#{percentage(floor(100 * $x) / 100)}, #{percentage(floor(100 * $y) / 100)});
+                }
+            }
+        }
     }
 }
 
-@for $z-index from 1 to 10 {
-    .z-#{$z-index} {
-        z-index: $z-index;
+@mixin zIndex() {
+    @for $n from 1 to 10 {
+        .z-#{$n} {
+            z-index: $n;
+        }
+    }
+}
+
+@include position("");
+@include overflow();
+@include sides("");
+@include transform();
+@include zIndex();
+
+@each $breakpoint, $min-width in $breakpoints {
+    @media all and (min-width: #{$min-width}px) {
+        @include position(-#{$breakpoint});
+        @include sides(-#{$breakpoint});
     }
 }

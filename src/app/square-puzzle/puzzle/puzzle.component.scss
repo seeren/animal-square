@@ -1,26 +1,22 @@
-@import './puzzle.fires.component.scss';
-@import './monkey/monkey.component.scss';
+@import "./puzzle.fires.component.scss";
+@import "./monkey/monkey.component.scss";
 
 puzzle {
-
     margin: auto;
     height: 100vw;
     max-width: 70vh;
     max-height: 70%;
-
     @media all and (min-width: #{map-get($breakpoints, 'sm')}px) {
         position: relative !important;
         display: inline-block !important;
-        margin-right: -.25em !important;
+        margin-right: -0.25em !important;
         vertical-align: middle !important;
         height: 100% !important;
         max-width: 60% !important;
         max-height: 60vw !important;
         width: 100vh !important;
     }
-
     .cel {
-        transition: top .3s ease-out, left .3s ease-out;
+        transition: top 0.3s ease-out, left 0.3s ease-out;
     }
-
 }

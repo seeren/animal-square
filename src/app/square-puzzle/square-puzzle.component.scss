@@ -3,15 +3,11 @@
 @import "./resume/resume.component.scss";
 
 square-puzzle {
-
-    @extend .block,
-    .vh-12,
-    .w-12,
-    .overflow-hidden;
-
+    @extend .block, .vh-12, .w-12, .overflow-hidden;
     notice {
+        display: none;
+        z-index: 9;
         background-size: auto 50%;
         background-position: 50% 35%;
     }
-
 }
