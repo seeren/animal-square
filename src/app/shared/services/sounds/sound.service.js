@@ -7,18 +7,18 @@ export const SoundService = new class extends Service {
         this.players = {};
     }
 
-    get(id) {
+    get(id, volume) {
         if (!this.players[id]) {
             this.players[id] = [];
         }
         const player = window.document.createElement('audio');
-        player.volume = 1;
+        player.volume = volume;
         this.players[id].push(player);
         return player;
     }
 
-    play(id, src, loop) {
-        const player = this.get(id);
+    play(id, src, loop = false, volume = 1) {
+        const player = this.get(id, volume);
         player.src = `dist/assets/mp4/${src}`;
         if (loop) {
             player.setAttribute('loop', 'loop');
@@ -30,10 +30,6 @@ export const SoundService = new class extends Service {
 
     pause(id) {
         this.players[id].forEach((player) => player.pause());
-        if (this.players[id].length > 1) {
-            this.players[id].splice(-1);
-        }
-        return this.players[id][0];
     }
 
 }

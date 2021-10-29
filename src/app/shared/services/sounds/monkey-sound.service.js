@@ -5,11 +5,11 @@ import { SoundService } from './sound.service';
 export const MonkeySoundService = new class extends Service {
 
     start() {
-        SoundService.play('monkey', `monkey-start.mp4`).volume = .6;
+        SoundService.play('monkey', 'monkey-start.mp4', false, .6);
     }
 
     hit() {
-        SoundService.play('monkey', `monkey-hit.mp4`).volume = 1;
+        SoundService.play('monkey', 'monkey-hit.mp4', false, 1);
     }
 
 }
