@@ -17,6 +17,6 @@ puzzle {
         width: 100vh !important;
     }
     .cel {
-        transition: top 0.3s ease-out, left 0.3s ease-out;
+        transition: transform .3s ease-out;
     }
 }

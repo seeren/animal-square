@@ -1,7 +1,7 @@
 <section class="cover relative left  h-12 w-12"
     style="background-image: url(dist/assets/images/animals/${square.animal.name}/${square.animal.name}-square.jpg)">
 
-    ${new Array(16).fill(null).map((value, key) =>`<div
+    ${new Array(15).fill(null).map((value, key) =>`<div
         class="cel cel-${key+1} cover absolute w-3 h-3 x-${key % 4} y-${key > 11 ? 3 : (key > 7 ? 2 : (key > 3 ? 1 : 0))}"
         style="background-image: url(dist/assets/images/animals/${square.animal.name}/${square.animal.name}-square-${key + 1}.jpg);">
     </div>`).join("")}

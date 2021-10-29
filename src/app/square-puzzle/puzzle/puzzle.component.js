@@ -1,115 +1,89 @@
-import { Component } from "babel-skeleton";
+import { Component } from 'babel-skeleton';
 
-import { template } from "./puzzle.component.html";
-import { DirectionService } from "../shared/direction.service";
-import { Direction } from "../../shared/models/direction.model";
-import { MonkeyComponent } from "./monkey/monkey.component";
-import { ScoreService } from "../../shared/services/score.service";
-import { PuzzleService } from "../shared/puzzle.service";
-import { SquareService } from "../../shared/services/square.service";
-import { SquareSoundService } from "../../shared/services/sounds/square-sound.service";
+import { template } from './puzzle.component.html';
+
+import { MonkeyComponent } from './monkey/monkey.component';
+import { PuzzleDirectionService } from './puzzle-direction.service';
+import { SquareService } from '../../shared/services/square.service';
+import { SquareSoundService } from '../../shared/services/sounds/square-sound.service';
+import { PuzzleTouchService } from './puzzle-touch.service';
 
 export class PuzzleComponent extends Component {
 
-    /**
-     * @constructor
-     */
     constructor() {
         super({
-            selector: "puzzle",
-            template: template,
-            components: [
+            selector: 'puzzle', template, components: [
                 new MonkeyComponent
             ]
         });
     }
 
-    /**
-     * @fires
-     */
     onInit() {
-        this.timeout = false;
         this.square = SquareService.get();
     }
 
-    /**
-     * @fires
-     */
-    onDestroy() {
-        this.timeout = window.clearTimeout(this.timeout);
-    }
-
-    /**
-     * @fires
-     * @param {HTMLElement} puzzle
-     */
     onUpdate() {
-        for (const cel of window.document.querySelectorAll(`${this.selector} .cel`)) {
-            cel.ontouchstart = (e) => this.onTouchStart(DirectionService.getEvent(e));
-        };
+        window.document.querySelectorAll(`${this.selector} .cel`).forEach(
+            (cel) => cel.ontouchstart = () => this.onTouchStart(PuzzleTouchService.getTouchEvent(cel))
+        );
     }
 
-    /**
-     * @event
-     * @param {TouchEvent} event
-     */
-    onTouchStart(event) {
-        const direction = DirectionService.get(event);
-        if (!this.timeout && direction.property) {
-            this.timeout = true;
-            const cel = event.target;
-            const position = parseFloat(window.getComputedStyle(cel).getPropertyValue(direction.property), 10);
-            const minimum = direction.positive ? position : position - cel.clientHeight;
-            const maximum = direction.positive ? position + cel.clientHeight : position;
-            cel.className += ` fire ${direction.property}-${direction.positive}`;
-            cel.style.transition = "unset";
-            cel.style[direction.property] = `${position}px`;
-            cel.ontouchend = () => this.onTouchEnd(cel, direction, minimum, maximum, position);
-            cel.ontouchmove = e => {
-                this.onTouchMove(cel, direction, minimum, maximum);
-                direction.distance = e.touches[0][`client${direction.axe.toUpperCase()}`] - event[direction.axe];
-                event[direction.axe] = e.touches[0][`client${direction.axe.toUpperCase()}`];
-            };
+    onTouchStart(touchStartEvent) {
+        if (!PuzzleTouchService.isEnd()) {
+            return;
+        }
+        const direction = PuzzleDirectionService.getDirection(touchStartEvent);
+        if (direction) {
+            PuzzleTouchService.start();
+            const cell = touchStartEvent.target;
+            const translation = PuzzleDirectionService.getTranslation(cell);
+            const minimum = direction.positive
+                ? translation[direction.axe]
+                : translation[direction.axe] - cell.clientHeight;
+            const maximum = direction.positive
+                ? translation[direction.axe] + cell.clientHeight
+                : translation[direction.axe];
+            cell.className += ` fire ${direction.axe}-${direction.positive}`;
+            cell.style.transform = `translate(${translation.x}px, ${translation.y}px)`;
+            cell.style.transition = 'unset';
+            cell.setAttribute('data-x', translation.x);
+            cell.setAttribute('data-y', translation.y);
+            cell.ontouchend = () => this.onTouchEnd(cell, direction, minimum, maximum, translation);
+            cell.ontouchmove = (e) => this.onTouchMove(e, cell, direction, minimum, maximum, touchStartEvent);
         }
     }
 
-    /**
-     * @event
-     * @param {HTMLElement} cel 
-     * @param {Direction} direction
-     * @param {Number} minimum
-     * @param {Number} maximum
-     */
-    onTouchMove(cel, direction, minimum, maximum) {
-        const target = window.parseFloat(cel.style[direction.property], 10) + direction.distance;
-        cel.style[direction.property] = `${target > minimum
-            ? (target > maximum ? maximum : target)
-            : minimum}px`;
+    onTouchMove(e, cell, direction, minimum, maximum, touchStartEvent) {
+        const target = window.parseFloat(cell.getAttribute(`data-${direction.axe}`), 10) + direction.distance;
+        cell.setAttribute(
+            `data-${direction.axe}`,
+            target > minimum ? (target > maximum ? maximum : target) : minimum
+        );
+        cell.style.transform = `translate(${cell.getAttribute('data-x')}px, ${cell.getAttribute('data-y')}px)`;
+        const upperCaseProperty = direction.axe.toUpperCase();
+        direction.distance = e.touches[0][`client${upperCaseProperty}`] - touchStartEvent[direction.axe];
+        touchStartEvent[direction.axe] = e.touches[0][`client${upperCaseProperty}`];
     }
 
-    /**
-     * @event
-     * @param {HTMLElement} cel 
-     * @param {Direction} direction
-     * @param {Number} minimum
-     * @param {Number} maximum
-     * @param {Number} initial
-     */
-    onTouchEnd(cel, direction, minimum, maximum, initial) {
-        this.timeout = window.clearTimeout(this.timeout);
-        this.timeout = window.setTimeout(() => {
-            cel.className = cel.className.replace(` fire ${direction.property}-${direction.positive}`, "");
-            PuzzleService.complete() ? ScoreService.stop() : this.timeout = false;
-        }, 300);
+    onTouchEnd(cell, direction, minimum, maximum, initial) {
         SquareSoundService.play();
-        const position = window.parseFloat(cel.style[direction.property], 10);
-        cel.ontouchmove = cel.ontouchend = cel.style.transition = null;
-        cel.style[direction.property] = `${(
-            minimum === initial && minimum === position ? maximum : (
-                maximum === initial && maximum === position || position - minimum < maximum - position
-                    ? minimum : maximum
-            )
-        ) / cel.parentNode.clientHeight * 100}%`;
+        cell.ontouchend = cell.ontouchmove = cell.style.transition = null;
+        cell.ontransitionend = () => {
+            cell.className = cell.className.replace(` fire ${direction.axe}-${direction.positive}`, '');
+            cell.removeAttribute('data-x');
+            cell.removeAttribute('data-y');
+            // TODO stop game on puzzle complete otherwise toogle animable
+            PuzzleTouchService.end();
+        };
+        const updatedAxe = window.parseFloat(cell.getAttribute(`data-${direction.axe}`), 10);
+        cell.setAttribute(
+            `data-${direction.axe}`,
+            PuzzleDirectionService.getTranslationEnd(updatedAxe, minimum, maximum)
+        );
+        updatedAxe === initial[direction.axe] || (updatedAxe !== maximum && updatedAxe !== minimum)
+            ? cell.style.transform = `translate(${cell.getAttribute('data-x')}px, ${cell.getAttribute('data-y')}px)`
+            : cell.ontransitionend();
+
     }
 
 }
