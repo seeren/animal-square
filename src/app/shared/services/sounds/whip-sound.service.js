@@ -8,4 +8,8 @@ export const WhipSoundService = new class extends Service {
         SoundService.play('whip', 'whip.mp4');
     }
 
+    pause() {
+        SoundService.pause('whip');
+    }
+
 }
