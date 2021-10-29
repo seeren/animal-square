@@ -5,11 +5,11 @@ import { SoundService } from './sound.service';
 export const JungleSoundService = new class extends Service {
 
     visit() {
-        SoundService.play('jungle', 'visit.mp4', true).volume = .6;
+        SoundService.play('jungle', 'visit.mp4', true, .6);
     }
 
     puzzle() {
-        SoundService.play('jungle', 'puzzle.mp4', true).volume = 1;
+        SoundService.play('jungle', 'puzzle.mp4', true, .6);
     }
 
     pause() {

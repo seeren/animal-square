@@ -25,16 +25,15 @@ export class SquareListComponent extends Component {
     }
 
     onInit() {
+        this.onResume();
         WhipSoundService.play();
-        JungleSoundService.visit();
         SquareService.attach(this.onSquareHandler);
         this.square = SquareService.get();
         window.addEventListener('resize', this.onResizeHandler);
     }
 
     onDestroy() {
-        WhipSoundService.pause();
-        JungleSoundService.pause();
+        this.onPause();
         SquareService.detach(this.onSquareHandler);
         window.removeEventListener('resize', this.onResizeHandler);
         window.ontouchstart = null;
