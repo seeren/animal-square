@@ -12,10 +12,10 @@ export const PuzzleDirectionService = new class extends Service {
             new PuzzleDirection(event.x + event.target.clientWidth, event.y, 'x', true),
             new PuzzleDirection(event.x - event.target.clientWidth, event.y, 'x', false)
         ]) {
-            if (0 === document.elementsFromPoint(
-                direction.x,
-                direction.y
-            ).indexOf(event.target.parentNode)) {
+            const elements = document.elementsFromPoint(direction.x, direction.y);
+            const parentIndex = elements.indexOf(event.target.parentNode);
+            const target = elements[parentIndex - 1];
+            if (-1 !== parentIndex && (!target || target.tagName !== event.target.tagName)) {
                 return direction;
             }
         }
