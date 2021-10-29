@@ -1,14 +1,14 @@
-import { Component } from "babel-skeleton";
+import { Component } from 'babel-skeleton';
 
-import { template } from "./square-list.component.html";
+import { template } from './square-list.component.html';
 
-import { SquareComponent } from "./square/square.component";
-import { SquareListService } from "../shared/services/square-list.service";
-import { SquareService } from "../shared/services/square.service";
-import { SquareNavigationComponent } from "./square-navigation/square-navigation.component";
-import { JungleSoundService } from "../shared/services/sounds/jungle-sound.service";
-import { PageSoundService } from "../shared/services/sounds/page-sound.service";
-import { WhipSoundService } from "../shared/services/sounds/whip-sound.service";
+import { SquareComponent } from './square/square.component';
+import { SquareNavigationComponent } from './square-navigation/square-navigation.component';
+import { SquareService } from '../shared/services/square.service';
+import { SquareListService } from '../shared/services/square-list.service';
+import { JungleSoundService } from '../shared/services/sounds/jungle-sound.service';
+import { PageSoundService } from '../shared/services/sounds/page-sound.service';
+import { WhipSoundService } from '../shared/services/sounds/whip-sound.service';
 
 export class SquareListComponent extends Component {
 
@@ -28,11 +28,12 @@ export class SquareListComponent extends Component {
         WhipSoundService.play();
         JungleSoundService.visit();
         SquareService.attach(this.onSquareHandler);
-        window.addEventListener('resize', this.onResizeHandler);
         this.square = SquareService.get();
+        window.addEventListener('resize', this.onResizeHandler);
     }
-    
+
     onDestroy() {
+        WhipSoundService.pause();
         JungleSoundService.pause();
         SquareService.detach(this.onSquareHandler);
         window.removeEventListener('resize', this.onResizeHandler);
@@ -62,51 +63,53 @@ export class SquareListComponent extends Component {
 
     onSquare(square) {
         this.slider.style.transform = null;
-        this.slider.removeAttribute('data-translateX')
-        this.slider.classList.replace(`slider-target-${this.square.level.number}`, `slider-target-${square.level.number}`);
-        this.square = square;
+        this.slider.removeAttribute('data-translateX');
+        if (square !== this.square) {
+            PageSoundService.play();
+            this.slider.classList.replace(
+                `slider-target-${this.square.level.number}`,
+                `slider-target-${square.level.number}`
+            );
+            this.square = square;
+        }
     }
 
-    onTouchStart(e) {
-        if (!e.target.classList.contains('previous') && !e.target.classList.contains('next')) {
+    onTouchStart(touchStartEvent) {
+        if (!touchStartEvent.target.classList.contains('previous')
+            && !touchStartEvent.target.classList.contains('next')) {
+            const lastTouch = { clientX: touchStartEvent.touches[0].clientX };
+            const translateX = window.getComputedStyle(this.slider).getPropertyValue('transform').split(', ')[4];
             this.slider.style.transition = 'unset';
-            let translateX = window.getComputedStyle(this.slider).getPropertyValue('transform').split(', ')[4];
-            this.setTranslateX(translateX);
-            let clientX = e.touches[0].clientX;
+            this.slider.style.transform = `translateX(${translateX}px)`;
+            this.slider.setAttribute('data-translateX', translateX);
             window.ontouchend = (e) => this.onTouchEnd(e);
-            window.ontouchmove = (e) => {
-                translateX = Number.parseInt(this.slider.getAttribute('data-translateX'), 10) + (e.touches[0].clientX - clientX);
-                this.move(translateX);
-                clientX = e.touches[0].clientX;
-            }
+            window.ontouchmove = (e) => this.onTouchMove(e, lastTouch);
         }
     }
 
     onTouchEnd() {
         window.ontouchmove = null;
         window.ontouchend = null;
-        const target = Math.abs(this.slider.getAttribute('data-translateX')) / this.sliderAnimation.width;
-        const key = SquareListService.get().indexOf(this.square);
-        const difference = target - key;
-        const targetKey = key < target && 0.1 < difference 
-            ? key + 1
-            : (key > target && -0.1 > difference ? key - 1 : key);
+        const targetSquareKey = Math.abs(this.slider.getAttribute('data-translateX')) / this.sliderAnimation.width;
+        const actualSquareKey = SquareListService.get().indexOf(this.square);
+        const difference = targetSquareKey - actualSquareKey;
+        const legalSquareKey = actualSquareKey < targetSquareKey && 0.1 < difference
+            ? actualSquareKey + 1
+            : (actualSquareKey > targetSquareKey && -0.1 > difference ? actualSquareKey - 1 : actualSquareKey);
         this.slider.style.transition = null;
-        if (key !== targetKey) {
-            PageSoundService.play();
-        }
-        SquareService.set(SquareListService.get()[targetKey]);
+        SquareService.set(SquareListService.get()[legalSquareKey]);
     }
 
-    move(translateX) {
-        if (translateX < 0 && Math.abs(translateX) < this.sliderAnimation.maximum){
-            this.setTranslateX(translateX);
+    onTouchMove(e, lastTouch) {
+        let translateX = Number.parseInt(
+            this.slider.getAttribute('data-translateX'),
+            10
+        ) + (e.touches[0].clientX - lastTouch.clientX);
+        if (translateX < 0 && Math.abs(translateX) < this.sliderAnimation.maximum) {
+            this.slider.style.transform = `translateX(${translateX}px)`;
+            this.slider.setAttribute('data-translateX', translateX);
         }
-    }
-
-    setTranslateX(translateX) {
-        this.slider.style.transform = `translateX(${translateX}px)`;
-        this.slider.setAttribute('data-translateX', translateX);
+        lastTouch.clientX = e.touches[0].clientX;
     }
 
 }

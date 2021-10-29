@@ -2,13 +2,13 @@
 <nav class="inline-block fix v-middle h-12 w-10">
     <div class="relative center top-3 h-sm-6 top-sm-0">
         ${ next
-        ? `<a class="next cover absolute inline-block pointer right-1 left-sm-0 top-sm-5" onclick="slide(1)"></a>` :
+        ? `<a class="next cover absolute inline-block right-1 left-sm-0 top-sm-5" onclick="slide(1)"></a>` :
         (length === square.level.number ? `<a
-            class="next cover absolute inline-block pointer right-1 left-sm-0 top-sm-5" onclick="ranking()"></a>` : ``)
+            class="next cover absolute inline-block right-1 left-sm-0 top-sm-5" onclick="ranking()"></a>` : ``)
         }
     </div>
     <div class="relative center top-3 h-sm-6 top-sm-0">
-        ${ previous ? `<a class="previous cover absolute inline-block pointer left-1 left-sm-0 top-sm-5"
+        ${ previous ? `<a class="previous cover absolute inline-block left-1 left-sm-0 top-sm-5"
             onclick="slide(-1)"></a>` : `` }
     </div>
 </nav>

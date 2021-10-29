@@ -4,7 +4,6 @@ import { template } from './square-navigation.component.html';
 
 import { SquareService } from '../../shared/services/square.service';
 import { SquareListService } from '../../shared/services/square-list.service';
-import { PageSoundService } from '../../shared/services/sounds/page-sound.service';
 
 export class SquareNavigationComponent extends Component {
 
@@ -34,7 +33,6 @@ export class SquareNavigationComponent extends Component {
     }
 
     slide(offset) {
-        PageSoundService.play();
         SquareService.set(SquareListService.find(this.square.level.number + offset));
     }
 
