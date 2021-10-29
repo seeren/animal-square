@@ -4,12 +4,14 @@ loader {
     .progress {
         @extend .absolute, .w-4, .w-sm-2, .left-0, .right-0, .top-7, .bottom-0, .box-shadow, .shadow, .font-2;
         height: 0.75em;
-        line-height: 0.75em;
+        line-height: .8em;
         margin: auto;
-        padding: .5em;
-        border-radius: 1em;
+        padding: 0.5em;
+        border-radius: .7em;
         .bar {
-            height: 0.75em;
+            margin-top: 0.15em;
+            border-radius: 1em;
+            height: 0.5em;
         }
     }
 }

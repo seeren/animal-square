@@ -2,7 +2,7 @@ import { Component } from 'babel-skeleton';
 
 import { template } from './error.component.html';
 
-import { ErrorService } from './shared/error.service';
+import { ErrorService } from './error.service';
 
 export class ErrorComponent extends Component {
 
