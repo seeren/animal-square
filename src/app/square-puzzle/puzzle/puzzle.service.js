@@ -11,8 +11,10 @@ export const PuzzleService = new class extends Service {
             const shapeParent = window.document.querySelector('puzzle').getBoundingClientRect();
             window.document.querySelectorAll('puzzle .cel').forEach((element, index) => {
                 const { width, left, top } = element.getBoundingClientRect();
-                if ((index % 4) * width !== left - shapeParent.left
-                    || window.parseInt(index / 4) * width !== top - shapeParent.top) {
+                const offsetTop = window.parseInt(index / 4) * width;
+                const offsetLeft = (index % 4) * width;
+                if (Math.abs(offsetLeft - Math.round(left - shapeParent.left)) > 5
+                    || Math.abs(offsetTop - Math.round(top - shapeParent.top)) > 5) {
                     throw element;
                 }
             });
