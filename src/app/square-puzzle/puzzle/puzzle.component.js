@@ -7,6 +7,8 @@ import { PuzzleDirectionService } from './puzzle-direction.service';
 import { SquareService } from '../../shared/services/square.service';
 import { SquareSoundService } from '../../shared/services/sounds/square-sound.service';
 import { PuzzleTouchService } from './puzzle-touch.service';
+import { SquarePuzzleService } from '../square-puzzle.service';
+import { PuzzleService } from './puzzle.service';
 
 export class PuzzleComponent extends Component {
 
@@ -24,18 +26,22 @@ export class PuzzleComponent extends Component {
 
     onUpdate() {
         window.document.querySelectorAll(`${this.selector} .cel`).forEach(
-            (cel) => cel.ontouchstart = () => this.onTouchStart(PuzzleTouchService.getTouchEvent(cel))
+            (cel) => cel.ontouchstart = (e, isStart = false) => this.onTouchStart(
+                PuzzleTouchService.getTouchEvent(cel),
+                isStart
+            )
         );
     }
 
-    onTouchStart(touchStartEvent) {
-        if (!PuzzleTouchService.isEnd()) {
+    onTouchStart(touchStartEvent, isStart) {
+        isStart = isStart || SquarePuzzleService.isStart()
+        if (!isStart || !PuzzleTouchService.isEnd()) {
             return;
         }
         const direction = PuzzleDirectionService.getDirection(touchStartEvent);
         if (direction) {
-            PuzzleTouchService.start();
             const cell = touchStartEvent.target;
+            PuzzleTouchService.start(cell);
             const translation = PuzzleDirectionService.getTranslation(cell);
             const minimum = direction.positive
                 ? translation[direction.axe]
@@ -72,8 +78,7 @@ export class PuzzleComponent extends Component {
             cell.className = cell.className.replace(` fire ${direction.axe}-${direction.positive}`, '');
             cell.removeAttribute('data-x');
             cell.removeAttribute('data-y');
-            // TODO stop game on puzzle complete otherwise toogle animable
-            PuzzleTouchService.end();
+            PuzzleService.isComplete() ? SquarePuzzleService.stop() : PuzzleTouchService.end();
         };
         const updatedAxe = window.parseFloat(cell.getAttribute(`data-${direction.axe}`), 10);
         cell.setAttribute(
@@ -83,7 +88,6 @@ export class PuzzleComponent extends Component {
         updatedAxe === initial[direction.axe] || (updatedAxe !== maximum && updatedAxe !== minimum)
             ? cell.style.transform = `translate(${cell.getAttribute('data-x')}px, ${cell.getAttribute('data-y')}px)`
             : cell.ontransitionend();
-
     }
 
 }

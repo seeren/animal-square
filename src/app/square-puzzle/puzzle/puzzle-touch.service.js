@@ -1,6 +1,8 @@
 import { Service } from 'babel-skeleton';
 
-import { PuzzleTouchEvent } from './puzzle-touch-event.model';
+import { MonkeyService } from './monkey/monkey.service';
+import { PuzzleService } from './puzzle.service';
+import { PuzzleTouch } from './puzzle-touch.model';
 
 export const PuzzleTouchService = new class extends Service {
 
@@ -13,7 +15,8 @@ export const PuzzleTouchService = new class extends Service {
         this.state = this.end;
     }
 
-    start() {
+    start(cell) {
+        MonkeyService.number = PuzzleService.getCellNumber(cell);
         this.state = this.start;
         this.notify();
     }
@@ -33,7 +36,7 @@ export const PuzzleTouchService = new class extends Service {
 
     getTouchEvent(cell) {
         const shape = cell.getBoundingClientRect();
-        return new PuzzleTouchEvent(cell, shape.x + shape.width / 2, shape.y + shape.height / 2)
+        return new PuzzleTouch(cell, shape.x + shape.width / 2, shape.y + shape.height / 2)
     }
 
 }
