@@ -78,7 +78,10 @@ export class PuzzleComponent extends Component {
             cell.className = cell.className.replace(` fire ${direction.axe}-${direction.positive}`, '');
             cell.removeAttribute('data-x');
             cell.removeAttribute('data-y');
-            PuzzleService.isComplete() ? SquarePuzzleService.stop() : PuzzleTouchService.end();
+            PuzzleTouchService.end();
+            if (PuzzleService.isComplete()) {
+                SquarePuzzleService.stop() 
+            }
         };
         const updatedAxe = window.parseFloat(cell.getAttribute(`data-${direction.axe}`), 10);
         cell.setAttribute(
