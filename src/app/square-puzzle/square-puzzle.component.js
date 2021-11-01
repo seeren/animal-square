@@ -43,8 +43,7 @@ export class SquarePuzzleComponent extends Component {
     onInit() {
         this.timeoutList = { monkey: null };
         this.hitCount = null;
-        // TODO replace hard coded '1' by RouterComponent.get('id')
-        SquareService.set(this.square = SquareListService.find(1));
+        SquareService.set(this.square = SquareListService.find(RouterComponent.get('id')));
         MonkeyService.attach(this.monkeyListener);
         PuzzleTouchService.attach(this.puzzleTouchListner);
         SquarePuzzleService.attach(this.squarePuzzleListener);

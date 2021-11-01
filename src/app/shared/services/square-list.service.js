@@ -10,12 +10,12 @@ export const SquareListService = new class extends Service {
 
     constructor() {
         super();
-        // this.squareList = this.fetch();
+        this.squareList = this.fetch();
         if (!this.squareList) {
             this.squareList = this.init();
             this.save();
         }
-        SquareService.set(this.squareList[6]);
+        SquareService.set(this.squareList[0]);
     }
 
     init() {
@@ -25,10 +25,7 @@ export const SquareListService = new class extends Service {
             squareList.push(square);
             square.animal.name = value;
             square.level.number = ++index;
-            square.score.time = 180;
-            if (index < 7) {
-                square.score.time = 180;
-            }
+            square.score.time = 0;
         });
         return squareList;
     }
