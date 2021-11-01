@@ -1,80 +1,70 @@
-import { Component } from "babel-skeleton";
+import { Component } from 'babel-skeleton';
 
-import { template } from "./monkey.component.html";
-import { MonkeyService } from "../../shared/monkey.service";
-import { MonkeySoundService } from "../../../shared/services/sounds/monkey-sound.service";
-import { ResumeService } from "../../shared/resume.service";
+import { template } from './monkey.component.html';
+
+import { MonkeyService } from './monkey.service';
+import { MonkeySoundService } from '../../../shared/services/sounds/monkey-sound.service';
+import { SquarePuzzleService } from '../../square-puzzle.service';
 
 export class MonkeyComponent extends Component {
 
-    /**
-     * @constructor
-     */
     constructor() {
-        super({
-            selector: "monkey",
-            template: template
-        });
-        this.monkeyListener = (service) => this[service.state] ? this[service.state]() : null;
-        this.resumeListener = (service) => service.resume ? this.onPause() : this.onResume();
+        super({ selector: 'monkey', template });
+        this.monkeyListener = (service) => service.isStart() ? this.start() : null;
+        this.squarePuzzleListener = () => SquarePuzzleService.isStart()
+            ? this.onResume()
+            : SquarePuzzleService.isPause() && this.onPause();
     }
 
-    /**
-     * @fires
-     */
     onInit() {
         this.monkey = null;
-        this.duration = 0;
-        this.delay = 0;
-        this.interval = 0;
+        this.interval = null;
+        this.duration = null;
+        this.delay = null;
         MonkeyService.attach(this.monkeyListener);
-        ResumeService.attach(this.resumeListener);
+        SquarePuzzleService.attach(this.squarePuzzleListener);
     }
 
-    /**
-     * @fires
-     */
     onDestroy() {
         window.clearInterval(this.interval);
         MonkeyService.detach(this.monkeyListener);
         MonkeyService.state = null;
     }
 
-    /**
-     * @fires
-     */
     onUpdate(element) {
         this.monkey = element;
-        this.duration = window.parseFloat(
-            window.getComputedStyle(element).getPropertyValue("animation-duration"), 10
+        this.duration = this.delay = window.parseFloat(
+            window.getComputedStyle(element).getPropertyValue('animation-duration'), 10
         ) * 1000;
-        this.delay = this.duration;
     }
 
-    /**
-     * @fires
-     */
     onPause() {
         if (this.delay !== this.duration) {
             window.clearInterval(this.interval);
-            this.monkey.className += " pause";
+            this.monkey.className += ' pause';
         }
     }
 
-    /**
-     * @fires
-     */
     onResume() {
-        if (-1 !== this.monkey.className.indexOf(" pause")) {
-            this.monkey.className = this.monkey.className.replace(" pause", "");
-            this.interval = this.runInterval();
+        if (-1 !== this.monkey.className.indexOf(' pause')) {
+            this.monkey.className = this.monkey.className.replace(' pause', '');
+            this.interval = this.listenHit();
         }
     }
 
-    /**
-     * @return {Number}
-     */
-    runInterval() {
+    start() {
+        if (this.delay === this.duration) {
+            MonkeySoundService.start();
+            this.monkey.className = `monkey-${MonkeyService.number}`;
+            this.interval = this.listenHit();
+        }
+    }
+
+    stop() {
+        this.monkey.className = '';
+    }
+
+    listenHit() {
         const halfDuration = this.duration / 2;
         return window.setInterval(() => {
             this.delay -= 100;
@@ -86,24 +76,6 @@ export class MonkeyComponent extends Component {
                 this.delay = this.duration;
             }
         }, 100);
-    }
-
-    /**
-     * @event
-     */
-    start() {
-        if (this.delay === this.duration) {
-            MonkeySoundService.start();
-            this.monkey.className = `monkey-${MonkeyService.number}`;
-            this.interval = this.runInterval();
-        }
-    }
-
-    /**
-     * @event
-     */
-    stop() {
-        this.monkey.className = ``;
     }
 
 }

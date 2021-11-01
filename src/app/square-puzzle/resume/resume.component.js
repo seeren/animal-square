@@ -2,9 +2,9 @@ import { Component, RouterComponent } from 'babel-skeleton';
 
 import { template } from './resume.component.html';
 
-import { ResumeService } from '../shared/resume.service';
 import { SquareService } from '../../shared/services/square.service';
 import { BirdSoundService } from '../../shared/services/sounds/bird-sound.service';
+import { SquarePuzzleService } from '../square-puzzle.service';
 
 export class ResumeComponent extends Component {
 
@@ -14,23 +14,22 @@ export class ResumeComponent extends Component {
 
     onInit() {
         this.square = SquareService.get();
-        this.resume = ResumeService.get();
-    }
-
-    onDestroy() {
-        if (ResumeService.get()) {
-            this.toogle();
-        }
+        this.pause = SquarePuzzleService.isPause();
     }
 
     toogle() {
-        if (!ResumeService.get()) {
+        if (SquarePuzzleService.isStart()) {
             BirdSoundService.signal();
+            SquarePuzzleService.pause();
+            return this.pause = true;
+        } else if (SquarePuzzleService.isPause()) {
+            SquarePuzzleService.start();
+            return this.pause = false;
         }
-        return this.resume = ResumeService.toogle();
     }
 
     exit() {
+        SquarePuzzleService.state = SquarePuzzleService.stop;
         RouterComponent.navigate('square-list');
     }
 

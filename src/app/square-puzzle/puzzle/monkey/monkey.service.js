@@ -2,33 +2,35 @@ import { Service } from 'babel-skeleton';
 
 export const MonkeyService = new class extends Service {
 
-    /**
-     * @constructor
-     */
+    static start = 1;
+
+    static hit = 2;
+
     constructor() {
         super();
-        this.state = null;
-        this.number = null;
+        this.state = 0;
+        this.number = 0;
     }
 
-    /**
-     * @emits
-     */
     hit() {
-        this.notify(this.state = "hit");
+        this.state = this.hit;
+        this.notify();
     }
 
-    /**
-     * @param {Number} number
-     */
+    isHit() {
+        return this.hit === this.state;
+    }
+
     start(number) {
         this.number = number;
-        this.notify(this.state = "start");
+        this.state = this.start;
+        this.notify();
     }
 
-    /**
-     * @returns {Number} 
-     */
+    isStart() {
+        return this.start === this.state;
+    }
+
     random() {
         let number = this.number;
         while (number === this.number) {
@@ -37,15 +39,12 @@ export const MonkeyService = new class extends Service {
         return number;
     }
 
-    /**
-     * @returns {HTMLElement} 
-     */
-    cel() {
-        const shape = window.document.querySelector(`monkey`).getBoundingClientRect();
+    getCell() {
+        const shape = window.document.querySelector('monkey').getBoundingClientRect();
         return window.document.elementsFromPoint(
             shape.x + 5,
             shape.y + 5
-        ).find(element => -1 !== element.className.indexOf("cel cel-"));
+        ).find(element => -1 !== element.className.indexOf('cel cel-'));
     }
 
 }
