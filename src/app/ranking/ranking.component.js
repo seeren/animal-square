@@ -4,16 +4,18 @@ import { template } from './ranking.component.html';
 
 import { NoticeComponent } from '../shared/components/notice/notice.component';
 import { SquareListService } from '../shared/services/square-list.service';
-import { ScoreService } from '../shared/services/score.service';
 import { WhipSoundService } from '../shared/services/sounds/whip-sound.service';
 import { BirdSoundService } from '../shared/services/sounds/bird-sound.service';
+import { ScoreService } from '../square-puzzle/score/score.service';
 
 export class RankingComponent extends Component {
 
     constructor() {
-        super({ selector: 'ranking', template, components: [
+        super({
+            selector: 'ranking', template, components: [
                 new NoticeComponent
-            ] });
+            ]
+        });
         this.notice = this.components[0];
     }
 
@@ -25,22 +27,14 @@ export class RankingComponent extends Component {
         this.time = 0;
         SquareListService.get().forEach((square) => {
             this.time += square.score.time;
-            const medail = ScoreService.medail(square.score.time);
-            'black' === medail
-                ? black++ 
-                : ('gold' === medail
-                    ? gold++ 
-                    : ('silver' === medail
-                        ? silver++ 
-                        : bronze++));
+            const medail = ScoreService.getMedail(square.score.time);
+            'black' === medail ? black++ : (
+                'gold' === medail ? gold++ : (
+                    'silver' === medail ? silver++ : bronze++));
         });
-        this.medail = black > gold
-            ? 'black'
-            : (gold > silver 
-                ? 'gold' 
-                : (silver > bronze 
-                    ? 'silver' 
-                    : 'bronze'));
+        this.medail = black > gold ? 'black' : (
+            gold > silver ? 'gold' : (
+                silver > bronze ? 'silver' : 'bronze'));
     }
 
     onDestroy() {

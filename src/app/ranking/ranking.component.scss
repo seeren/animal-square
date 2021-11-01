@@ -12,8 +12,17 @@ ranking {
             height: 100%;
             width: 100vh;
         }
-        notice .text {
-            line-height: 180%;
+
+        notice {
+            background-position: 50% 100%;
+            background-size: auto 100%;
+            @media all and (min-width: #{map-get($breakpoints, 'sm')}px) {
+                background-position: 50%;
+                background-size: 70% auto;
+            }
+            .text {
+                line-height: 180%;
+            }
         }
     }
 }
