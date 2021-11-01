@@ -3,8 +3,8 @@ import { Component, RouterComponent } from 'babel-skeleton';
 import { template } from './square.component.html';
 
 import { NoticeComponent } from '../../shared/components/notice/notice.component';
-import { ScoreService } from '../../shared/services/score.service';
 import { WhipSoundService } from '../../shared/services/sounds/whip-sound.service';
+import { ScoreService } from '../../square-puzzle/score/score.service';
 
 export class SquareComponent extends Component {
 

@@ -1,29 +1,29 @@
-import { Component, RouterComponent } from "babel-skeleton";
+import { Component, RouterComponent } from 'babel-skeleton';
 
-import { template } from "./square-puzzle.component.html";
-import { PuzzleComponent } from "./puzzle/puzzle.component";
-import { ScoreComponent } from "./score/score.component";
-import { ResumeComponent } from "./resume/resume.component";
-import { SquareListService } from "../shared/services/square-list.service";
-import { NoticeComponent } from "../shared/components/notice/notice.component";
-import { DirectionService } from "./shared/direction.service";
-import { MonkeyService } from "./shared/monkey.service";
-import { ScoreService } from "../shared/services/score.service";
-import { ResumeService } from "./shared/resume.service";
-import { PuzzleService } from "./shared/puzzle.service";
-import { WhipSoundService } from "../shared/services/sounds/whip-sound.service";
-import { JungleSoundService } from "../shared/services/sounds/jungle-sound.service";
-import { MagicSoundService } from "../shared/services/sounds/magic-sound.service";
-import { BirdSoundService } from "../shared/services/sounds/bird-sound.service";
+import { template } from './square-puzzle.component.html';
+
+import { PuzzleComponent } from './puzzle/puzzle.component';
+import { ScoreComponent } from './score/score.component';
+import { ResumeComponent } from './resume/resume.component';
+import { SquareListService } from '../shared/services/square-list.service';
+import { NoticeComponent } from '../shared/components/notice/notice.component';
+import { MonkeyService } from './puzzle/monkey/monkey.service';
+import { WhipSoundService } from '../shared/services/sounds/whip-sound.service';
+import { JungleSoundService } from '../shared/services/sounds/jungle-sound.service';
+import { MagicSoundService } from '../shared/services/sounds/magic-sound.service';
+import { BirdSoundService } from '../shared/services/sounds/bird-sound.service';
+import { SquareService } from '../shared/services/square.service';
+import { PuzzleService } from './puzzle/puzzle.service';
+import { PuzzleTouchService } from './puzzle/puzzle-touch.service';
+import { PuzzleDirectionService } from './puzzle/puzzle-direction.service';
+import { SquarePuzzleService } from './square-puzzle.service';
+import { ScoreService } from './score/score.service';
 
 export class SquarePuzzleComponent extends Component {
 
-    /**
-     * @constructor
-     */
     constructor() {
         super({
-            selector: "square-puzzle",
+            selector: 'square-puzzle',
             template: template,
             components: [
                 new ScoreComponent,
@@ -33,153 +33,105 @@ export class SquarePuzzleComponent extends Component {
             ]
         });
         this.notice = this.components[3];
-        this.scoreListener = () => this.stop();
-        this.monkeyListener = (service) => "hit" === service.state ? this.hit() : null;
-        this.resumeListener = (service) => service.resume ? this.onPause() : this.onResume();
+        this.monkeyListener = (service) => service.isHit() && this.onHit();
+        this.puzzleTouchListner = (service) => service.isEnd() && this.onTouchEnd();
+        this.squarePuzzleListener = () => SquarePuzzleService.isStart() ? this.onResume() : (
+            SquarePuzzleService.isPause() ? this.onPause() : this.onStop()
+        );
     }
 
-    /**
-     * @fires
-     */
     onInit() {
-        this.monkeyServiceTimeout = null;
-        this.touchesTimeout = null;
-        this.touchesLimit = null;
-        this.touchDuration = null;
-        this.timeout = 0;
-        this.touchHit = 0;
-        this.square = SquareListService.set(RouterComponent.get("id") || 1);
-        ScoreService.attach(this.scoreListener);
+        this.timeoutList = { monkey: null };
+        this.hitCount = null;
+        // TODO replace hard coded '1' by RouterComponent.get('id')
+        SquareService.set(this.square = SquareListService.find(1));
         MonkeyService.attach(this.monkeyListener);
-        ResumeService.attach(this.resumeListener);
+        PuzzleTouchService.attach(this.puzzleTouchListner);
+        SquarePuzzleService.attach(this.squarePuzzleListener);
     }
 
-    /**
-     * @fires
-     */
     onDestroy() {
         this.onPause();
-        ScoreService.detach(this.scoreListener);
         MonkeyService.detach(this.monkeyListener);
-        ResumeService.detach(this.resumeListener);
+        PuzzleTouchService.detach(this.puzzleTouchListner);
+        SquarePuzzleService.detach(this.squarePuzzleListener);
     }
 
-    /**
-     * @fires
-     */
     onUpdate() {
-        const noticeDelay = this.notice.scroll("Ready");
         JungleSoundService.puzzle();
         WhipSoundService.play();
-        window.setTimeout(() => MagicSoundService.play(), noticeDelay / 3);
-        this.monkeyServiceTimeout = window.setTimeout(() => MonkeyService.start(15), noticeDelay / 2);
-        this.touchDuration = PuzzleService.duration() * 1000;
+        this.notice.scroll('Ready');
+        this.notice.element.onanimationend = () => this.notice.element.className = 'none';
+        this.timeoutList.monkey = window.setTimeout(() => MonkeyService.start(15), 3000);
+        window.setTimeout(() => MagicSoundService.play(), 1000);
+        this.hitCount = 0;
     }
 
-    /**
-     * @fires
-     */
     onPause() {
-        window.clearTimeout(this.timeout);
-        window.clearTimeout(this.monkeyServiceTimeout);
-        window.clearTimeout(this.touchesTimeout);
         JungleSoundService.pause();
+        BirdSoundService.pause();
+        window.clearTimeout(this.timeoutList.monkey);
     }
 
-    /**
-     * @fires
-     */
     onResume() {
-        if ("stop" !== ScoreService.state) {
+        if (!SquarePuzzleService.isStop()) {
             JungleSoundService.puzzle();
-            !MonkeyService.state ? MonkeyService.start(15) : this.runMonkey();
-            if (0 !== this.touchHit) {
-                this.touches();
-            }
+            !MonkeyService.state ? MonkeyService.start(15) : this.onTouchEnd();
+        } else {
+            BirdSoundService.resume();
+        }
+    }
+
+    onHit() {
+        const cell = MonkeyService.getCell();
+        if (!cell || !this.touch(cell, PuzzleTouchService.getTouchEvent(cell))) {
+            this.runMonkey();
             return;
         }
-        BirdSoundService.resume();
-        if (this.timeout) {
-            this.navigate(500);
+        WhipSoundService.play();
+        if ('Ready' === this.notice.title) {
+            this.notice.pass('Go');
+            this.hitCount = 10 + this.square.level.number * 2;
+        } else {
+            this.hitCount = this.square.level.number * 2;
         }
     }
 
-    /**
-     * @event
-     */
-    hit() {
-        if ("stop" !== ScoreService.state) {
-            const cel = MonkeyService.cel();
-            if (cel && this.touch(cel, DirectionService.getTouchesEvent(cel))) {
-                WhipSoundService.play();
-                this.notice.pass("Ready" === this.notice.title ? "Go" : "Hum");
-                this.touchesLimit = "Go" === this.notice.title
-                    ? 10 + (this.square.level.number * 2)
-                    : this.square.level.number * 2;
-                return this.touches();
-            }
+    onTouchEnd() {
+        if (!this.hitCount) {
+            SquarePuzzleService.isStart() || SquarePuzzleService.start()
             this.runMonkey();
+            return;
         }
+        const cellList = [];
+        this.hitCount = this.hitCount - 1;
+        window.document.querySelectorAll(`${this.selector} .cel`).forEach((cell) => {
+            if (MonkeyService.number !== PuzzleService.getCellNumber(cell)
+                && PuzzleDirectionService.getDirection(PuzzleTouchService.getTouchEvent(cell))) {
+                cellList.push(cell);
+            }
+        });
+        this.touch(cellList[Math.floor(Math.random() * cellList.length)]);
     }
 
-    /**
-     * @event
-     * 
-     * @param {HTMLElement} cel 
-     * @param {TouchEvent} event 
-     * @returns {Boolean} 
-     */
-    touch(cel, event) {
-        MonkeyService.number = PuzzleService.number(cel);
-        cel.ontouchstart(event);
-        if (cel.ontouchend) {
-            this.touchHit++;
-            cel.ontouchend();
+    touch(cell) {
+        cell.ontouchstart(null, true);
+        if (cell.ontouchend) {
+            cell.ontouchend();
             return true;
         }
         return false;
     }
 
-    /**
-     * @event
-     */
-    touches() {
-        this.touchesTimeout = window.setTimeout(() => {
-            const cels = [];
-            const events = [];
-            for (const cel of window.document.querySelectorAll(`${this.selector} .cel`)) {
-                const event = DirectionService.getTouchesEvent(cel);
-                if (MonkeyService.number !== PuzzleService.number(cel)
-                    && DirectionService.get(event).property) {
-                    cels.push(cel);
-                    events.push(event);
-                }
-            }
-            const index = Math.floor(Math.random() * cels.length);
-            this.touch(cels[index], events[index]);
-            if (this.touchHit < this.touchesLimit) {
-                return this.touches();
-            }
-            this.touchHit = 0;
-            this.runMonkey();
-        }, this.touchDuration);
-    }
-
-    /**
-     * @event
-     */
     runMonkey() {
-        window.clearTimeout(this.monkeyServiceTimeout);
-        this.monkeyServiceTimeout = window.setTimeout(
+        window.clearTimeout(this.timeoutList.monkey);
+        this.timeoutList.monkey = window.setTimeout(
             () => MonkeyService.start(MonkeyService.random()),
             (10 + Math.floor(Math.random() * Math.floor(30))) * 1000
         );
     }
 
-    /**
-     * @event
-     */
-    stop() {
+    onStop() {
         this.onPause();
         WhipSoundService.play();
         if (ScoreService.time > this.square.score.time) {
@@ -189,38 +141,25 @@ export class SquarePuzzleComponent extends Component {
         } else {
             BirdSoundService.fail();
         }
-        const medail = ScoreService.medail(ScoreService.time);
+        const medail = ScoreService.getMedail(ScoreService.time);
         this.notice.background = `items/medails/medail-${medail}.png`;
+        this.notice.show(ScoreService.time ? medail : 'Fail');
+        this.notice.element.onanimationend = null;
         window.setTimeout(() => {
             if (ScoreService.time) {
                 MagicSoundService.play();
             }
             const link = window.document.querySelector(`${this.selector} notice .text`);
-            link.onclick = () => this.stopOnClick(link);
-        }, this.notice.show(ScoreService.time ? medail : "Timeout") / 2);
+            link.onclick = () => this.exit(link);
+        }, 1500);
     }
 
-    /**
-     * @event
-     * @param {HTMLElement} link 
-     */
-    stopOnClick(link) {
+    exit(link) {
         link.onclick = null;
         WhipSoundService.play();
-        BirdSoundService.pause();
-        window.document.querySelector(`${this.selector} puzzle`).className += " animate-hide";
-        this.navigate(this.notice.hide());
-    }
-
-    /**
-     * @event
-     * @param {Number}
-     */
-    navigate(duration) {
-        this.timeout = window.setTimeout(
-            () => RouterComponent.navigate("square-list"),
-            duration
-        );
+        window.document.querySelector(`${this.selector} puzzle`).className += ' animate-hide';
+        this.notice.hide();
+        this.notice.element.onanimationend = () => RouterComponent.navigate('square-list');
     }
 
 }
