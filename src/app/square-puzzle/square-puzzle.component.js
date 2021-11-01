@@ -76,10 +76,10 @@ export class SquarePuzzleComponent extends Component {
     }
 
     onResume() {
-        if (!SquarePuzzleService.isStop()) {
-            JungleSoundService.puzzle();
-            !MonkeyService.state ? MonkeyService.start(15) : this.onTouchEnd();
-        } else {
+        JungleSoundService.puzzle();
+        if (SquarePuzzleService.isStart()) {
+            this.runMonkey();
+        } else if (SquarePuzzleService.isStop()) {
             BirdSoundService.resume();
         }
     }
