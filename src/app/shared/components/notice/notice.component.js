@@ -41,18 +41,6 @@ export class NoticeComponent extends Component {
         }
     }
 
-    onPause() {
-        if (!this.element.classList.contains('pause')) {
-            this.element.classList.add('pause');
-        }
-    }
-
-    onResume() {
-        if (this.element.classList.contains('pause')) {
-            this.element.classList.remove('pause');
-        }
-    }
-
     click() {
         if (this.onclick) {
             this.onclick();
