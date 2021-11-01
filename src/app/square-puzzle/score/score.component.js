@@ -2,23 +2,22 @@ import { Component } from 'babel-skeleton';
 
 import { template } from './score.component.html';
 
-import { ScoreService } from '../../shared/services/score.service';
-import { ResumeService } from '../shared/resume.service';
+import { ScoreService } from './score.service';
+import { SquarePuzzleService } from '../square-puzzle.service';
 
 export class ScoreComponent extends Component {
 
     constructor() {
         super({ selector: 'score', template });
-        this.resumeListener = (service) => service.resume ? this.onPause() : this.onResume();
-        this.scoreListener = () => this.onPause();
+        this.squarePuzzleListener = () => SquarePuzzleService.isStart()
+            ? this.onResume()
+            : this.onPause()
     }
 
     onInit() {
-        this.onPause();
         this.interval = null;
-        ScoreService.start();
-        ResumeService.attach(this.resumeListener);
-        ScoreService.attach(this.scoreListener);
+        ScoreService.time = 200;
+        SquarePuzzleService.attach(this.squarePuzzleListener);
     }
 
     onUpdate() {
@@ -28,9 +27,7 @@ export class ScoreComponent extends Component {
 
     onDestroy() {
         this.onPause();
-        ScoreService.stop();
-        ResumeService.detach(this.resumeListener);
-        ScoreService.detach(this.scoreListener);
+        SquarePuzzleService.detach(this.squarePuzzleListener);
     }
 
     onPause() {
@@ -50,7 +47,7 @@ export class ScoreComponent extends Component {
         this.interval = window.setInterval(() => {
             this.score.innerHTML = --ScoreService.time;
             if (0 === ScoreService.time) {
-                this.onDestroy();
+                SquarePuzzleService.stop();
             }
         }, 1000);
     }
