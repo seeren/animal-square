@@ -1,11 +1,11 @@
 import { Service } from 'babel-skeleton';
 
-import { SoundService } from './sound.service';
+import { MultiSoundService } from './multi-sound.service';
 
 export const SquareSoundService = new class extends Service {
 
     play() {
-        SoundService.play('square', 'square.mp4');
+        this.player = MultiSoundService.play('square', 'square.mp4');
     }
 
 }

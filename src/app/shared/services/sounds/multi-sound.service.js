@@ -1,6 +1,6 @@
 import { Service } from 'babel-skeleton';
 
-export const SoundService = new class extends Service {
+export const MultiSoundService = new class extends Service {
 
     constructor() {
         super();
@@ -9,11 +9,12 @@ export const SoundService = new class extends Service {
 
     get(id, volume) {
         if (!this.players[id]) {
-            const player = window.document.createElement('audio');
-            player.volume = volume;
-            this.players[id] = player;
+            this.players[id] = [];
         }
-        return this.players[id];
+        const player = window.document.createElement('audio');
+        player.volume = volume;
+        this.players[id].push(player);
+        return player;
     }
 
     play(id, src, loop = false, volume = 1) {
@@ -24,13 +25,14 @@ export const SoundService = new class extends Service {
         if (loop && !player.setAttribute('loop', 'loop')) {
             player.setAttribute('loop', 'loop');
         }
+        player.onended = () => this.players[id].splice(this.players[id].indexOf(player), 1);
         player.play();
         return player;
     }
 
     pause(id) {
         if (this.players[id]) {
-            this.players[id].pause();
+            this.players[id].forEach((player) => player.pause())
         }
     }
 

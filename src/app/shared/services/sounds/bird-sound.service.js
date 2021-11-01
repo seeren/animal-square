@@ -13,7 +13,7 @@ export const BirdSoundService = new class extends Service {
     }
 
     fail() {
-        SoundService.play('bird', 'bird-fail.mp4', true, 1);
+        SoundService.play('bird', 'bird-fail.mp4', true, .7);
     }
 
     pause() {
@@ -22,7 +22,7 @@ export const BirdSoundService = new class extends Service {
 
     resume() {
         if (SoundService.players['bird']) {
-            -1 === SoundService.players['bird'].src.indexOf('success')
+            -1 === SoundService.players['bird'][0].src.indexOf('success')
                 ? this.fail()
                 : this.success();
         }
