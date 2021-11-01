@@ -61,8 +61,11 @@ export class SquarePuzzleComponent extends Component {
         JungleSoundService.puzzle();
         WhipSoundService.play();
         this.notice.scroll('Ready');
-        this.notice.element.onanimationend = () => this.notice.element.className = 'none';
-        this.timeoutList.monkey = window.setTimeout(() => MonkeyService.start(15), 3000);
+        this.notice.element.onanimationend = () => {
+            this.notice.element.onanimationend = () => this.notice.element.className = 'none';
+            this.notice.element.onanimationend();
+            MonkeyService.start(15);
+        };
         window.setTimeout(() => MagicSoundService.play(), 1000);
         this.hitCount = 0;
     }
@@ -84,7 +87,7 @@ export class SquarePuzzleComponent extends Component {
 
     onHit() {
         const cell = MonkeyService.getCell();
-        if (!cell || !this.touch(cell, PuzzleTouchService.getTouchEvent(cell))) {
+        if (!cell || !this.touch(cell)) {
             this.runMonkey();
             return;
         }
@@ -127,6 +130,7 @@ export class SquarePuzzleComponent extends Component {
         window.clearTimeout(this.timeoutList.monkey);
         this.timeoutList.monkey = window.setTimeout(
             () => MonkeyService.start(MonkeyService.random()),
+            // 5000
             (10 + Math.floor(Math.random() * Math.floor(30))) * 1000
         );
     }
