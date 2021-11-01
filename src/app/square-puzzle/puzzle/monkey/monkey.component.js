@@ -17,30 +17,21 @@ export class MonkeyComponent extends Component {
     }
 
     onInit() {
-        this.monkey = null;
-        this.interval = null;
-        this.duration = null;
-        this.delay = null;
         MonkeyService.attach(this.monkeyListener);
         SquarePuzzleService.attach(this.squarePuzzleListener);
     }
 
     onDestroy() {
-        window.clearInterval(this.interval);
         MonkeyService.detach(this.monkeyListener);
         MonkeyService.state = null;
     }
 
     onUpdate(element) {
         this.monkey = element;
-        this.duration = this.delay = window.parseFloat(
-            window.getComputedStyle(element).getPropertyValue('animation-duration'), 10
-        ) * 1000;
     }
 
     onPause() {
-        if (this.delay !== this.duration) {
-            window.clearInterval(this.interval);
+        if (-1 === this.monkey.className.indexOf(' pause')) {
             this.monkey.className += ' pause';
         }
     }
@@ -48,34 +39,21 @@ export class MonkeyComponent extends Component {
     onResume() {
         if (-1 !== this.monkey.className.indexOf(' pause')) {
             this.monkey.className = this.monkey.className.replace(' pause', '');
-            this.interval = this.listenHit();
         }
+    }
+
+    onAnimationEnd() {
+        MonkeyService.hit();
+        this.monkey.className = this.monkey.className.replace('enter', 'leave');
+        this.monkey.onanimationend = null;
     }
 
     start() {
         if (this.delay === this.duration) {
             MonkeySoundService.start();
-            this.monkey.className = `monkey-${MonkeyService.number}`;
-            this.interval = this.listenHit();
+            this.monkey.className = `monkey-enter-${MonkeyService.number}`;
+            this.monkey.onanimationend = () => this.onAnimationEnd();
         }
-    }
-
-    stop() {
-        this.monkey.className = '';
-    }
-
-    listenHit() {
-        const halfDuration = this.duration / 2;
-        return window.setInterval(() => {
-            this.delay -= 100;
-            if (halfDuration === this.delay) {
-                MonkeySoundService.hit();
-                MonkeyService.hit();
-            } else if (0 >= this.delay) {
-                window.clearInterval(this.interval);
-                this.delay = this.duration;
-            }
-        }, 100);
     }
 
 }

@@ -3,7 +3,7 @@ $monkey-top: 150;
 $monkey-left: -100;
 
 @function getTranslateX($x) {
-    @return percentage(-(((($monkey-left * - 1) - $monkey-size) / 25) + $x + 2) / 3);
+    @return percentage(-(((($monkey-left * -1) - $monkey-size) / 25) + $x + 2) / 3);
 }
 
 @function getTranslateY($y) {
@@ -13,45 +13,45 @@ $monkey-left: -100;
 @for $x from 1 to 5 {
     @for $y from 1 to 5 {
         $index: $x + (16 - ($y * 4));
-
-        monkey.monkey-#{$index} {
+        monkey.monkey-enter-#{$index} {
             display: block;
-            animation-name: monkey-#{$index};
+            animation-name: monkey-enter-#{$index};
         }
-
-        @keyframes monkey-#{$index} {
+        monkey.monkey-leave-#{$index} {
+            display: block;
+            animation-name: monkey-leave-#{$index};
+        }
+        @keyframes monkey-enter-#{$index} {
             0% {
                 transform: rotate(0deg) translateX(0%) translateY(0%) rotate(0deg);
             }
-
-            40%,
-            55% {
+            80%,
+            100% {
                 transform: rotate(180deg) translateX(getTranslateX($x)) translateY(getTranslateY($y)) rotate(-180deg);
             }
-
-            100% {
-                transform: rotate(360deg) translateX(percentage(((((($monkey-left * - 1) - $monkey-size) / 25) * 2) + 7) / 3)) translateY(0%) rotate(-360deg);
-            }
-
-            46%,
-            50.01% {
+            90% {
                 background-position: left;
             }
-
-            46.01%,
-            50% {
+            90.01%,
+            100% {
                 background-position: right;
             }
-
         }
-
+        @keyframes monkey-leave-#{$index} {
+            0% {
+                transform: rotate(180deg) translateX(getTranslateX($x)) translateY(getTranslateY($y)) rotate(-180deg);
+            }
+            100% {
+                transform: rotate(360deg)
+                    translateX(percentage(((((($monkey-left * -1) - $monkey-size) / 25) * 2) + 7) / 3)) translateY(0%)
+                    rotate(-360deg);
+            }
+        }
     }
 }
 
 monkey {
-    @extend .none,
-    .absolute,
-    .z-9;
+    @extend .none, .absolute, .z-9;
     background-position: left;
     background-size: 200% 100%;
     background-image: url(./../assets/images/items/monkeys/monkey-right.png);
@@ -59,13 +59,11 @@ monkey {
     height: percentage($monkey-size / 100);
     top: percentage($monkey-top / 100);
     left: percentage($monkey-left / 100);
-    animation-duration: 4s;
+    animation-duration: 2s;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
     animation-timing-function: ease-out;
-
     &.pause {
         animation-play-state: paused;
     }
-
 }

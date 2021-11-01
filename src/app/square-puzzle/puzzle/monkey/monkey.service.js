@@ -1,4 +1,5 @@
 import { Service } from 'babel-skeleton';
+import { MonkeySoundService } from '../../../shared/services/sounds/monkey-sound.service';
 
 export const MonkeyService = new class extends Service {
 
@@ -13,6 +14,7 @@ export const MonkeyService = new class extends Service {
     }
 
     hit() {
+        MonkeySoundService.hit();
         this.state = this.hit;
         this.notify();
     }
