@@ -18,6 +18,7 @@ import { PuzzleTouchService } from './puzzle/puzzle-touch.service';
 import { PuzzleDirectionService } from './puzzle/puzzle-direction.service';
 import { SquarePuzzleService } from './square-puzzle.service';
 import { ScoreService } from './score/score.service';
+import { SoundService } from '../shared/services/sounds/sound.service';
 
 export class SquarePuzzleComponent extends Component {
 
@@ -54,6 +55,7 @@ export class SquarePuzzleComponent extends Component {
         MonkeyService.detach(this.monkeyListener);
         PuzzleTouchService.detach(this.puzzleTouchListner);
         SquarePuzzleService.detach(this.squarePuzzleListener);
+        SoundService.clear();
     }
 
     onUpdate() {
@@ -76,11 +78,13 @@ export class SquarePuzzleComponent extends Component {
     }
 
     onResume() {
-        JungleSoundService.puzzle();
-        if (SquarePuzzleService.isStart()) {
-            this.runMonkey();
-        } else if (SquarePuzzleService.isStop()) {
+        if (SquarePuzzleService.isStop()) {
             BirdSoundService.resume();
+        } else {
+            JungleSoundService.puzzle();
+            if (SquarePuzzleService.isStart()) {
+                this.runMonkey();
+            }
         }
     }
 
@@ -129,7 +133,6 @@ export class SquarePuzzleComponent extends Component {
         window.clearTimeout(this.timeoutList.monkey);
         this.timeoutList.monkey = window.setTimeout(
             () => MonkeyService.start(MonkeyService.random()),
-            // 5000
             (10 + Math.floor(Math.random() * Math.floor(30))) * 1000
         );
     }

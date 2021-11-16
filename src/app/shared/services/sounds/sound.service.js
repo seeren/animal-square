@@ -4,25 +4,32 @@ export const SoundService = new class extends Service {
 
     constructor() {
         super();
+        this.clear();
+    }
+
+    clear() {
         this.players = {};
     }
 
-    get(id, volume) {
+    get(id, loop, volume) {
         if (!this.players[id]) {
-            const player = window.document.createElement('audio');
+            const player = new Audio();
             player.volume = volume;
+            if (loop && !player.setAttribute('loop', 'loop')) {
+                player.setAttribute('loop', 'loop');
+            }
             this.players[id] = player;
         }
         return this.players[id];
     }
 
-    play(id, src, loop = false, volume = 1) {
-        const player = this.get(id, volume);
+    play(id, src, loop = false, volume = 1, rewind = false) {
+        const player = this.get(id, loop, volume);
         if (src !== player.src) {
             player.src = `dist/assets/mp4/${src}`;
-        }
-        if (loop && !player.setAttribute('loop', 'loop')) {
-            player.setAttribute('loop', 'loop');
+        } 
+        if (rewind === true) {
+            player.currentTime = 0;
         }
         player.play();
         return player;

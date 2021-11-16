@@ -9,6 +9,7 @@ import { SquareListService } from '../shared/services/square-list.service';
 import { JungleSoundService } from '../shared/services/sounds/jungle-sound.service';
 import { PageSoundService } from '../shared/services/sounds/page-sound.service';
 import { WhipSoundService } from '../shared/services/sounds/whip-sound.service';
+import { SoundService } from '../shared/services/sounds/sound.service';
 
 export class SquareListComponent extends Component {
 
@@ -37,6 +38,7 @@ export class SquareListComponent extends Component {
         SquareService.detach(this.onSquareHandler);
         window.removeEventListener('resize', this.onResizeHandler);
         window.ontouchstart = null;
+        SoundService.clear();
     }
 
     onPause() {

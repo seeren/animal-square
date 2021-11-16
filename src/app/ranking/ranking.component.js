@@ -7,6 +7,7 @@ import { SquareListService } from '../shared/services/square-list.service';
 import { WhipSoundService } from '../shared/services/sounds/whip-sound.service';
 import { BirdSoundService } from '../shared/services/sounds/bird-sound.service';
 import { ScoreService } from '../square-puzzle/score/score.service';
+import { SoundService } from '../shared/services/sounds/sound.service';
 
 export class RankingComponent extends Component {
 
@@ -39,6 +40,7 @@ export class RankingComponent extends Component {
 
     onDestroy() {
         this.onPause();
+        SoundService.clear();
     }
 
     onPause() {
