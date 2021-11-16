@@ -3,15 +3,15 @@
   "version": "1.1.0",
   "scripts": {
     "android": "npm run build && cordova run android --device",
-    "android:build": "npm run build && cordova build android --release -- --packageType=bundle",
+    "android:build": "npm run build && cordova build android --release",
     "android:emulate": "npm run build && cordova run android --emulator",
     "android:install": "cordova platform add android",
     "ios": "npm run build && cordova run ios --device",
+    "ios:build": "npm run build && cordova build ios --release",
     "ios:emulate": "npm run build && cordova run ios --emulator",
     "ios:install": "cordova platform add ios",
     "build": "webpack --mode production",
     "dev": "webpack --mode development --watch",
-    "prod": "webpack --mode production --watch",
     "res": "cordova-res",
     "skeleton": "skeleton",
     "start": "npm run dev",
@@ -24,8 +24,8 @@
   "private": true,
   "cordova": {
     "platforms": [
-      "android",
-      "ios"
+      "ios",
+      "android"
     ],
     "plugins": {
       "cordova-plugin-device": {},
@@ -47,15 +47,20 @@
     "browser-sync-webpack-plugin": "latest",
     "chai": "latest",
     "cordova": "latest",
-    "cordova-ios": "^6.2.0",
+    "cordova-android": "^9.1.0",
+    "cordova-ios": "latest",
+    "cordova-plugin-device": "^2.0.3",
+    "cordova-plugin-headercolor": "^1.0.0",
+    "cordova-plugin-navigationbar-color": "^0.1.0",
     "cordova-plugin-splashscreen": "github:goinnn/cordova-plugin-splashscreen#4.0.0#colors",
+    "cordova-plugin-statusbar": "^2.4.3",
     "cordova-res": "latest",
     "coveralls": "latest",
     "cross-env": "latest",
     "css-loader": "latest",
     "file-loader": "latest",
-    "ios-deploy": "^1.11.4",
-    "ios-sim": "^9.0.0",
+    "ios-deploy": "latest",
+    "ios-sim": "latest",
     "jsdom": "latest",
     "mini-css-extract-plugin": "latest",
     "mocha": "latest",
@@ -69,13 +74,6 @@
     "webpack-cli": "latest"
   },
   "engines": {
-    "node": ">=8"
-  },
-  "dependencies": {
-    "cordova-android": "^8.1.0",
-    "cordova-plugin-device": "^2.0.3",
-    "cordova-plugin-headercolor": "^1.0.0",
-    "cordova-plugin-navigationbar-color": "^0.1.0",
-    "cordova-plugin-statusbar": "^2.4.3"
+    "node": ">=14"
   }
 }
