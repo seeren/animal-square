@@ -75,12 +75,18 @@ export class PuzzleComponent extends Component {
         SquareSoundService.play();
         cell.ontouchend = cell.ontouchmove = cell.style.transition = null;
         cell.ontransitionend = () => {
+            cell.style.transform =cell.ontransitionend = null;
+            const [, colNumber] = new RegExp(`${direction.axe}-(\\d)`).exec(cell.className);
             cell.className = cell.className.replace(` fire ${direction.axe}-${direction.positive}`, '');
+            cell.className = cell.className.replace(
+                `${direction.axe}-${colNumber}`,
+                `${direction.axe}-${direction.positive ? +colNumber + 1 : +colNumber - 1}`
+            );
             cell.removeAttribute('data-x');
             cell.removeAttribute('data-y');
             PuzzleTouchService.end();
             if (PuzzleService.isComplete()) {
-                SquarePuzzleService.stop() 
+                SquarePuzzleService.stop()
             }
         };
         const updatedAxe = window.parseFloat(cell.getAttribute(`data-${direction.axe}`), 10);
